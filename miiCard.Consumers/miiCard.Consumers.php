@@ -2,13 +2,12 @@
     require_once('oauth/OAuth.php');
     require_once('miiCard.Model.php');
 
-    class MiiCardException extends Exception {}
-
-    class MiiCardOAuthServiceBase
+    class OAuthSignedRequestMaker
     {
-        private $_consumerKey, $_consumerSecret, $_accessToken, $_accessTokenSecret;
+        private $_consumerKey, $_consumerSecret;
+        protected $_accessToken, $_accessTokenSecret;
 
-        function __construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret)
+        function __construct($consumerKey, $consumerSecret, $accessToken = null, $accessTokenSecret = null)
         {
             if (!isset($consumerKey))
             {
@@ -18,7 +17,114 @@
             {
                 throw new InvalidArgumentException("consumerSecret cannot be null");
             }
-            else if (!isset($accessToken))
+
+            $this->_consumerKey = $consumerKey;
+            $this->_consumerSecret = $consumerSecret;
+            $this->_accessToken = $accessToken;
+            $this->_accessTokenSecret = $accessTokenSecret;
+        }
+
+        public function getAccessToken()
+        {
+            if (isset($this->_accessToken))
+            {
+                return $this->_accessToken;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public function getAccessTokenSecret()
+        {
+            if (isset($this->_accessTokenSecret))
+            {
+                return $this->_accessTokenSecret;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        protected function makeSignedRequest($url, $params = array(), $headers = array())
+        {
+            $consumerToken = new OAuthToken($this->_consumerKey, $this->_consumerSecret);
+            $accessToken = null;
+
+            if ($this->getAccessToken() != null && $this->getAccessTokenSecret() != null)
+            {
+                $accessToken = new OAuthToken($this->getAccessToken(), $this->getAccessTokenSecret());
+            }
+
+            $request = OAuthRequest::from_consumer_and_token($consumerToken, $accessToken, 'POST', $url, $params);
+            $request->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $consumerToken, $accessToken);
+
+            return $this->makeHttpRequest($request->get_normalized_http_url(), $request->get_parameters(), $headers);
+        }
+
+        private function makeHttpRequest($url, $params = array(), $headers = array())
+        {
+            $data = '';
+            if (count($params) > 0)
+            {
+                $data = http_build_query($params);
+            }
+
+            $uri = @parse_url($url);
+            $path = isset($uri['path']) ? $uri['path'] : '/';
+
+            if (isset($uri['query']))
+            {
+                $path .= '?' . $uri['query'];
+            }
+
+            $start = microtime(TRUE);
+            $port = isset($uri['port']) ? $uri['port'] : 443;
+            $socket = 'ssl://' . $uri['host'] . ':' . $port;
+            $headers += array
+            (
+            	'Accept:',
+            	'Host: ' . $uri['host'] . ($port != 443 ? ':' . $port : ''),
+                'User-Agent: miiCard PHP'
+            );
+
+            $curl_options = array
+            (
+                CURLOPT_URL => $url,
+                CURLOPT_CONNECTTIMEOUT => 30,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => TRUE,
+                CURLOPT_RETURNTRANSFER => TRUE,
+                // TODO: Remove after beta testing!
+                CURLOPT_SSL_VERIFYPEER => FALSE,
+                CURLOPT_HTTPHEADER => $headers,
+                CURLOPT_FORBID_REUSE => TRUE,
+                CURLOPT_FRESH_CONNECT => TRUE,
+            );
+
+            $curl_options[CURLOPT_POST] = TRUE;
+            $curl_options[CURLOPT_POSTFIELDS] = $data;
+
+            $ch = curl_init();
+            curl_setopt_array($ch, $curl_options);
+            $response = curl_exec($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            return $response;
+        }
+    }
+
+    class MiiCardException extends Exception {}
+
+    class MiiCardOAuthServiceBase extends OAuthSignedRequestMaker
+    {
+        function __construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret)
+        {
+            if (!isset($accessToken))
             {
                 throw new InvalidArgumentException("accessToken cannot be null");
             }
@@ -27,10 +133,7 @@
                 throw new InvalidArgumentException("accessTokenSecret cannot be null");
             }
 
-            $this->_consumerKey = $consumerKey;
-            $this->_consumerSecret = $consumerSecret;
-            $this->_accessToken = $accessToken;
-            $this->_accessTokenSecret = $accessTokenSecret;
+            parent::__construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
         }
     }
 
@@ -79,9 +182,8 @@
         }
     }
 
-    class MiiCard
+    class MiiCard extends OAuthSignedRequestMaker
     {
-        private $_consumerKey, $_consumerSecret, $_accessToken, $_accessTokenSecret;
         private $_callbackUrl;
 
         const SESSION_KEY_ACCESS_TOKEN = "miiCard.OAuth.InProgress.AccessToken";
@@ -89,53 +191,32 @@
 
         function __construct($consumerKey, $consumerSecret, $accessToken = null, $accessTokenSecret = null)
         {
-            if (!isset($consumerKey))
-            {
-                throw new InvalidArgumentException("consumerKey cannot be null");
-            }
-            else if (!isset($consumerSecret))
-            {
-                throw new InvalidArgumentException("consumerSecret cannot be null");
-            }
-
-            $this->_consumerKey = $consumerKey;
-            $this->_consumerSecret = $consumerSecret;
-            $this->_accessToken = $accessToken;
-            $this->_accessTokenSecret = $accessTokenSecret;
+            parent::__construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
 
             $this->_callbackUrl = $this->getDefaultCallbackUrl();
         }
 
         public function getAccessToken()
         {
-            if (isset($this->_accessToken))
+            $toReturn = parent::getAccessToken();
+
+            if ($toReturn == null && isset($_SESSION) && isset($SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN]))
             {
-                return $this->_accessToken;
+                $toReturn = $SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN];
             }
-            else if (isset($_SESSION) && isset($_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN]))
-            {
-                return $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN];
-            }
-            else
-            {
-                return null;
-            }
+
+            return $toReturn;
         }
 
         public function getAccessTokenSecret()
         {
-            if (isset($this->_accessTokenSecret))
+            $toReturn = parent::getAccessTokenSecret();
+            if ($toReturn == null && isset($_SESSION) && isset($SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET]))
             {
-                return $this->_accessTokenSecret;
+                $toReturn = $SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET];
             }
-            else if (isset($_SESSION) && isset($_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET]))
-            {
-                return $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET];
-            }
-            else
-            {
-                return null;
-            }
+
+            return $toReturn;
         }
 
         public function getDefaultCallbackUrl()
@@ -242,75 +323,6 @@
             $this->_accessTokenSecret = $token['oauth_token_secret'];
 
             return new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
-        }
-
-        protected function makeSignedRequest($url, $params = array())
-        {
-            $consumerToken = new OAuthToken($this->_consumerKey, $this->_consumerSecret);
-            $accessToken = null;
-
-            if ($this->getAccessToken() != null && $this->getAccessTokenSecret() != null)
-            {
-                $accessToken = new OAuthToken($this->getAccessToken(), $this->getAccessTokenSecret());
-            }
-
-            $request = OAuthRequest::from_consumer_and_token($consumerToken, $accessToken, 'POST', $url, $params);
-            $request->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $consumerToken, $accessToken);
-
-            return $this->makeHttpRequest($request->get_normalized_http_url(), $request->get_parameters());
-        }
-
-        protected function makeHttpRequest($url, $params = array(), $headers = array())
-        {
-            $data = '';
-            if (count($params) > 0)
-            {
-                $data = http_build_query($params);
-            }
-
-            $uri = @parse_url($url);
-            $path = isset($uri['path']) ? $uri['path'] : '/';
-
-            if (isset($uri['query']))
-            {
-                $path .= '?' . $uri['query'];
-            }
-
-            $start = microtime(TRUE);
-            $port = isset($uri['port']) ? $uri['port'] : 443;
-            $socket = 'ssl://' . $uri['host'] . ':' . $port;
-            $headers += array
-            (
-            	'Accept:',
-            	'Host: ' . $uri['host'] . ($port != 443 ? ':' . $port : ''),
-                'User-Agent: miiCard PHP'
-            );
-
-            $curl_options = array
-            (
-                CURLOPT_URL => $url,
-                CURLOPT_CONNECTTIMEOUT => 30,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_FOLLOWLOCATION => TRUE,
-                CURLOPT_RETURNTRANSFER => TRUE,
-                // TODO: Remove after beta testing!
-                CURLOPT_SSL_VERIFYPEER => FALSE,
-                CURLOPT_HTTPHEADER => $headers,
-                CURLOPT_FORBID_REUSE => TRUE,
-                CURLOPT_FRESH_CONNECT => TRUE,
-            );
-
-            $curl_options[CURLOPT_POST] = TRUE;
-            $curl_options[CURLOPT_POSTFIELDS] = $data;
-
-            $ch = curl_init();
-            curl_setopt_array($ch, $curl_options);
-            $response = curl_exec($ch);
-            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $error = curl_error($ch);
-            curl_close($ch);
-
-            return $response;
         }
 
         private function ensureSessionAvailable()
