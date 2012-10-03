@@ -20,6 +20,9 @@
             </ul>
 
             <?php
+
+            $apiWrapper = new MiiCardOAuthClaimsService('test1key', 'Test1secret', $miiCardObj->getAccessToken(), $miiCardObj->getAccessTokenSecret());
+            $claims = $apiWrapper->getClaims();
          }
          else {
             ?><h1>Auth failed =/ </h1><?php

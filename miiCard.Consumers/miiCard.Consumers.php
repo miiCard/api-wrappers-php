@@ -55,11 +55,18 @@
 
             if ($this->getAccessToken() != null && $this->getAccessTokenSecret() != null)
             {
+                echo "Found token info calling into " . $url . "<br />";
                 $accessToken = new OAuthToken($this->getAccessToken(), $this->getAccessTokenSecret());
+            }
+            else
+            {
+                echo "Couldn't find token info when calling into " . $url . "\n" . $this->getAccessToken() . "\n" . $this->getAccessTokenSecret() . "\n\n<br />";
             }
 
             $request = OAuthRequest::from_consumer_and_token($consumerToken, $accessToken, 'POST', $url, $params);
             $request->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $consumerToken, $accessToken);
+
+            echo "Parameteters to " . $url . " are " . var_dump($request->get_parameters());
 
             return $this->makeHttpRequest($request->get_normalized_http_url(), $request->get_parameters(), $headers);
         }
@@ -146,7 +153,7 @@
 
         public function getClaims()
         {
-
+            $toReturn = $this->makeRequest('GetClaims', null, null, true);
         }
 
         public function isSocialAccountAssured()
@@ -164,19 +171,28 @@
 
         }
 
-        private function makeRequest($url, $postData, $payloadProcessor, $wrappedResponse)
+        private function makeRequest($methodName, $postData, $payloadProcessor, $wrappedResponse)
         {
-
+            $response = $this->makeSignedRequest(MiiCardServiceUrls::getMethodUrl($methodName), $postData, array("Content-Type" => "application/json"));
+            if ($response != null)
+            {
+                 echo "Response: " . htmlentities($response);
+            }
+            else
+            {
+                echo "No response";
+            }
         }
     }
 
     class MiiCardServiceUrls
     {
-        // const OAUTH_ENDPOINT = "https://127.0.0.1:444/auth/oauth.ashx";
-        const OAUTH_ENDPOINT = "https://sts.miicard.com/auth/oauth.ashx";
-        const CLAIMS_SVC = "https://sts.miicard.com/api/v1/Claims.svc/json";
+        const OAUTH_ENDPOINT = "https://127.0.0.2:444/auth/oauth.ashx";
+        // const OAUTH_ENDPOINT = "https://sts.miicard.com/auth/oauth.ashx";
+        // const CLAIMS_SVC = "https://sts.miicard.com/api/v1/Claims.svc/json";
+        const CLAIMS_SVC = "https://127.0.0.2:444/api/v1/Claims.svc/json";
 
-        public function getMethodUrl($method)
+        public static function getMethodUrl($method)
         {
             return MiiCardServiceUrls::CLAIMS_SVC . "/" . $method;
         }
@@ -236,6 +252,9 @@
 
             $requestToken = $this->getRequestToken();
 
+            $this->_accessToken = $requestToken->getKey();
+            $this->_accessTokenSecret = $requestToken->getSecret();
+
             $this->ensureSessionAvailable();
             $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN] = $this->getAccessToken();
             $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET] = $this->getAccessTokenSecret();
@@ -294,8 +313,6 @@
         {
             $url = MiiCardServiceUrls::OAUTH_ENDPOINT;
             $params = array('oauth_callback' => $this->_callbackUrl);
-
-            echo var_dump($params);
 
             $response = $this->makeSignedRequest($url, $params);
             parse_str($response, $token);
