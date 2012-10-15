@@ -1,8 +1,12 @@
 <?php
+
+/** @package miiCard.Consumers */
     require_once('oauth/OAuth.php');
     require_once('miiCard.Model.php');
 
-    /** Houses the URLs of the OAuth endpoint and Claims API endpoint. */
+    /** Houses the URLs of the OAuth endpoint and Claims API endpoint.
+     *
+     *@package miiCard.Consumers         */
     class MiiCardServiceUrls
     {
         /** URL of the OAuth authorisation endpoint. */
@@ -22,7 +26,8 @@
 
     /** Base class for classes that make OAuth 1.0a-signed HTTP requests
      *
-     * @abstract */
+     * @abstract
+     * @package miiCard.Consumers */
     abstract class OAuthSignedRequestMaker
     {
         /** The OAuth consumer key. */
@@ -177,8 +182,10 @@
             (
             	'Accept:',
             	'Host: ' . $uri['host'] . ($port != 443 ? ':' . $port : ''),
-                'User-Agent: miiCard PHP'
+              'User-Agent: miiCard PHP'
             );
+
+            print_r($data);
 
             $curl_options = array
             (
@@ -187,7 +194,9 @@
                 CURLOPT_TIMEOUT => 30,
                 CURLOPT_FOLLOWLOCATION => TRUE,
                 CURLOPT_RETURNTRANSFER => TRUE,
+                CURLOPT_SSL_VERIFYHOST => TRUE,
                 CURLOPT_SSL_VERIFYPEER => TRUE,
+                CURLOPT_CAINFO => dirname(__FILE__) . "/certs/sts.miicard.com.pem",
                 CURLOPT_HTTPHEADER => $headers,
                 CURLOPT_FORBID_REUSE => TRUE,
                 CURLOPT_FRESH_CONNECT => TRUE,
@@ -208,17 +217,22 @@
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $error = curl_error($ch);
             curl_close($ch);
+
+            echo $error;
             
             return $response;
         }
     }
 
-    /** Base class for exceptions raised by the library */
+    /** Base class for exceptions raised by the library
+     *
+     *@package miiCard.Consumers         */
     class MiiCardException extends Exception {}
 
     /** Base class for wrappers around an OAuth-protected API
      *
-     *@abstract */
+     *@abstract
+     *@package miiCard.Consumers     */
     abstract class MiiCardOAuthServiceBase extends OAuthSignedRequestMaker
     {
         /** Initialises a new MiiCardOAuthServiceBase with specified OAuth credentials.
@@ -245,7 +259,9 @@
     /** Wrapper around the miiCard Claims API v1.
      *
      * This class wraps the miiCard Claims API v1, exposing the same methods as PHP functions
-     * and return types as PHP objects rather than raw JSON. */
+     * and return types as PHP objects rather than raw JSON.
+     *
+     * @package miiCard.Consumers         */
     class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase
     {
         /** Initialises a new MiiCardOAuthClaimsService with specified OAuth credentials.
@@ -337,7 +353,7 @@
     }
 
     /** Wrapper around the miiCard OAuth authorisation process.
-     *     */
+     * @package miiCard.Consumers    */
     class MiiCard extends OAuthSignedRequestMaker
     {
         /** The callback URL that the OAuth process will return to once completed. */

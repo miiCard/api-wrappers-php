@@ -525,6 +525,10 @@ class MiiUserProfile
             $publicProfileParsed = MiiUserProfile::FromHash($publicProfile);
         }
 
+        // Try parsing the last-verified as a timestamp
+        preg_match( '/\/Date\((\d+)\)/', Util::TryGet($hash, 'LastVerified'), $matches);
+        echo date('m-d-Y', $matches[0]);
+
        	return new MiiUserProfile
           (
       		Util::TryGet($hash, 'Username'),
