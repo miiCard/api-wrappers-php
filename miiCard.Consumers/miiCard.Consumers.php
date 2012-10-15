@@ -1,7 +1,18 @@
 <?php
     require_once('oauth/OAuth.php');
     require_once('miiCard.Model.php');
+      
+    class MiiCardServiceUrls
+    {
+        const OAUTH_ENDPOINT = "https://sts.miicard.com/auth/oauth.ashx";
+        const CLAIMS_SVC = "https://sts.miicard.com/api/v1/Claims.svc/json";
 
+        public static function getMethodUrl($method)
+        {
+            return MiiCardServiceUrls::CLAIMS_SVC . "/" . $method;
+        }
+    }
+    
     class OAuthSignedRequestMaker
     {
         private $_consumerKey, $_consumerSecret;
@@ -23,6 +34,9 @@
             $this->_accessToken = $accessToken;
             $this->_accessTokenSecret = $accessTokenSecret;
         }
+                                                                        
+        public function getConsumerKey() { return $this->_consumerKey; }
+        public function getConsumerSecret() { return $this->_consumerSecret; }
 
         public function getAccessToken()
         {
@@ -48,37 +62,53 @@
             }
         }
 
-        protected function makeSignedRequest($url, $params = array(), $headers = array())
+        protected function makeSignedRequest($url, $params, $headers = array(), $rawPostBody = false)
         {
             $consumerToken = new OAuthToken($this->_consumerKey, $this->_consumerSecret);
             $accessToken = null;
 
             if ($this->getAccessToken() != null && $this->getAccessTokenSecret() != null)
             {
-                echo "Found token info calling into " . $url . "<br />";
                 $accessToken = new OAuthToken($this->getAccessToken(), $this->getAccessTokenSecret());
+            }
+
+            if ($rawPostBody)
+            {
+            	$request = OAuthRequest::from_consumer_and_token($consumerToken, $accessToken, 'POST', $url, null);
             }
             else
             {
-                echo "Couldn't find token info when calling into " . $url . "\n" . $this->getAccessToken() . "\n" . $this->getAccessTokenSecret() . "\n\n<br />";
+                $request = OAuthRequest::from_consumer_and_token($consumerToken, $accessToken, 'POST', $url, $params);            
             }
 
-            $request = OAuthRequest::from_consumer_and_token($consumerToken, $accessToken, 'POST', $url, $params);
             $request->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $consumerToken, $accessToken);
 
-            echo "Parameteters to " . $url . " are " . var_dump($request->get_parameters());
-
-            return $this->makeHttpRequest($request->get_normalized_http_url(), $request->get_parameters(), $headers);
-        }
-
-        private function makeHttpRequest($url, $params = array(), $headers = array())
-        {
-            $data = '';
-            if (count($params) > 0)
+            if ($rawPostBody)
             {
-                $data = http_build_query($params);
+                array_push($headers, $request->to_header());
             }
 
+            if ($rawPostBody)
+            {
+                return $this->makeHttpRequest($request->get_normalized_http_url(), $params, $headers, $rawPostBody);
+            }
+            else
+            {   
+                return $this->makeHttpRequest($request->get_normalized_http_url(), $request->get_parameters(), $headers, $rawPostBody);
+            }
+        }
+
+        private function makeHttpRequest($url, $params, $headers = array(), $rawPostBody = false)
+        {
+            if (!$rawPostBody)
+            {     
+              $data = '';
+              if (isset($params) && is_array($params) && count($params) > 0)
+              {
+                  $data = http_build_query($params);
+              }
+            }
+            
             $uri = @parse_url($url);
             $path = isset($uri['path']) ? $uri['path'] : '/';
 
@@ -111,8 +141,14 @@
                 CURLOPT_FRESH_CONNECT => TRUE,
             );
 
-            $curl_options[CURLOPT_POST] = TRUE;
-            $curl_options[CURLOPT_POSTFIELDS] = $data;
+            if ($rawPostBody)
+            {
+                $curl_options[CURLOPT_POSTFIELDS] = $params;
+            }
+            else 
+            {
+                $curl_options[CURLOPT_POSTFIELDS] = $data;            
+            }             
 
             $ch = curl_init();
             curl_setopt_array($ch, $curl_options);
@@ -120,7 +156,7 @@
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $error = curl_error($ch);
             curl_close($ch);
-
+            
             return $response;
         }
     }
@@ -153,48 +189,55 @@
 
         public function getClaims()
         {
-            $toReturn = $this->makeRequest('GetClaims', null, null, true);
+            return $this->makeRequest('GetClaims', null, 'MiiUserProfile::FromHash', true);
         }
 
-        public function isSocialAccountAssured()
+        public function isSocialAccountAssured($socialAccountId, $socialAccountType)
         {
-
+            $requestArray = array();
+            $requestArray['socialAccountId'] = $socialAccountId;
+            $requestArray['socialAccountType'] = $socialAccountType;
+                        
+            return $this->makeRequest('IsSocialAccountAssured', json_encode($requestArray), null, true);
         }
 
         public function isUserAssured()
         {
-
+            return $this->makeRequest('IsUserAssured', null, null, true);
         }
 
-        public function assuranceImage()
+        public function assuranceImage($type)
         {
-
+            $requestArray = array();
+            $requestArray['type'] = $type;
+            
+            return $this->makeRequest('AssuranceImage', json_encode($requestArray), null, false);
         }
 
         private function makeRequest($methodName, $postData, $payloadProcessor, $wrappedResponse)
         {
-            $response = $this->makeSignedRequest(MiiCardServiceUrls::getMethodUrl($methodName), $postData, array("Content-Type" => "application/json"));
+            $response = $this->makeSignedRequest(MiiCardServiceUrls::getMethodUrl($methodName), $postData, array(0 => "Content-Type: application/json"), true);
             if ($response != null)
             {
-                 echo "Response: " . htmlentities($response);
+            echo $response;
+                if ($wrappedResponse) 
+                {
+                    $response = json_decode($response, true);
+                    return MiiApiResponse::FromHash($response, $payloadProcessor);
+                }
+                else if ($payloadProcessor != null)
+                {
+                    return call_user_func($payloadProcessor, $response);
+                }
+                else
+                {
+                    return $response;
+                }
             }
             else
             {
-                echo "No response";
+                throw new MiiCardException("An empty response was received from the server");
             }
-        }
-    }
-
-    class MiiCardServiceUrls
-    {
-        const OAUTH_ENDPOINT = "https://127.0.0.2:444/auth/oauth.ashx";
-        // const OAUTH_ENDPOINT = "https://sts.miicard.com/auth/oauth.ashx";
-        // const CLAIMS_SVC = "https://sts.miicard.com/api/v1/Claims.svc/json";
-        const CLAIMS_SVC = "https://127.0.0.2:444/api/v1/Claims.svc/json";
-
-        public static function getMethodUrl($method)
-        {
-            return MiiCardServiceUrls::CLAIMS_SVC . "/" . $method;
         }
     }
 
@@ -215,10 +258,9 @@
         public function getAccessToken()
         {
             $toReturn = parent::getAccessToken();
-
-            if ($toReturn == null && isset($_SESSION) && isset($SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN]))
+            if ($toReturn == null && isset($_SESSION) && isset($_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN]))
             {
-                $toReturn = $SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN];
+                $toReturn = $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN];
             }
 
             return $toReturn;
@@ -227,9 +269,9 @@
         public function getAccessTokenSecret()
         {
             $toReturn = parent::getAccessTokenSecret();
-            if ($toReturn == null && isset($_SESSION) && isset($SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET]))
+            if ($toReturn == null && isset($_SESSION) && isset($_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET]))
             {
-                $toReturn = $SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET];
+                $toReturn = $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET];
             }
 
             return $toReturn;
@@ -245,6 +287,9 @@
 
         public function beginAuthorisation($callbackUrl = null)
         {
+            $this->ensureSessionAvailable();
+            $this->clearMiiCard();
+       
             if (isset($callbackUrl))
             {
                 $this->_callbackUrl = $callbackUrl;
@@ -255,14 +300,20 @@
             $this->_accessToken = $requestToken->getKey();
             $this->_accessTokenSecret = $requestToken->getSecret();
 
-            $this->ensureSessionAvailable();
             $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN] = $this->getAccessToken();
             $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET] = $this->getAccessTokenSecret();
-
-            header('Location: ' . MiiCardServiceUrls::OAUTH_ENDPOINT . "?oauth_token=" . $requestToken->getKey(), TRUE, 302);
-            $this->ensureSessionCommitted();
-
-            exit;
+            
+            $redirectUrl = MiiCardServiceUrls::OAUTH_ENDPOINT . "?oauth_token=" . rawurlencode($requestToken->getKey());
+            
+            // Doing a header here means we never set the session cookie, which is bad if we're the first thing
+            // that ever tries as we'll forget the request token secret. Instead, do a quick bounce through a
+            // meta refresh
+            ?>
+                <html><head><meta http-equiv="refresh" content="0;<?php echo $redirectUrl ?>"></head>
+                <body>You should be redirected automatically - if not, <a href="<?php echo $redirectUrl ?>">click here</a>.</body></html>
+            <?php
+            
+            exit(0);
         }
 
         public function isAuthorisationCallback()
@@ -270,11 +321,13 @@
             return isset($_GET['oauth_verifier']);
         }
 
-        public function handleAuthenticationCallback()
+        public function handleAuthorisationCallback()
         {
+            $this->ensureSessionAvailable();
+                    
             $token = array_key_exists('oauth_token', $_REQUEST) ? $_REQUEST['oauth_token'] : '';
             $verifier = array_key_exists('oauth_verifier', $_REQUEST) ? $_REQUEST['oauth_verifier'] : '';
-
+            
             if (empty($token) || empty($verifier))
             {
                 return;
@@ -285,7 +338,7 @@
 
         public function isAuthorisationSuccess()
         {
-            return $this->getAccessToken() != null && $this->getAccessTokenSecret();
+            return $this->getAccessToken() != null && $this->getAccessTokenSecret() != null;
         }
 
         public function getUserProfile()
@@ -316,9 +369,10 @@
 
             $response = $this->makeSignedRequest($url, $params);
             parse_str($response, $token);
+            
             if (!array_key_exists('oauth_token', $token))
             {
-                throw new MiiCardException("No token received from OAuth service - check credentials:\n" . var_dump($token));
+                throw new MiiCardException("No token received from OAuth service - check credentials");
             }
 
             return new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
@@ -337,14 +391,17 @@
             parse_str($response, $token);
 
             $this->_accessToken = $token['oauth_token'];
+            $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN] = $token['oauth_token'];
+            
             $this->_accessTokenSecret = $token['oauth_token_secret'];
+            $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET] = $token['oauth_token_secret'];
 
             return new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
         }
 
         private function ensureSessionAvailable()
         {
-            if (!session_id())
+            if (session_id() == "")
             {
                 // Save current session data before starting it, as PHP will destroy it.
                 $session_data = isset($_SESSION) ? $_SESSION : NULL;
@@ -356,11 +413,6 @@
                     $_SESSION += $session_data;
                 }
             }
-        }
-
-        private function ensureSessionCommitted()
-        {
-            session_write_close();
         }
     }
 ?>

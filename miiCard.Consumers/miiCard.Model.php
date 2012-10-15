@@ -322,29 +322,29 @@ class MiiUserProfile
             $publicProfileParsed = MiiUserProfile::FromHash($publicProfile);
         }
 
-     	return new MiiUserProfile
-        (
-    		Util::TryGet($hash, 'Username'),
-    		Util::TryGet($hash, 'Salutation'),
-    		Util::TryGet($hash, 'FirstName'),
-    		Util::TryGet($hash, 'MiddleName'),
-    		Util::TryGet($hash, 'LastName'),
-    		Util::TryGet($hash, 'PreviousFirstName'),
-    		Util::TryGet($hash, 'PreviousMiddleName'),
-    		Util::TryGet($hash, 'PreviousLastName'),
-    		Util::TryGet($hash, 'LastVerified'),
-    		Util::TryGet($hash, 'ProfileUrl'),
-    		Util::TryGet($hash, 'ProfileShortUrl'),
-    		Util::TryGet($hash, 'CardImageUrl'),
-    		$emailsParsed,
-    		$identitiesParsed,
-    		$phoneNumbersParsed,
-    		$postalAddressesParsed,
-    		$webPropertiesParsed,
-    		Util::TryGet($hash, 'IdentityAssured'),
-    		Util::TryGet($hash, 'HasPublicProfile'),
-    		$publicProfileParsed
-        );
+       	return new MiiUserProfile
+          (
+      		Util::TryGet($hash, 'Username'),
+      		Util::TryGet($hash, 'Salutation'),
+      		Util::TryGet($hash, 'FirstName'),
+      		Util::TryGet($hash, 'MiddleName'),
+      		Util::TryGet($hash, 'LastName'),
+      		Util::TryGet($hash, 'PreviousFirstName'),
+      		Util::TryGet($hash, 'PreviousMiddleName'),
+      		Util::TryGet($hash, 'PreviousLastName'),
+      		Util::TryGet($hash, 'LastVerified'),
+      		Util::TryGet($hash, 'ProfileUrl'),
+      		Util::TryGet($hash, 'ProfileShortUrl'),
+      		Util::TryGet($hash, 'CardImageUrl'),
+      		$emailsParsed,
+      		$identitiesParsed,
+      		$phoneNumbersParsed,
+      		$postalAddressesParsed,
+      		$webPropertiesParsed,
+      		Util::TryGet($hash, 'IdentityAssured'),
+      		Util::TryGet($hash, 'HasPublicProfile'),
+      		$publicProfileParsed
+          );
     }
 }
 
@@ -371,11 +371,11 @@ class MiiApiResponse
         $payloadJson = Util::TryGet($hash, 'Data');
         $payload = null;
 
-        if (isset($payloadJson) && isset($dataProcessor))
+        if ($dataProcessor !== null)
         {
             $payload = call_user_func($dataProcessor, $payloadJson);
         }
-        else if (isset($payloadJson))
+        else if ($payloadJson !== null)
         {
             $payload = $payloadJson;
         }
@@ -394,7 +394,7 @@ class Util
 {
     public static function TryGet($hash, $key)
     {
-        if (isset($hash[$key]))
+        if (in_array($key, $hash))
         {
             return $hash[$key];
         }
