@@ -1,1 +1,0 @@
-phpmd miiCard.Consumers,miiCard.Consumers.TestHarness text codesize,design,naming,unusedcode

@@ -644,7 +644,7 @@ class Util
      *@param string $key The key whose value is to be returned if available. */
     public static function TryGet($hash, $key)
     {
-        if (in_array($key, $hash))
+        if (array_key_exists($key, $hash))
         {
             return $hash[$key];
         }
