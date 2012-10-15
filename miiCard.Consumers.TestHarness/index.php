@@ -64,9 +64,13 @@
     }
     else if ($miiCardObj !== null && $miiCardObj->isAuthorisationCallback() && $incompleteOAuthDetails)
     {
+        // If we're being called as a result of the OAuth process, handle the callback to try to obtain
+        // an access token and secret
         $miiCardObj->handleAuthorisationCallback();
         if ($miiCardObj->isAuthorisationSuccess())
         {     
+            // Grab the access token and secret - we'll later render them into the two text boxes so that
+            // we continue to receive them on posts.
             $accessToken = $miiCardObj->getAccessToken();
             $accessTokenSecret = $miiCardObj->getAccessTokenSecret();
         }
