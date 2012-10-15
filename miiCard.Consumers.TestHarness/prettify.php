@@ -195,7 +195,7 @@
         
         if ($profile->getPublicProfile() != null)
         {
-            $toReturn .= "<div class='fact'><h4>Public profile<h4>";
+            $toReturn .= "<div class='fact'><h4>Public profile</h4>";
             $toReturn .= renderUserProfile($profile->getPublicProfile());
             $toReturn .= "</div>";
         }
