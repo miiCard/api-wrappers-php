@@ -527,7 +527,12 @@ class MiiUserProfile
 
         // Try parsing the last-verified as a timestamp
         preg_match( '/\/Date\((\d+)\)/', Util::TryGet($hash, 'LastVerified'), $matches);
-        echo date('m-d-Y', $matches[0]);
+
+        $lastVerifiedParsed = null;
+        if (isset($matches) && count($matches) > 1)
+        {
+          $lastVerifiedParsed = ($matches[1] / 1000);
+        }
 
        	return new MiiUserProfile
           (
@@ -539,7 +544,7 @@ class MiiUserProfile
       		Util::TryGet($hash, 'PreviousFirstName'),
       		Util::TryGet($hash, 'PreviousMiddleName'),
       		Util::TryGet($hash, 'PreviousLastName'),
-      		Util::TryGet($hash, 'LastVerified'),
+      		$lastVerifiedParsed,
       		Util::TryGet($hash, 'ProfileUrl'),
       		Util::TryGet($hash, 'ProfileShortUrl'),
       		Util::TryGet($hash, 'CardImageUrl'),

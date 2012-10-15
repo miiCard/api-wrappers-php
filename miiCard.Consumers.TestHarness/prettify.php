@@ -112,7 +112,9 @@
     }
     
     function renderUserProfile($profile)
-    {       
+    {
+        date_default_timezone_set("GMT");
+
         $toReturn = "<div class='fact'>";
         
         $toReturn .= "<h2>User profile</h2>";
@@ -122,7 +124,7 @@
         $toReturn .= renderFact("Middle name", $profile->getMiddleName());
         $toReturn .= renderFact("Last name", $profile->getLastName());
         $toReturn .= renderFact("Identity verified?", $profile->getIdentityAssured());
-        $toReturn .= renderFact("Identity last verified?", $profile->getLastVerified());
+        $toReturn .= renderFact("Identity last verified?", date('d-m-y H:i:s', $profile->getLastVerified()) . " GMT");
         $toReturn .= renderFact("Has a public profile?", $profile->getHasPublicProfile());
         $toReturn .= renderFact("Previous first name", $profile->getPreviousFirstName());
         $toReturn .= renderFact("Previous middle name", $profile->getPreviousMiddleName());
@@ -193,7 +195,7 @@
         
         if ($profile->getPublicProfile() != null)
         {
-            $toReturn .= "<div class='fact'><h4>Public profile</h4>";
+            $toReturn .= "<div class='fact'><h4>Public profile<h4>";
             $toReturn .= renderUserProfile($profile->getPublicProfile());
             $toReturn .= "</div>";
         }
