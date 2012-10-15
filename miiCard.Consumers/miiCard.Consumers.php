@@ -219,7 +219,6 @@
             $response = $this->makeSignedRequest(MiiCardServiceUrls::getMethodUrl($methodName), $postData, array(0 => "Content-Type: application/json"), true);
             if ($response != null)
             {
-            echo $response;
                 if ($wrappedResponse) 
                 {
                     $response = json_decode($response, true);
