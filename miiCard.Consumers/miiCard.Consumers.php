@@ -185,8 +185,6 @@
               'User-Agent: miiCard PHP'
             );
 
-            print_r($data);
-
             $curl_options = array
             (
                 CURLOPT_URL => $url,
@@ -217,8 +215,6 @@
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             $error = curl_error($ch);
             curl_close($ch);
-
-            echo $error;
             
             return $response;
         }
