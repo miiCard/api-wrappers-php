@@ -59,16 +59,19 @@ Assuming you've stored the access token and secret, you can create a MiiCardOAut
 
 ##Test harness
 
-The miiCard.Consumers.TestHarness folder contains a quick test harness to allow some interactive testing of the library. It may serve as a guide for how to quickly get up and running with the library but hasn't been extensively checked for correctness or security and should be considered a local diagnostic tool only.
+The [miiCard.Consumers.TestHarness folder](api-wrappers-php/blob/master/miiCard.Consumers.TestHarness) contains a quick test harness to allow some interactive testing of the library. It may serve as a guide for how to quickly get up and running with the library but hasn't been extensively checked for correctness or security and should be considered a local diagnostic tool only.
 
 ##Documentation
 
-Documentation is provided in the doc folder, and is intended to supplement the API documentation available on the [miiCard Developers site](http://www.miicard.com/developers).
+Documentation is provided in the [docs](api-wrappers-php/blob/master/miiCard.Consumers/docs) folder, and is intended to supplement the API documentation available on the [miiCard Developers site](http://www.miicard.com/developers).
 
 ##Dependencies
 For performing OAuth operations we include [Andy Smith](http://term.ie/blog/)'s PHP OAuth library, available under the MIT licence. For more information see its [Google Code page](http://oauth.googlecode.com/svn/code/php/).
 
 Some automated tests are provided that exercise the library's mapping from JSON to corresponding PHP objects, available in the miiCard.Consumers/test folder - these depend upon [PHPUnit](https://github.com/sebastianbergmann/phpunit/), though if you don't want to run the test suite then this isn't necessary.
+
+##A note on certificates
+We use CURL to make HTTP requests in this wrapper, enabling the hostname-validation and peer-validation features. To allow peer validation to work we have bundled the certificate chain for the server hosting the miiCard API and OAuth endpoints, sts.miicard.com. The certificate chain is valid until 2014
 
 ##Contributing
 * Use GitHub issue tracking to report bugs in the library
