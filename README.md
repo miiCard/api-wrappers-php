@@ -71,9 +71,9 @@ For performing OAuth operations we include [Andy Smith](http://term.ie/blog/)'s 
 Some automated tests are provided that exercise the library's mapping from JSON to corresponding PHP objects, available in the miiCard.Consumers/test folder - these depend upon [PHPUnit](https://github.com/sebastianbergmann/phpunit/), though if you don't want to run the test suite then this isn't necessary.
 
 ##A note on certificates
-We use CURL to make HTTP requests in this wrapper, enabling the hostname-validation and peer-validation features. To allow peer validation to work we have bundled the certificate chain for the server hosting the miiCard API and OAuth endpoints, sts.miicard.com. The certificate chain is valid until 2014
+We use CURL to make HTTP requests in this wrapper, enabling the hostname-validation and peer-validation features. To allow peer validation to work we have bundled the certificate chain for the server hosting the miiCard API and OAuth endpoints, sts.miicard.com. The certificate chain is valid until 2014.
 
 ##Contributing
 * Use GitHub issue tracking to report bugs in the library
 * If you're going to submit a patch, please base it off the development branch if available
-* Join the [miiCard.com developer forums](http://www.miicard.com/developers) to keep up to date with the latest releases and planned changes
+* Join the [miiCard.com developer forums](http://devforum.miicard.com) to keep up to date with the latest releases and planned changes
