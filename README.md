@@ -63,7 +63,7 @@ The [miiCard.Consumers.TestHarness folder](api-wrappers-php/blob/master/miiCard.
 
 ##Documentation
 
-Documentation is provided in the [docs](api-wrappers-php/blob/master/miiCard.Consumers/docs) folder, and is intended to supplement the API documentation available on the [miiCard Developers site](http://www.miicard.com/developers).
+Documentation is provided in the docs folder, and is intended to supplement the API documentation available on the [miiCard Developers site](http://www.miicard.com/developers).
 
 ##Dependencies
 For performing OAuth operations we include [Andy Smith](http://term.ie/blog/)'s PHP OAuth library, available under the MIT licence. For more information see its [Google Code page](http://oauth.googlecode.com/svn/code/php/).
