@@ -1,23 +1,50 @@
 <?php
     require_once('oauth/OAuth.php');
     require_once('miiCard.Model.php');
-      
+
+    /** Houses the URLs of the OAuth endpoint and Claims API endpoint. */
     class MiiCardServiceUrls
     {
+        /** URL of the OAuth authorisation endpoint. */
         const OAUTH_ENDPOINT = "https://sts.miicard.com/auth/oauth.ashx";
+        /** URL of the Claims API v1 JSON endpoint. */
         const CLAIMS_SVC = "https://sts.miicard.com/api/v1/Claims.svc/json";
 
+        /** Calculates the URL to be requested when the specified method name
+        * of the Claims API is to be invoked.
+        *
+        * @param string $method The name of the API method to be invoked. */
         public static function getMethodUrl($method)
         {
             return MiiCardServiceUrls::CLAIMS_SVC . "/" . $method;
         }
     }
-    
-    class OAuthSignedRequestMaker
-    {
-        private $_consumerKey, $_consumerSecret;
-        protected $_accessToken, $_accessTokenSecret;
 
+    /** Base class for classes that make OAuth 1.0a-signed HTTP requests
+     *
+     * @abstract */
+    abstract class OAuthSignedRequestMaker
+    {
+        /** The OAuth consumer key. */
+        private $_consumerKey;
+        /** The OAuth consumer secret. */
+        private $_consumerSecret;
+        /** The OAuth access token, if known. */
+        protected $_accessToken;
+        /** The OAuth access token secret, if known. */
+        protected $_accessTokenSecret;
+
+        /** Initialises a new OAuthSignedRequestMaker with specified key and secret information.
+        *
+        * A consumer key and secret are mandatory - without them an InvalidArgumentException is thrown.
+        * The caller may supply an access token and secret if they are known, or omit them if they intend
+        * to make requests that aren't signed by an access token and secret (for example, as would be the
+        * case during an initial OAuth exchange).
+        *
+        *@param string $consumerKey The OAuth consumer key obtained by request from miiCard.
+        *@param string $consumerSecret The OAuth consumer secret obtained by request from miiCard.
+        *@param string $accessToken The OAuth access token obtained by performing an OAuth exchange.
+        *@param string $accessTokenSecret The OAuth access token secret obtained by performing an OAuth exchange. */
         function __construct($consumerKey, $consumerSecret, $accessToken = null, $accessTokenSecret = null)
         {
             if (!isset($consumerKey))
@@ -34,10 +61,13 @@
             $this->_accessToken = $accessToken;
             $this->_accessTokenSecret = $accessTokenSecret;
         }
-                                                                        
+
+        /** Gets the OAuth consumer key */
         public function getConsumerKey() { return $this->_consumerKey; }
+        /** Gets the OAuth consumer secret */
         public function getConsumerSecret() { return $this->_consumerSecret; }
 
+        /** Gets the OAuth access token, or null if not set */
         public function getAccessToken()
         {
             if (isset($this->_accessToken))
@@ -50,6 +80,7 @@
             }
         }
 
+        /** Gets the OAuth access token secret, or null if not set */
         public function getAccessTokenSecret()
         {
             if (isset($this->_accessTokenSecret))
@@ -62,6 +93,19 @@
             }
         }
 
+        /** Makes an OAuth-signed HTTP POST request
+         *
+         * Makes signed requests both during the initial OAuth exchange (where OAuth parameters are sent form-encoded
+         * as part of the body of the request, with $rawPostBody = false) and afterwards when accessing the API (when
+         * JSON-encoded parameters are sent raw in the body of the request).
+         *
+         *@param string $url The URL to be requested.
+         *@param mixed $params An array of parameters to be sent with the request as a post body (if $rawPostBody = false),
+         *or a string containing the raw post body to be sent (if $rawPostBody = true).
+         *@param array $headers Additional HTTP headers to be sent with the request.
+         *@param bool $rawPostBody If true, $params is interpreted as pre-parsed content to be dropped into the body of the
+         *request as-is. If false, the default, $params is interpreted as an array of key-value pairs to be form-encoded and
+         *sent in the body of the request. */
         protected function makeSignedRequest($url, $params, $headers = array(), $rawPostBody = false)
         {
             $consumerToken = new OAuthToken($this->_consumerKey, $this->_consumerSecret);
@@ -98,6 +142,15 @@
             }
         }
 
+        /** Makes an HTTP Post request, returning the response.
+         *
+         *@param string $url The URL to be requested.
+         *@param mixed $params An array of parameters to be sent with the request as a post body (if $rawPostBody = false),
+         *or a string containing the raw post body to be sent (if $rawPostBody = true).
+         *@param array $headers Additional HTTP headers to be sent with the request.
+         *@param bool $rawPostBody If true, $params is interpreted as pre-parsed content to be dropped into the body of the
+         *request as-is. If false, the default, $params is interpreted as an array of key-value pairs to be form-encoded and
+         *sent in the body of the request. */
         private function makeHttpRequest($url, $params, $headers = array(), $rawPostBody = false)
         {
             if (!$rawPostBody)
@@ -134,8 +187,7 @@
                 CURLOPT_TIMEOUT => 30,
                 CURLOPT_FOLLOWLOCATION => TRUE,
                 CURLOPT_RETURNTRANSFER => TRUE,
-                // TODO: Remove after beta testing!
-                CURLOPT_SSL_VERIFYPEER => FALSE,
+                CURLOPT_SSL_VERIFYPEER => TRUE,
                 CURLOPT_HTTPHEADER => $headers,
                 CURLOPT_FORBID_REUSE => TRUE,
                 CURLOPT_FRESH_CONNECT => TRUE,
@@ -161,10 +213,20 @@
         }
     }
 
+    /** Base class for exceptions raised by the library */
     class MiiCardException extends Exception {}
 
-    class MiiCardOAuthServiceBase extends OAuthSignedRequestMaker
+    /** Base class for wrappers around an OAuth-protected API
+     *
+     *@abstract */
+    abstract class MiiCardOAuthServiceBase extends OAuthSignedRequestMaker
     {
+        /** Initialises a new MiiCardOAuthServiceBase with specified OAuth credentials.
+         *
+         *@param string $consumerKey The OAuth consumer key.
+         *@param string $consumerSecret The OAuth consumer secret.
+         *@param string $accessToken The OAuth access token.
+         *@param string $accessTokenSecret The OAuth access token secret. */
         function __construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret)
         {
             if (!isset($accessToken))
@@ -180,18 +242,38 @@
         }
     }
 
+    /** Wrapper around the miiCard Claims API v1.
+     *
+     * This class wraps the miiCard Claims API v1, exposing the same methods as PHP functions
+     * and return types as PHP objects rather than raw JSON. */
     class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase
     {
+        /** Initialises a new MiiCardOAuthClaimsService with specified OAuth credentials.
+         *
+         * If any constructor parameters are omitted, an InvalidArgumentException shall be thrown.
+         *
+         *@param string $consumerKey The OAuth consumer key.
+         *@param string $consumerSecret The OAuth consumer secret.
+         *@param string $accessToken The OAuth access token.
+         *@param string $accessTokenSecret The OAuth access token secret. */
         function __construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret)
         {
             parent::__construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
         }
 
+        /** Gets the identity claims that the miiCard member has shared with your application. */
         public function getClaims()
         {
             return $this->makeRequest('GetClaims', null, 'MiiUserProfile::FromHash', true);
         }
 
+        /** Gets whether the miiCard member owns a social media account identified by the specified
+         * ID and type, assuming that they have shared details of that account with your application.
+         *
+         *@param string $socialAccountId The ID of the user on the social network in question as supplied by that
+         *social network - see the miiCard Developers site API documentation for more details.
+         *@param string $socialAccountType The network on which thr miiCard member may have an account - see the
+         *miiCard Developers site API documentation for more details. */
         public function isSocialAccountAssured($socialAccountId, $socialAccountType)
         {
             $requestArray = array();
@@ -201,11 +283,17 @@
             return $this->makeRequest('IsSocialAccountAssured', json_encode($requestArray), null, true);
         }
 
+        /** Gets whether the miiCard member's identity has been assured by miiCard through linking a
+         *financial account to their miiCard profile. */
         public function isUserAssured()
         {
             return $this->makeRequest('IsUserAssured', null, null, true);
         }
 
+        /** Gets a PNG-encoded image representation of the miiCard member's identity assurance status.
+         *
+         *@param string $type One of 'banner', 'badge-small' or 'badge' that determines the size and content
+         *of the assurance image. */
         public function assuranceImage($type)
         {
             $requestArray = array();
@@ -214,6 +302,14 @@
             return $this->makeRequest('AssuranceImage', json_encode($requestArray), null, false);
         }
 
+        /** Makes an OAuth signed request to the specified Claims API method, and parses the response into
+         * an appropriate PHP object.
+         *
+         *@param string $methodName The name of the Claims API method to invoke.
+         *@param string $postData JSON string of parameter data required by the API method, if any.
+         *@param string $payloadProcessor Callable to be invoked to process the payload of the response, if any.
+         *@param bool $wrappedResponse Specifies whether the response from the API is wrapped in a MiiApiResponse object (true), or is
+         *a raw stream (false). */
         private function makeRequest($methodName, $postData, $payloadProcessor, $wrappedResponse)
         {
             $response = $this->makeSignedRequest(MiiCardServiceUrls::getMethodUrl($methodName), $postData, array(0 => "Content-Type: application/json"), true);
@@ -240,13 +336,22 @@
         }
     }
 
+    /** Wrapper around the miiCard OAuth authorisation process.
+     *     */
     class MiiCard extends OAuthSignedRequestMaker
     {
+        /** The callback URL that the OAuth process will return to once completed. */
         private $_callbackUrl;
 
-        const SESSION_KEY_ACCESS_TOKEN = "miiCard.OAuth.InProgress.AccessToken";
-        const SESSION_KEY_ACCESS_TOKEN_SECRET = "miiCard.OAuth.InProgress.AccessTokenSecret";
+        /** @access private */ const SESSION_KEY_ACCESS_TOKEN = "miiCard.OAuth.InProgress.AccessToken";
+        /** @access private */ const SESSION_KEY_ACCESS_TOKEN_SECRET = "miiCard.OAuth.InProgress.AccessTokenSecret";
 
+        /** Builds a new MiiCard object using the supplied OAuth credentials.
+         *
+         *@param string $consumerKey The OAuth consumer key.
+         *@param string $consumerSecret The OAuth consumer secret.
+         *@param string $accessToken The OAuth access token.
+         *@param string $accessTokenSecret The OAuth access token secret. */
         function __construct($consumerKey, $consumerSecret, $accessToken = null, $accessTokenSecret = null)
         {
             parent::__construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
@@ -254,6 +359,7 @@
             $this->_callbackUrl = $this->getDefaultCallbackUrl();
         }
 
+        /** Gets the access token that this MiiCard object was constructed with, or was obtained via an OAuth exchange. */
         public function getAccessToken()
         {
             $toReturn = parent::getAccessToken();
@@ -265,6 +371,7 @@
             return $toReturn;
         }
 
+        /** Gets the access token secret that this MiiCard object was constructed with, or was obtained via an OAuth exchange. */
         public function getAccessTokenSecret()
         {
             $toReturn = parent::getAccessTokenSecret();
@@ -276,6 +383,7 @@
             return $toReturn;
         }
 
+        /** Gets the default callback URL that the OAuth process will return to once completed. */
         public function getDefaultCallbackUrl()
         {
             $isHttps = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on';
@@ -284,6 +392,11 @@
             return $httpProtocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
         }
 
+        /** Starts an OAuth authorisation process. Your script must not have sent any HTML content to the
+        * browser at the point when this is called, and should have called session_start().
+        *
+        *@param string $callbackUrl The URL that should be returned to after the OAuth process completes. This
+        *is automatically detected if not supplied. */
         public function beginAuthorisation($callbackUrl = null)
         {
             $this->ensureSessionAvailable();
@@ -315,11 +428,19 @@
             exit(0);
         }
 
+        /** Determines whether the current request is the result of a callback from the OAuth exchange.
+         *
+         * The caller should check this function on each page load of the callback page, and attempt to handle the
+         * OAuth callback only in the event that it returns true. */
         public function isAuthorisationCallback()
         {
             return isset($_GET['oauth_verifier']);
         }
 
+        /** Processes the OAuth callback, obtaining an access token and access token secret in the process.
+         *
+         * The caller should check the return value of the isAuthorisationSuccess function after trying to handle
+         * the callback. */
         public function handleAuthorisationCallback()
         {
             $this->ensureSessionAvailable();
@@ -335,11 +456,15 @@
             $this->processAccessToken($verifier);
         }
 
+        /** Determines if the attempt to obtain OAuth access token and secret information was successful. If true,
+        * the caller can obtain the two tokens using the getAccessToken and getAccessTokenSecret functions. */
         public function isAuthorisationSuccess()
         {
             return $this->getAccessToken() != null && $this->getAccessTokenSecret() != null;
         }
 
+        /** Gets the identity claims the miiCard member elected to share with your application. This is a convenience method,
+         *and building a MiiCardOAuthClaimsService object is the preferred approach. */
         public function getUserProfile()
         {
             if ($this->getAccessToken() == null || $this->getAccessTokenSecret() == null)
@@ -348,10 +473,22 @@
             }
             else
             {
+                $api = new MiiCardOAuthClaimsService($this->getConsumerKey(), $this->getConsumerSecret(), $this->getAccessToken(), $this->getAccessTokenSecret());
+                $response = $api->getClaims();
 
+                if ($response->getStatus() == MiiApiCallStatus::SUCCESS)
+                {
+                    return $response->getData();
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
+        /** Clears any OAuth credentials that might be stored ahead of performing a new OAuth exchange. This is
+        * called automatically by the beginAuthorisation method. */
         public function clearMiiCard()
         {
             if (isset($_SESSION))
@@ -361,6 +498,7 @@
             }
         }
 
+        /** Obtains an OAuth request token from the miiCard OAuth endpoint. */
         protected function getRequestToken()
         {
             $url = MiiCardServiceUrls::OAUTH_ENDPOINT;
@@ -377,6 +515,11 @@
             return new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
         }
 
+        /** Converts the request token currently stored by this object into a fully-fledged access token
+         *using the specified server-supplied verifier.
+         *
+         *@param string $verifier The server supplied verifier that signifies the request token has been authorised
+         *by the miiCard member. */
         protected function processAccessToken($verifier)
         {
             $url = MiiCardServiceUrls::OAUTH_ENDPOINT;
@@ -398,6 +541,7 @@
             return new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
         }
 
+        /** Attempts to make sure that session state is available. */
         private function ensureSessionAvailable()
         {
             if (session_id() == "")

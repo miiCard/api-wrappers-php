@@ -1,0 +1,299 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \MiiCardOAuthServiceBase</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/miiCard.html"><i class="icon-folder-open"></i> miiCard</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">157</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: Initialises a new MiiCardOAuthServiceBase with specified OAuth credentials."><span class="description">Initialises a new MiiCardOAuthServiceBase with specified OAuth credentials.</span><pre>__construct()</pre></a></li>
+<li class="method public inherited"><a href="#method_getAccessToken" title="getAccessToken :: Gets the OAuth access token, or null if not set"><span class="description">Gets the OAuth access token, or null if not set</span><pre>getAccessToken()</pre></a></li>
+<li class="method public inherited"><a href="#method_getAccessTokenSecret" title="getAccessTokenSecret :: Gets the OAuth access token secret, or null if not set"><span class="description">Gets the OAuth access token secret, or null if not set</span><pre>getAccessTokenSecret()</pre></a></li>
+<li class="method public inherited"><a href="#method_getConsumerKey" title="getConsumerKey :: Gets the OAuth consumer key"><span class="description">Gets the OAuth consumer key</span><pre>getConsumerKey()</pre></a></li>
+<li class="method public inherited"><a href="#method_getConsumerSecret" title="getConsumerSecret :: Gets the OAuth consumer secret"><span class="description">Gets the OAuth consumer secret</span><pre>getConsumerSecret()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul><li class="method protected inherited"><a href="#method_makeSignedRequest" title="makeSignedRequest :: Makes an OAuth-signed HTTP POST request"><span class="description">Makes an OAuth-signed HTTP POST request</span><pre>makeSignedRequest()</pre></a></li></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul><li class="method private inherited"><a href="#method_makeHttpRequest" title="makeHttpRequest :: Makes an HTTP Post request, returning the response."><span class="description">Makes an HTTP Post request, returning the response.</span><pre>makeHttpRequest()</pre></a></li></ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected inherited"><a href="#property__accessToken" title="$_accessToken :: The OAuth access token, if known."><span class="description">The OAuth access token, if known.</span><pre>$_accessToken</pre></a></li>
+<li class="property protected inherited"><a href="#property__accessTokenSecret" title="$_accessTokenSecret :: The OAuth access token secret, if known."><span class="description">The OAuth access token secret, if known.</span><pre>$_accessTokenSecret</pre></a></li>
+</ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="property private inherited"><a href="#property__consumerKey" title="$_consumerKey :: The OAuth consumer key."><span class="description">The OAuth consumer key.</span><pre>$_consumerKey</pre></a></li>
+<li class="property private inherited"><a href="#property__consumerSecret" title="$_consumerSecret :: The OAuth consumer secret."><span class="description">The OAuth consumer secret.</span><pre>$_consumerSecret</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\MiiCardOAuthServiceBase"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/MiiCardOAuthServiceBase.html">MiiCardOAuthServiceBase</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Base class for wrappers around an OAuth-protected API</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>abstract</th>
+<td></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Initialises a new MiiCardOAuthServiceBase with specified OAuth credentials.</h2>
+<pre>__construct(string $consumerKey, string $consumerSecret, string $accessToken, string $accessTokenSecret) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>A consumer key and secret are mandatory - without them an InvalidArgumentException is thrown.
+The caller may supply an access token and secret if they are known, or omit them if they intend
+to make requests that aren't signed by an access token and secret (for example, as would be the
+case during an initial OAuth exchange).</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$consumerKey</h4>
+<code>string</code><p>The OAuth consumer key.</p></div>
+<div class="subelement argument">
+<h4>$consumerSecret</h4>
+<code>string</code><p>The OAuth consumer secret.</p></div>
+<div class="subelement argument">
+<h4>$accessToken</h4>
+<code>string</code><p>The OAuth access token.</p></div>
+<div class="subelement argument">
+<h4>$accessTokenSecret</h4>
+<code>string</code><p>The OAuth access token secret.</p></div>
+</div></div>
+</div>
+<a id="method_getAccessToken"></a><div class="element clickable method public method_getAccessToken" data-toggle="collapse" data-target=".method_getAccessToken .collapse">
+<h2>Gets the OAuth access token, or null if not set</h2>
+<pre>getAccessToken() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::getAccessToken()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getAccessTokenSecret"></a><div class="element clickable method public method_getAccessTokenSecret" data-toggle="collapse" data-target=".method_getAccessTokenSecret .collapse">
+<h2>Gets the OAuth access token secret, or null if not set</h2>
+<pre>getAccessTokenSecret() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::getAccessTokenSecret()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getConsumerKey"></a><div class="element clickable method public method_getConsumerKey" data-toggle="collapse" data-target=".method_getConsumerKey .collapse">
+<h2>Gets the OAuth consumer key</h2>
+<pre>getConsumerKey() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::getConsumerKey()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_getConsumerSecret"></a><div class="element clickable method public method_getConsumerSecret" data-toggle="collapse" data-target=".method_getConsumerSecret .collapse">
+<h2>Gets the OAuth consumer secret</h2>
+<pre>getConsumerSecret() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::getConsumerSecret()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_makeSignedRequest"></a><div class="element clickable method protected method_makeSignedRequest" data-toggle="collapse" data-target=".method_makeSignedRequest .collapse">
+<h2>Makes an OAuth-signed HTTP POST request</h2>
+<pre>makeSignedRequest(string $url, mixed $params, array $headers, bool $rawPostBody) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Makes signed requests both during the initial OAuth exchange (where OAuth parameters are sent form-encoded
+as part of the body of the request, with $rawPostBody = false) and afterwards when accessing the API (when
+JSON-encoded parameters are sent raw in the body of the request).</p></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::makeSignedRequest()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code>string</code><p>The URL to be requested.</p></div>
+<div class="subelement argument">
+<h4>$params</h4>
+<code>mixed</code><p>An array of parameters to be sent with the request as a post body (if $rawPostBody = false), or a string containing the raw post body to be sent (if $rawPostBody = true).</p>
+</div>
+<div class="subelement argument">
+<h4>$headers</h4>
+<code>array</code><p>Additional HTTP headers to be sent with the request.</p></div>
+<div class="subelement argument">
+<h4>$rawPostBody</h4>
+<code>bool</code><p>If true, $params is interpreted as pre-parsed content to be dropped into the body of the request as-is. If false, the default, $params is interpreted as an array of key-value pairs to be form-encoded and sent in the body of the request.</p>
+</div>
+</div></div>
+</div>
+<a id="method_makeHttpRequest"></a><div class="element clickable method private method_makeHttpRequest" data-toggle="collapse" data-target=".method_makeHttpRequest .collapse">
+<h2>Makes an HTTP Post request, returning the response.</h2>
+<pre>makeHttpRequest(string $url, mixed $params, array $headers, bool $rawPostBody) </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::makeHttpRequest()</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code>string</code><p>The URL to be requested.</p></div>
+<div class="subelement argument">
+<h4>$params</h4>
+<code>mixed</code><p>An array of parameters to be sent with the request as a post body (if $rawPostBody = false), or a string containing the raw post body to be sent (if $rawPostBody = true).</p>
+</div>
+<div class="subelement argument">
+<h4>$headers</h4>
+<code>array</code><p>Additional HTTP headers to be sent with the request.</p></div>
+<div class="subelement argument">
+<h4>$rawPostBody</h4>
+<code>bool</code><p>If true, $params is interpreted as pre-parsed content to be dropped into the body of the request as-is. If false, the default, $params is interpreted as an array of key-value pairs to be form-encoded and sent in the body of the request.</p>
+</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property__accessToken"> </a><div class="element clickable property protected property__accessToken" data-toggle="collapse" data-target=".property__accessToken .collapse">
+<h2>The OAuth access token, if known.</h2>
+<pre>$_accessToken </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::$$_accessToken</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__accessTokenSecret"> </a><div class="element clickable property protected property__accessTokenSecret" data-toggle="collapse" data-target=".property__accessTokenSecret .collapse">
+<h2>The OAuth access token secret, if known.</h2>
+<pre>$_accessTokenSecret </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::$$_accessTokenSecret</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__consumerKey"> </a><div class="element clickable property private property__consumerKey" data-toggle="collapse" data-target=".property__consumerKey .collapse">
+<h2>The OAuth consumer key.</h2>
+<pre>$_consumerKey </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::$$_consumerKey</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__consumerSecret"> </a><div class="element clickable property private property__consumerSecret" data-toggle="collapse" data-target=".property__consumerSecret .collapse">
+<h2>The OAuth consumer secret.</h2>
+<pre>$_consumerSecret </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>inherited_from</th>
+<td>\OAuthSignedRequestMaker::$$_consumerSecret</td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-15T12:45:30+01:00.<br></footer></div>
+</div>
+</body>
+</html>

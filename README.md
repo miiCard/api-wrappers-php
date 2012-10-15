@@ -35,18 +35,27 @@ Once the authorisation process has completed, the user will be redirected back t
         }
     }   
 
-You can use the same MiiCard object to make calls into the miiCard API:
+You can use the same MiiCard object to get the profile of the miiCard member who performed the authorisation:
 
-    $userProfile = $miiCardObj->getClaims();
+    $userProfile = $miiCardObj->getUserProfile();
+
+You can also extract the access token and secret information and construct a new API wrapper object to access the full API:
+
+    $api = new MiiCardOAuthClaimsService($miiCardObj->getConsumerKey(), $miiCardObj->getConsumerSecret(),
+                                         $miiCardObj->getAccessToken(), $miiCardObj->getAccessTokenSecret());
+
+    $claimsResponse = $api->getClaims();
 
 *Note: Avoid trying to process the same authorisation callback twice, for example if the user refreshes the callback page*
 
 ###Accessing the miiCard API
 
-Assuming you've stored the access token and secret, you can create a MiiCard object suitable for accessing the API by supplying those parameters to the MiiCard constructor:
+Assuming you've stored the access token and secret, you can create a MiiCardOAuthClaimsService object suitable for accessing the API by supplying those parameters to the MiiCard constructor:
 
-    $miiCardObj = new MiiCard($consumerKey, $consumerSecret,
-                              $accessToken, $accessTokenSecret)
+    $api = new MiiCardOAuthClaimsService($consumerKey, $consumerSecret,
+                                         $accessToken, $accessTokenSecret);
+
+    $claimsResponse = $api->getClaims();
 
 ##Test harness
 

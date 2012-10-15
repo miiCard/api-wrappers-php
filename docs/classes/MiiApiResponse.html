@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \MiiApiResponse</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/miiCard.html"><i class="icon-folder-open"></i> miiCard</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">157</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_FromHash" title="FromHash :: Builds a new MiiApiResponse from a hash obtained from the Claims API."><span class="description">Builds a new MiiApiResponse from a hash obtained from the Claims API.</span><pre>FromHash()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Initialises a new MiiApiResponse object."><span class="description">Initialises a new MiiApiResponse object.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_getData" title="getData :: Gets the payload of the response, whose type will vary depending
+on the API method being called."><span class="description">Gets the payload of the response, whose type will vary depending
+on the API method being called.</span><pre>getData()</pre></a></li>
+<li class="method public "><a href="#method_getErrorCode" title="getErrorCode :: Gets the error code that describes any error that occurred
+during the API call, linked to one of the constants of the MiiApiErrorCode
+class."><span class="description">Gets the error code that describes any error that occurred
+during the API call, linked to one of the constants of the MiiApiErrorCode
+class.</span><pre>getErrorCode()</pre></a></li>
+<li class="method public "><a href="#method_getErrorMessage" title="getErrorMessage :: Gets the additional error message optionally supplied for
+certain types of API error."><span class="description">Gets the additional error message optionally supplied for
+certain types of API error.</span><pre>getErrorMessage()</pre></a></li>
+<li class="method public "><a href="#method_getStatus" title="getStatus :: Gets the overall status of the API call, linked to one of the
+constants of the MiiApiCallStatus class."><span class="description">Gets the overall status of the API call, linked to one of the
+constants of the MiiApiCallStatus class.</span><pre>getStatus()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="property private "><a href="#property__data" title="$_data :: "><span class="description">$_data</span><pre>$_data</pre></a></li>
+<li class="property private "><a href="#property__errorCode" title="$_errorCode :: "><span class="description">$_errorCode</span><pre>$_errorCode</pre></a></li>
+<li class="property private "><a href="#property__errorMessage" title="$_errorMessage :: "><span class="description">$_errorMessage</span><pre>$_errorMessage</pre></a></li>
+<li class="property private "><a href="#property__status" title="$_status :: "><span class="description">$_status</span><pre>$_status</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\MiiApiResponse"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/MiiApiResponse.html">MiiApiResponse</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">A wrapper around most responses to miiCard Claims API calls, detailing
+the success or failure of the call and containing additional information
+to help diagnose issues.</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/miiCard.Consumers.html">miiCard.Consumers</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_FromHash"></a><div class="element clickable method public method_FromHash" data-toggle="collapse" data-target=".method_FromHash .collapse">
+<h2>Builds a new MiiApiResponse from a hash obtained from the Claims API.</h2>
+<pre>FromHash(array $hash, string $dataProcessor) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$hash</h4>
+<code>array</code><p>The has containing details about a single API call response.</p></div>
+<div class="subelement argument">
+<h4>$dataProcessor</h4>
+<code>string</code><p>A callable that turns the JSON data payload into a PHP object, if required.</p></div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Initialises a new MiiApiResponse object.</h2>
+<pre>__construct(int $status, int $errorCode, string $errorMessage, mixed $data) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$status</h4>
+<code>int</code><p>The overall status of the API call, linked to one of the constants of the MiiApiCallStatus class.</p></div>
+<div class="subelement argument">
+<h4>$errorCode</h4>
+<code>int</code><p>The error code that describes any error that occurred during the API call, linked to one of the constants of the MiiApiErrorCode class.</p></div>
+<div class="subelement argument">
+<h4>$errorMessage</h4>
+<code>string</code><p>Additional error message optionally supplied for certain types of API error. Intended for diagnostics only and strictly not suitable for display to the public.</p></div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>mixed</code><p>The payload of the response, whose type will vary depending on the API method being called.</p></div>
+</div></div>
+</div>
+<a id="method_getData"></a><div class="element clickable method public method_getData" data-toggle="collapse" data-target=".method_getData .collapse">
+<h2>Gets the payload of the response, whose type will vary depending
+on the API method being called.</h2>
+<pre>getData() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getErrorCode"></a><div class="element clickable method public method_getErrorCode" data-toggle="collapse" data-target=".method_getErrorCode .collapse">
+<h2>Gets the error code that describes any error that occurred
+during the API call, linked to one of the constants of the MiiApiErrorCode
+class.</h2>
+<pre>getErrorCode() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getErrorMessage"></a><div class="element clickable method public method_getErrorMessage" data-toggle="collapse" data-target=".method_getErrorMessage .collapse">
+<h2>Gets the additional error message optionally supplied for
+certain types of API error.</h2>
+<pre>getErrorMessage() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Intended for diagnostics only and strictly not
+suitable for display to the public.</p></div></div></div>
+</div>
+<a id="method_getStatus"></a><div class="element clickable method public method_getStatus" data-toggle="collapse" data-target=".method_getStatus .collapse">
+<h2>Gets the overall status of the API call, linked to one of the
+constants of the MiiApiCallStatus class.</h2>
+<pre>getStatus() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property__data"> </a><div class="element clickable property private property__data" data-toggle="collapse" data-target=".property__data .collapse">
+<h2>$_data</h2>
+<pre>$_data </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__errorCode"> </a><div class="element clickable property private property__errorCode" data-toggle="collapse" data-target=".property__errorCode .collapse">
+<h2>$_errorCode</h2>
+<pre>$_errorCode </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__errorMessage"> </a><div class="element clickable property private property__errorMessage" data-toggle="collapse" data-target=".property__errorMessage .collapse">
+<h2>$_errorMessage</h2>
+<pre>$_errorMessage </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property__status"> </a><div class="element clickable property private property__status" data-toggle="collapse" data-target=".property__status .collapse">
+<h2>$_status</h2>
+<pre>$_status </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2012-10-15T12:45:30+01:00.<br></footer></div>
+</div>
+</body>
+</html>

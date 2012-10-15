@@ -1,40 +1,90 @@
 <?php
+/** @package miiCard.Consumers
+ */
+
+/** Represents different possible statuses returned by the miiCard API.
+ *
+ *@package miiCard.Consumers */
 class MiiApiCallStatus
 {
+    /** Signifies that the API call was successful. */
     const SUCCESS = 0;
+    /** Signifies that the API call failed. More detail may be found by
+    interrogating the MiiApiResponse's getErrorCode function. */
     const FAILURE = 1;
 }
 
+/** Represents the specific error type returned by the miiCard API.
+ *@package miiCard.Consumers */
 class MiiApiErrorCode
 {
+    /** Signifies that there was no error. */
     const SUCCESS = 0;
+    /** Signifies that the miiCard member has revoked access to your application. Your application
+     *needs to make the member go through the OAuth process again to obtain fresh access tokens if
+     *you wish to use the API on their behalf. */
     const ACCESS_REVOKED = 100;
+    /** Signifies that the user no longer has a paid-up subscription, and thus cannot share their
+     *identity with your application. */
     const USER_SUBSCRIPTION_LAPSED = 200;
+    /** Signifies that a more general exception took place during the call. Further information may
+     *be available by calling the MiiApiResponse's getErrorMessage() function. */
     const EXCEPTION = 10000;
 }
 
+/** Details the kind of web property a user has linked to their miiCard profile. Used by the
+ *WebProperty class.
+ *@package miiCard.Consumers */
 class WebPropertyType
 {
+    /** The WebProperty object describes a domain name. */
     const DOMAIN = 0;
+    /** The WebProperty object describes a website. */
     const WEBSITE = 1;
 }
 
-class Claim
+/** Base class of all verifiable information supplied by the miiCard API.
+ *@abstract
+ *@package miiCard.Consumers */
+abstract class Claim
 {
+    /** @access private */
     private $_verified = false;
     
+    /** Initialises a new Claim.
+     *
+     *@param bool $verified Indicates whether the piece of information has been verified by miiCard or not.
+     *
+     *A fuller discussion of verified vs unverified information can be found at the miiCard.com API documentation entry for
+     *the GetClaims method.
+     *@link http://www-test.miicard.com/developers/claims-api#GetClaims GetClaims API documentation. */
     function __construct($verified)
     {
         $this->verified = $verified;        
     }
     
+    /** Gets whether the piece of information has been verified by miiCard or not.
+     *
+     *A fuller discussion of verified vs unverified information can be found at the miiCard.com API documentation entry for
+     *the GetClaims method.
+     *@link http://www-test.miicard.com/developers/claims-api#GetClaims GetClaims API documentation. */
     public function getVerified() { return $this->verified; }
 }
 
+/** Represents the miiCard member's account details on another website, such as a social media site.
+ *@package miiCard.Consumers */
 class Identity extends Claim
 {
+    /** @access private */
     private $_source, $userId, $profileUrl;
     
+    /** Initialises a new Identity object.
+     *
+     *@param bool $verified Indicates whether the identity has been verified.
+     *@param string $source The source of the identity, i.e. the name of the provider.
+     *@param string $userId The miiCard member's user ID on the provider site.
+     *@param string $profileUrl The miiCard member's public profile URL on the provider
+     *site, if known. */
     function __construct($verified, $source, $userId, $profileUrl)
     {
         parent::__construct($verified);
@@ -44,6 +94,9 @@ class Identity extends Claim
         $this->_profileUrl = $profileUrl;
     }
     
+    /** Builds a new Identity from a hash obtained from the Claims API.
+     *
+     *@param array $hash The hash containing details about a single identity. */
     public static function FromHash($hash)
     {
         return new Identity
@@ -55,15 +108,29 @@ class Identity extends Claim
         );
     }
     
+    /** Gets the source of the identity, i.e. the name of the provider. */
     public function getSource() { return $this->_source; }
+    /** Gets the miiCard member's user ID on the provider site. */
     public function getUserId() { return $this->_userId; }
+    /** Gets the miiCard member's public profile URL on the provider site, if known. */
     public function getProfileUrl() { return $this->_profileUrl; }
 }
 
+/** Represents an email address that the miiCard member has linked to their profile.
+ *@package miiCard.Consumers */
 class EmailAddress extends Claim
 {
+    /** @access private */
     private $_displayName, $_address, $_isPrimary;
     
+    /** Initialises a new EmailAddress object.
+     *
+     *@param bool $verified Indicates whether the identity has been verified.
+     *@param string $displayName The name that the user has used to describe this email
+     *address.
+     *@param string $address The email address.
+     *@param bool $isPrimary Indicates whether this is the user's primary email address
+     *on the miiCard service. */
     function __construct($verified, $displayName, $address, $isPrimary)
     {
         parent::__construct($verified);
@@ -73,6 +140,9 @@ class EmailAddress extends Claim
         $this->_isPrimary = $isPrimary;
     } 
 
+    /** Builds a new EmailAddress from a hash obtained from the Claims API.
+     *
+     *@param array $hash The hash containing details about a single email address. */
     public static function FromHash($hash)
     {
         return new EmailAddress
@@ -84,15 +154,30 @@ class EmailAddress extends Claim
         );
     }
     
+    /** Gets the name that the user has used to describe this email address. */
     public function getDisplayName() { return $this->_displayName; }
+    /** Gets the email address. */
     public function getAddress() { return $this->_address; }
+    /** Indicates whether this is the user's primary email address on the miiCard service. */
     public function getIsPrimary() { return $this->_isPrimary; }
 }
 
+/** Represents a phone number that the user has linked to their miiCard profile.
+ *@package miiCard.Consumers */
 class PhoneNumber extends Claim
 {
+    /** @access private */
     private $_displayName, $_countryCode, $_nationalNumber, $_isMobile, $_isPrimary;
     
+    /** Initialises a new PhoneNumber object.
+     *
+     *@param bool $verified Indicates whether the phone number has been verified.
+     *@param string $displayName The name that the user has given to describe this phone number.
+     *@param string $countryCode The ITU-T E. 164 country code of the phone number.
+     *@param string $nationalNumber The national component of the phone number.
+     *@param bool $isMobile Indicates whether the number relates to a mobile phone or not.
+     *@param bool $isPrimary Indicates whether this is the user's primary phone number on the
+     *miiCard service. */
     function __construct($verified, $displayName, $countryCode, $nationalNumber, $isMobile, $isPrimary)
     {
         parent::__construct($verified);
@@ -104,6 +189,9 @@ class PhoneNumber extends Claim
         $this->_isPrimary = $isPrimary;
     }
 
+    /** Builds a new PhoneNumber from a hash obtained from the Claims API.
+     *
+     *@param array $hash The has containing details about a single phone number. */
     public static function FromHash($hash)
     {
         return new PhoneNumber
@@ -117,17 +205,36 @@ class PhoneNumber extends Claim
         );
     }
     
+    /** Gets the name that the user has given to describe this phone number. */
     public function getDisplayName() { return $this->_displayName; }
+    /** Gets the ITU-T E. 164 country code of the phone number. */
     public function getCountryCode() { return $this->_countryCode; }
+    /** Gets the national component of the phone number. */
     public function getNationalNumber() { return $this->_nationalNumber; }
+    /** Gets whether the number relates to a mobile phone or not. */
     public function getIsMobile() { return $this->_isMobile; }
+    /** Gets whether this is the user's primary phone number on the miiCard service. */
     public function getIsPrimary() { return $this->_isPrimary; }
 }
 
+/** Represents a postal address that the user has linked to their miiCard profile.
+ *@package miiCard.Consumers */
 class PostalAddress extends Claim
 {
+    /** @access private */
     private $_house, $_line1, $_line2, $_city, $_region, $_code, $_country, $_isPrimary;
     
+    /** Initialises a new PostalAddress object.
+     *
+     *@param bool $verified Indicates whether the address has been verified.
+     *@param string $house The name or number of the building referred to by the address.
+     *@param string $line1 The first line of the address.
+     *@param string $line2 The second line of the address.
+     *@param string $city The city of the address.
+     *@param string $region The region (for example, county, state or department) of the address.
+     *@param string $code The postal code of the address.
+     *@param string $country The country of the address.
+     *@param boolean $isPrimary Indicates whether this is the user's primary postal address on the miiCard service. */
     function __construct($verified, $house, $line1, $line2, $city, $region, $code, $country, $isPrimary)
     {
         parent::__construct($verified);
@@ -142,6 +249,9 @@ class PostalAddress extends Claim
         $this->_isPrimary = $isPrimary;
     }
 
+    /** Builds a new PostalAddress from a hash obtained from the Claims API.
+     *
+     *@param array $hash The has containing details about a single postal address. */
     public static function FromHash($hash)
     {
         return new PostalAddress
@@ -157,21 +267,42 @@ class PostalAddress extends Claim
             Util::TryGet($hash, 'IsPrimary')
         );
     }
-    
+
+    /** Gets the name or number of the building referred to by the address. */
     public function getHouse() { return $this->_house; }
+    /** Gets the first line of the address.*/
     public function getLine1() { return $this->_line1; }
+    /** Gets the second line of the address.*/
     public function getLine2() { return $this->_line2; }
+    /** Gets the city of the address.*/
     public function getCity() { return $this->_city; }
+    /** Gets the region (for example, county, state or department) of the address.*/
     public function getRegion() { return $this->_region; }
+    /** Gets the postal code of the address.*/
     public function getCode() { return $this->_code; }
+    /** Gets the country of the address.*/
     public function getCountry() { return $this->_country; }
+    /** Gets whether this is the user's primary postal address on the miiCard service. */
     public function getIsPrimary() { return $this->_isPrimary; }
 }
 
+/** Represents a web property that the member has linked to their miiCard profile,
+ *for example a domain name or web page.
+ *@package miiCard.Consumers */
 class WebProperty extends Claim
 {
+    /** @access private */
     private $_displayName, $_identifier, $_type;
     
+    /** Initialises a new WebProperty object.
+     *
+     *@param bool $verified Indicates whether the web property has been verified.
+     *@param string $displayName The display name that the user has given the web property.
+     *@param string $identifier The identifier of the property, which will be specific to the type of
+     *property being describes. For domain-type properties this will be the domain name, while for
+     *site-type properties this will be a URL to a page or site.
+     *@param int $type The type of web property has that been linked. Corresponds to a constant from the
+     *WebPropertyType class. */
     function __construct($verified, $displayName, $identifier, $type)
     {
         parent::__construct($verified);
@@ -181,6 +312,9 @@ class WebProperty extends Claim
         $this->_type = $type;
     }
 
+    /** Builds a new WebProperty from a hash obtained from the Claims API.
+     *
+     *@param array $hash The has containing details about a single web property. */
     public static function FromHash($hash)
     {
         return new WebProperty
@@ -192,19 +326,60 @@ class WebProperty extends Claim
         );
     }
     
+    /** Gets the display name that the user has given the web property.*/
     public function getDisplayName() { return $this->_displayName; }
+    /** Gets the identifier of the property, which will be specific to the type of
+     * property being describes. For domain-type properties this will be the domain name, while for
+     * site-type properties this will be a URL to a page or site. */
     public function getIdentifier() { return $this->_identifier; }
+    /** Gets the type of web property has that been linked. Corresponds to a constant from the
+     *WebPropertyType class.*/
     public function getType() { return $this->_type; }
 }
 
+/** Represents the subset of the miiCard member's identity that they have agreed
+ * to share with your application.
+ *@package miiCard.Consumers */
 class MiiUserProfile
 {
+    /** @access private */
     private $_username, $_salutation, $_firstName, $_middleName, $_lastName;
+    /** @access private */
     private $_previousFirstName, $_previousMiddleName, $_previousLastName;
+    /** @access private */
     private $_lastVerified, $_profileUrl, $_profileShortUrl, $_cardImageUrl;
+    /** @access private */
     private $_emailAddresses, $_identities, $_phoneNumbers, $_postalAddresses, $webProperties;
+    /** @access private */
     private $_identityAssured, $_hasPublicProfile, $_publicProfile;
     
+    /** Initialises a new MiiUserProfile object.
+     * @param string $username The miiCard username of the member.
+     * @param string $salutation The salutation of the member (e.g. 'Mr', 'Mrs' etc).
+     * @param string $firstName The first name of the member
+     * @param string $middleName The middle name of the member, if known.
+     * @param string $lastName The last name of the member.
+     * @param string $previousFirstName The previous first name of the member, if known.
+     * @param string $previousMiddleName The previous middle name of the member, if known.
+     * @param string $previousLastName The previous last name of the member, if known.
+     * @param int $lastVerified The UNIX timestamp representing the date the user's identity was last verified.
+     * @param string $profileUrl The URL to the member's public miiCard profile page.
+     * @param string $profileShortUrl The short URL to the member's public miiCard profile page.
+     * @param string $cardImageUrl The URL to the user's miiCard card image, as shown on their public
+     * profile page.
+     * @param array $emailAddresses An array of EmailAddress objects associated with the member.
+     * @param array $identities An array of alternative identities for the member, for example on social
+     * media sites.
+     * @param array $phoneNumbers An array of PhoneNumber objects associated with the member.
+     * @param array $postalAddresses An array of PostalAddress objects associated with the member.
+     * @param array $webProperties An array of WebProperty objects associated with the member.
+     * @param bool $identityAssured Indicates whether the member has met the level of identity
+     * assurance required by your application.
+     * @param bool $hasPublicProfile Indicates whether the user has published their public profile. If false,
+     * the card image and profile URLs are assumed to not resolve.
+     * @param MiiUserProfile $publicProfile A MiiUserProfile object representing the subset of identity
+     * information that they have made publicly available on their profile page.
+     */
     function __construct($username, $salutation, $firstName, $middleName, $lastName, 
                          $previousFirstName, $previousMiddleName, $previousLastName,
                          $lastVerified, $profileUrl, $profileShortUrl, $cardImageUrl,
@@ -238,31 +413,59 @@ class MiiUserProfile
         $this->_publicProfile = $publicProfile;        
     }
 
+    /** Gets the miiCard username of the member.*/
     public function getUsername() { return $this->_username; }
+    /** Gets the salutation of the member (e.g. 'Mr', 'Mrs' etc).*/
     public function getSalutation() { return $this->_salutation; }
+    /** Gets the first name of the member*/
     public function getFirstName() { return $this->_firstName; }
+    /** Gets the middle name of the member, if known.*/
     public function getMiddleName() { return $this->_middleName; }
+    /** Gets the last name of the member, if known. */
     public function getLastName() { return $this->_lastName; }
 
+    /** Gets the previous first name of the member, if known.*/
     public function getPreviousFirstName() { return $this->_previousFirstName; }
+    /** Gets the previous middle name of the member, if known.*/
     public function getPreviousMiddleName() { return $this->_previousMiddleName; }
+    /** Gets the previous last name of the member, if known.*/
     public function getPreviousLastName() { return $this->_previousLastName; }
 
+    /** Gets the UNIX timestamp representing the date the user's identity was last verified.*/
     public function getLastVerified() { return $this->_lastVerified; }
+    /** Gets the URL to the member's public miiCard profile page.*/
     public function getProfileUrl() { return $this->_profileUrl; }
+    /** Gets the short URL to the member's public miiCard profile page.*/
     public function getProfileShortUrl() { return $this->_profileShortUrl; }
+    /** Gets the URL to the user's miiCard card image, as shown on their public
+     * profile page.*/
     public function getCardImageUrl() { return $this->_cardImageUrl; }
 
+    /** Gets the array of EmailAddress objects associated with the member.*/
     public function getEmailAddresses() { return $this->_emailAddresses; }
+    /** Gets the array of alternative identities for the member, for example on social
+     * media sites.*/
     public function getIdentities() { return $this->_identities; }
+    /** Gets the array of PhoneNumber objects associated with the member.*/
     public function getPhoneNumbers() { return $this->_phoneNumbers; }
+    /** Gets the array of PostalAddress objects associated with the member.*/
     public function getPostalAddresses() { return $this->_postalAddresses; }
+    /** Gets the array of WebProperty objects associated with the member.*/
     public function getWebProperties() { return $this->_webProperties; }
 
+    /** Gets whether the member has met the level of identity
+     * assurance required by your application. */
     public function getIdentityAssured() { return $this->_identityAssured; }
+    /** Gets whether the user has published their public profile. If false,
+     * the card image and profile URLs are assumed to not resolve. */
     public function getHasPublicProfile() { return $this->_hasPublicProfile; }
+    /** Gets the MiiUserProfile object representing the subset of identity
+     * information that they have made publicly available on their profile page.*/
     public function getPublicProfile() { return $this->_publicProfile; }
     
+    /** Builds a new MiiUserProfile from a hash obtained from the Claims API.
+     *
+     *@param array $hash The has containing details about a single user profile. */
     public static function FromHash($hash)
     {
         $emails = Util::TryGet($hash, 'EmailAddresses');
@@ -348,10 +551,27 @@ class MiiUserProfile
     }
 }
 
+/** A wrapper around most responses to miiCard Claims API calls, detailing
+ *the success or failure of the call and containing additional information
+ *to help diagnose issues.
+ *@package miiCard.Consumers */
 class MiiApiResponse
 {
+    /** @access private */
     private $_status, $_errorCode, $_errorMessage, $_data;
 
+    /** Initialises a new MiiApiResponse object.
+     *
+     *@param int $status The overall status of the API call, linked to one of the
+     *constants of the MiiApiCallStatus class.
+     *@param int $errorCode The error code that describes any error that occurred
+     *during the API call, linked to one of the constants of the MiiApiErrorCode
+     *class.
+     *@param string $errorMessage Additional error message optionally supplied for
+     *certain types of API error. Intended for diagnostics only and strictly not
+     *suitable for display to the public.
+     *@param mixed $data The payload of the response, whose type will vary depending
+     *on the API method being called. */
     function __construct($status, $errorCode, $errorMessage, $data)
     {
         $this->_status = $status;
@@ -361,11 +581,26 @@ class MiiApiResponse
         $this->_data = $data;
     }
 
+    /** Gets the overall status of the API call, linked to one of the
+     *constants of the MiiApiCallStatus class.*/
     public function getStatus() { return $this->_status; }
+    /** Gets the error code that describes any error that occurred
+     *during the API call, linked to one of the constants of the MiiApiErrorCode
+     *class.*/
     public function getErrorCode() { return $this->_errorCode; }
+    /** Gets the additional error message optionally supplied for
+     *certain types of API error. Intended for diagnostics only and strictly not
+     *suitable for display to the public.*/
     public function getErrorMessage() { return $this->_errorMessage; }
+    /** Gets the payload of the response, whose type will vary depending
+     *on the API method being called. */
     public function getData() { return $this->_data; }
 
+    /** Builds a new MiiApiResponse from a hash obtained from the Claims API.
+     *
+     *@param array $hash The has containing details about a single API call response.
+     *@param string A callable that turns the JSON data payload into a PHP object, if
+     *required. */
     public static function FromHash($hash, $dataProcessor)
     {
         $payloadJson = Util::TryGet($hash, 'Data');
@@ -390,8 +625,14 @@ class MiiApiResponse
     }
 }
 
+/** General utilities class
+ *@package miiCard.Consumers */
 class Util
 {
+    /** Attempts to get a value from an associative array, returning
+     *null if the key doesn't exist
+     *@param array $hash The associative array.
+     *@param string $key The key whose value is to be returned if available. */
     public static function TryGet($hash, $key)
     {
         if (in_array($key, $hash))
