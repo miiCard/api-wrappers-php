@@ -27,6 +27,17 @@ class MiiApiErrorCode
     /** Signifies that the user no longer has a paid-up subscription, and thus cannot share their
      *identity with your application. */
     const USER_SUBSCRIPTION_LAPSED = 200;
+
+    /** Signifies that your account has not been enabled for transactional support. */
+    const TRANSACTIONAL_SUPPORT_DISABLED = 1000;
+    /** Signifies that your account's transactional support status is development-only. This is the
+     *case when your application hasn't yet been made live in the miiCard system, for example
+     *while we process your billing details and perform final checks. */
+    const DEVELOPMENT_TRANSACTIONAL_SUPPORT_ONLY = 1010;
+    /** Signifies that the snapshot ID supplied to a snapshot-based API method was either invalid
+     * or corresponded to a user for which authorisation tokens didn't match. */
+    const INVALID_SNAPSHOT_ID = 1020;
+
     /** Signifies that a more general exception took place during the call. Further information may
      *be available by calling the MiiApiResponse's getErrorMessage() function. */
     const EXCEPTION = 10000;
@@ -557,6 +568,89 @@ class MiiUserProfile
       		Util::TryGet($hash, 'HasPublicProfile'),
       		$publicProfileParsed
           );
+    }
+}
+
+/** Represents the metadata associated with a snapshot of a single miiCard member's
+ *details.
+ *@package miiCard.Consumers */
+class IdentitySnapshotDetails
+{
+    private $_snapshotId, $_username, $_timestampUtc;
+
+    /** Initialises a new IdentitySnapshotDetails object.
+     *
+     *@param string $snapshotId The unique identifier for this snapshot.
+     *@param string $username The username of the miiCard member of whose data
+     *the snapshot was taken.
+     *@param int $timestampUtc The UNIX timestamp representing the date the
+     *snapshot of the user's identity was taken. */
+    function __construct($snapshotId, $username, $timestampUtc)
+    {
+        $this->_snapshotId = $snapshotId;
+        $this->_username = $username;
+        $this->_timestampUtc = $timestampUtc;
+    }
+
+    /** Gets the unique identifier for this snapshot. */
+    public function getSnapshotId() { return $this->_snapshotId; }
+    /** Gets the username of the miiCard member of whose data
+     *the snapshot was taken. */
+    public function getUsername() { return $this->_username; }
+    /** Gets the UNIX timestamp representing the date the
+     *snapshot of the user's identity was taken. */
+    public function getTimestampUtc() { return $this->_timestampUtc; }
+
+    /** Builds a new IdentitySnapshotDetails from a hash obtained from the Claims API.
+     *
+     *@param array $hash The has containing details about a single snapshot.*/
+    public static function FromHash($hash)
+    {
+        return new IdentitySnapshotDetails
+        (
+            Util::TryGet($hash, 'SnapshotId'),
+            Util::TryGet($hash, 'Username'),
+            Util::TryGet($hash, 'TimestampUtc')
+        );
+    }
+}
+
+/** Represents a single snapshot of miiCard member's identity.
+ *@package miiCard.Consumers */
+class IdentitySnapshot
+{
+    private $_details, $_snapshot;
+
+    /** Initialises a new IdentitySnapshot object.
+     *
+     *@param IdentitySnapshotDetails $details An IdentitySnapshotDetails object
+     *that describes the contents of the snapshot.
+     *@param MiiUserProfile $snapshot The MiiUserProfile object containing the
+     *miiCard member's identity at the point the snapshot was taken. */
+    function __construct($details, $snapshot)
+    {
+        $this->_details = $details;
+        $this->_snapshot = $snapshot;
+    }
+
+    /** Gets the IdentitySnapshotDetails object
+     *that describes the contents of the snapshot. */
+    public function getDetails() { return $this->_details; }
+    /** Gets the MiiUserProfile object containing the
+     *miiCard member's identity at the point the snapshot was taken. */
+    public function getSnapshot() { return $this->_snapshot; }
+
+    /** Builds a new IdentitySnapshot from a hash obtained from the Claims API.
+     *
+     *@param array $hash The has containing details about the identity snapshot.
+     **/
+    public static function FromHash($hash)
+    {
+        return new IdentitySnapshot
+        (
+            IdentitySnapshotDetails::FromHash(Util::TryGet($hash, 'Details')),
+            MiiUserProfile::FromHash(Util::TryGet($hash, 'Snapshot'))
+        );
     }
 }
 

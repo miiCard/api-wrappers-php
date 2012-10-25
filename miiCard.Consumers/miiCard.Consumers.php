@@ -10,9 +10,9 @@
     class MiiCardServiceUrls
     {
         /** URL of the OAuth authorisation endpoint. */
-        const OAUTH_ENDPOINT = "https://sts.miicard.com/auth/oauth.ashx";
+        const OAUTH_ENDPOINT = "https://stsbeta.miicard.com/auth/oauth.ashx";
         /** URL of the Claims API v1 JSON endpoint. */
-        const CLAIMS_SVC = "https://sts.miicard.com/api/v1/Claims.svc/json";
+        const CLAIMS_SVC = "https://stsbeta.miicard.com/api/v1/Claims.svc/json";
 
         /** Calculates the URL to be requested when the specified method name
         * of the Claims API is to be invoked.
@@ -312,6 +312,41 @@
             $requestArray['type'] = $type;
             
             return $this->makeRequest('AssuranceImage', json_encode($requestArray), null, false);
+        }
+
+        /** Creates a snapshot of the miiCard member's identity, returning metadata that can be used
+         *to request the snapshot content. */
+        public function createIdentitySnapshot()
+        {
+            return $this->makeRequest('CreateIdentitySnapshot', null, 'IdentitySnapshotDetails::FromHash', true);
+        }
+
+        /** Gets details of a snapshot identified by its ID, or of all snapshots for the miiCard member if
+         *not supplied.
+         *@param string $snapshotId The unique identifier of the snapshot for which details should be
+         *retrieved, or null if details of all snapshots should be retrieved. */
+        public function getIdentitySnapshotDetails($snapshotId)
+        {
+            $requestArray = array();
+            if (isset($snapshotId))
+            {
+                $requestArray['snapshotId'] = $snapshotId;
+            }
+
+            return $this->makeRequest('GetIdentitySnapshotDetails', json_encode($requestArray), 'IdentitySnapshotDetails::FromHash', true);
+        }
+
+        /** Gets the snapshot of a miiCard member's identity specified by the supplied snapshot ID. To create a snapshot,
+         *you must first call the createIdentitySnapshot function. To discover existing snapshots, use the getIdentitySnapshotDetails
+         *function.
+         *@param string $snapshotId The unique identifier of the snapshot for which details should be
+         *retrieved. */
+        public function getIdentitySnapshot($snapshotId)
+        {
+            $requestArray = array();
+            $requestArray['snapshotId'] = $snapshotId;
+
+            return $this->makeRequest('GetIdentitySnapshot', json_encode($requestArray), 'IdentitySnapshotDetails::FromHash', true);
         }
 
         /** Makes an OAuth signed request to the specified Claims API method, and parses the response into
