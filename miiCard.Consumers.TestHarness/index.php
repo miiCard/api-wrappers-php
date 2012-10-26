@@ -15,13 +15,16 @@
     $socialAccountId = isset($_REQUEST['socialAccountId']) ? $_REQUEST['socialAccountId'] : NULL;
     $socialAccountType = isset($_REQUEST['socialAccountType']) ? $_REQUEST['socialAccountType'] : NULL;
     $assuranceImageType = isset($_REQUEST['assuranceImageType']) ? $_REQUEST['assuranceImageType'] : NULL;
+
+    $identitySnapshotId = isset($_REQUEST['identitySnapshotId']) ? $_REQUEST['identitySnapshotId'] : NULL;
+    $identitySnapshotDetailsSnapshotId = isset($_REQUEST['identitySnapshotDetailsSnapshotId']) ? $_REQUEST['identitySnapshotDetailsSnapshotId'] : NULL;
         
     const SESSION_KEY_CONSUMER_KEY = 'miiCard.PHP.TestHarness.ConsumerKey';
     const SESSION_KEY_CONSUMER_SECRET = 'miiCard.PHP.TestHarness.ConsumerSecret';
     
     const POSTBACK_FLAG = "testHarnessPostback";
     
-    $isTestHarnessPostback = isset($_REQUEST[POSTBACK_FLAG]);
+    $isTestHarnessPostback = isset($_POST[POSTBACK_FLAG]);
     
     if (!$isTestHarnessPostback)
     {
@@ -104,6 +107,18 @@
                     $showAssuranceImage = true;
                 }
                 break;
+            case 'create-identity-snapshot':
+                $lastCreateIdentitySnapshotResult = $miiCardObj->createIdentitySnapshot();
+                break;
+            case 'get-identity-snapshot-details':
+                $lastGetIdentitySnapshotDetailsResult = $miiCardObj->getIdentitySnapshotDetails($_REQUEST['identitySnapshotDetailsSnapshotId']);
+                break;
+            case 'get-identity-snapshot':
+                if (isset($_REQUEST['identitySnapshotId']))
+                {
+                    $lastGetIdentitySnapshotResult = $miiCardObj->getIdentitySnapshot($_REQUEST['identitySnapshotId']);
+                }
+                break;
         }
     }
 ?>
@@ -115,6 +130,9 @@
       <script href="js/jquery-1.8.2.min.js"></script>
       <script href="js/bootstrap.min.js"></script>
       <title>miiCard PHP API Wrappers Test Harness</title>
+      <style type="text/css">
+      .page-header { margin-top: 50px; margin-bottom: 10px; }
+      </style>
   </head>
 <body>
 <div class="container">
@@ -246,6 +264,62 @@
                 <p><img src="assuranceimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&type=<?php echo rawurlencode($assuranceImageType); ?>" /></p>
                 <?php } ?>
                 <button type="submit" name="btn-invoke" value="assurance-image" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2>CreateIdentitySnapshot
+            <small>Create a point-in-time snapshot of a miiCard member's identity</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h3>Parameters</h3>
+                <p>There are no parameters</p>
+
+                <h4>Result</h4>
+                <?php if (isset($lastCreateIdentitySnapshotResult)) { ?>
+                <p><?php echo renderResponse($lastCreateIdentitySnapshotResult); ?></p>
+                <?php } ?>
+                <button type="submit" name="btn-invoke" value="create-identity-snapshot" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2>GetIdentitySnapshotDetails
+            <small>Retrieve metadata about an identity snapshot</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h3>Parameters</h3>
+                <label for="identitySnapshotDetailsSnapshotId">Snapshot ID (blank to list all)</label>
+                <input type="text" name="identitySnapshotDetailsSnapshotId" value="<?php echo $identitySnapshotDetailsSnapshotId; ?>" />
+
+                <h4>Result</h4>
+                <?php if (isset($lastGetIdentitySnapshotDetailsResult)) { ?>
+                <p><?php echo renderResponse($lastGetIdentitySnapshotDetailsResult); ?></p>
+                <?php } ?>
+                <button type="submit" name="btn-invoke" value="get-identity-snapshot-details" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2>GetIdentitySnapshot
+            <small>Retrieve a previously created snapshot of a miiCard member's identity</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h3>Parameters</h3>
+                <label for="identitySnapshotId">Snapshot ID</label>
+                <input type="text" name="identitySnapshotId" value="<?php echo $identitySnapshotId; ?>" />
+
+                <h4>Result</h4>
+                <?php if (isset($lastGetIdentitySnapshotResult)) { ?>
+                <p><?php echo renderResponse($lastGetIdentitySnapshotResult); ?></p>
+                <?php } ?>
+                <button type="submit" name="btn-invoke" value="get-identity-snapshot" class="btn btn-large">Invoke method &raquo;</button>
             </div>
         </div>
     </form>

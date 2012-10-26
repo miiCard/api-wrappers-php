@@ -1,4 +1,7 @@
 <?php
+    /* A couple of functions render date-times and these come in as UTC (equiv. GMT) */
+    date_default_timezone_set("GMT");
+
     function renderResponse($obj)
     {
         $toReturn = "<div class='response'>";
@@ -12,6 +15,28 @@
         if ($data instanceof MiiUserProfile)
         {
             $toReturn .= renderUserProfile($data);
+        }
+        else if ($data instanceof IdentitySnapshot)
+        {
+            $toReturn .= renderIdentitySnapshot($data);
+        }
+        else if (is_array($data) && count($data) > 0)
+        {
+            $sample = $data[0];
+            if ($sample instanceof IdentitySnapshotDetails)
+            {
+                $ct = 0;
+                foreach ($data as $identitySnapshotDetails)
+                {
+                    $toReturn .= "<div class='fact'><h4>[" . $ct++ . "]</h4>";
+                    $toReturn .= renderIdentitySnapshotDetails($identitySnapshotDetails);
+                    $toReturn .= "</div>";
+                }
+            }
+            else
+            {
+                $toReturn .= renderFact("Data", $data);
+            }
         }
         else
         {
@@ -32,6 +57,33 @@
         }
         
         return  "<div class='fact-row'><span class='fact-name'>$factName</span><span class='fact-value'>$factValueRender</span></div>";
+    }
+
+    function renderIdentitySnapshotDetails($identitySnapshotDetails)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("Snapshot ID", $identitySnapshotDetails->getSnapshotId());
+        $toReturn .= renderFact("Username", $identitySnapshotDetails->getUsername());
+        $toReturn .= renderFact("Timestamp",  date('d-m-y H:i:s', $identitySnapshotDetails->getTimestampUtc()) . " GMT");
+        $toReturn .= "</div>";
+
+        return $toReturn;
+    }
+
+    function renderIdentitySnapshot($identitySnapshot)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFactHeading("Snapshot details");
+        $toReturn .= renderIdentitySnapshotDetails($identitySnapshot->getDetails());
+
+        $toReturn .= renderFactHeading("Snapshot contents");
+        $toReturn .= renderUserProfile($identitySnapshot->getSnapshot());
+
+        $toReturn .= "</div>";
+
+        return $toReturn;
     }
     
     function renderIdentity($identity)
@@ -113,8 +165,6 @@
     
     function renderUserProfile($profile)
     {
-        date_default_timezone_set("GMT");
-
         $toReturn = "<div class='fact'>";
         
         $toReturn .= "<h2>User profile</h2>";

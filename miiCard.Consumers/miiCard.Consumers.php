@@ -10,9 +10,9 @@
     class MiiCardServiceUrls
     {
         /** URL of the OAuth authorisation endpoint. */
-        const OAUTH_ENDPOINT = "https://stsbeta.miicard.com/auth/oauth.ashx";
+        const OAUTH_ENDPOINT = "https://127.0.0.1:444/auth/oauth.ashx";
         /** URL of the Claims API v1 JSON endpoint. */
-        const CLAIMS_SVC = "https://stsbeta.miicard.com/api/v1/Claims.svc/json";
+        const CLAIMS_SVC = "https://127.0.0.1:444/api/v1/Claims.svc/json";
 
         /** Calculates the URL to be requested when the specified method name
         * of the Claims API is to be invoked.
@@ -192,8 +192,8 @@
                 CURLOPT_TIMEOUT => 30,
                 CURLOPT_FOLLOWLOCATION => TRUE,
                 CURLOPT_RETURNTRANSFER => TRUE,
-                CURLOPT_SSL_VERIFYHOST => TRUE,
-                CURLOPT_SSL_VERIFYPEER => TRUE,
+                CURLOPT_SSL_VERIFYHOST => FALSE,
+                CURLOPT_SSL_VERIFYPEER => FALSE,
                 CURLOPT_CAINFO => dirname(__FILE__) . "/certs/sts.miicard.com.pem",
                 CURLOPT_HTTPHEADER => $headers,
                 CURLOPT_FORBID_REUSE => TRUE,
@@ -333,7 +333,7 @@
                 $requestArray['snapshotId'] = $snapshotId;
             }
 
-            return $this->makeRequest('GetIdentitySnapshotDetails', json_encode($requestArray), 'IdentitySnapshotDetails::FromHash', true);
+            return $this->makeRequest('GetIdentitySnapshotDetails', json_encode($requestArray), 'IdentitySnapshotDetails::FromHash', true, true);
         }
 
         /** Gets the snapshot of a miiCard member's identity specified by the supplied snapshot ID. To create a snapshot,
@@ -346,7 +346,7 @@
             $requestArray = array();
             $requestArray['snapshotId'] = $snapshotId;
 
-            return $this->makeRequest('GetIdentitySnapshot', json_encode($requestArray), 'IdentitySnapshotDetails::FromHash', true);
+            return $this->makeRequest('GetIdentitySnapshot', json_encode($requestArray), 'IdentitySnapshot::FromHash', true);
         }
 
         /** Makes an OAuth signed request to the specified Claims API method, and parses the response into
@@ -357,7 +357,7 @@
          *@param string $payloadProcessor Callable to be invoked to process the payload of the response, if any.
          *@param bool $wrappedResponse Specifies whether the response from the API is wrapped in a MiiApiResponse object (true), or is
          *a raw stream (false). */
-        private function makeRequest($methodName, $postData, $payloadProcessor, $wrappedResponse)
+        private function makeRequest($methodName, $postData, $payloadProcessor, $wrappedResponse, $arrayTypePayload = false)
         {
             $response = $this->makeSignedRequest(MiiCardServiceUrls::getMethodUrl($methodName), $postData, array(0 => "Content-Type: application/json"), true);
             if ($response != null)
@@ -365,7 +365,7 @@
                 if ($wrappedResponse) 
                 {
                     $response = json_decode($response, true);
-                    return MiiApiResponse::FromHash($response, $payloadProcessor);
+                    return MiiApiResponse::FromHash($response, $payloadProcessor, $arrayTypePayload);
                 }
                 else if ($payloadProcessor != null)
                 {

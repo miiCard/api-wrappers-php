@@ -606,11 +606,20 @@ class IdentitySnapshotDetails
      *@param array $hash The has containing details about a single snapshot.*/
     public static function FromHash($hash)
     {
+        // Try parsing the last-verified as a timestamp
+        preg_match( '/\/Date\((\d+)\)/', Util::TryGet($hash, 'TimestampUtc'), $matches);
+
+        $timestampUtcParsed = null;
+        if (isset($matches) && count($matches) > 1)
+        {
+          $timestampUtcParsed = ($matches[1] / 1000);
+        }
+
         return new IdentitySnapshotDetails
         (
             Util::TryGet($hash, 'SnapshotId'),
             Util::TryGet($hash, 'Username'),
-            Util::TryGet($hash, 'TimestampUtc')
+            $timestampUtcParsed
         );
     }
 }
@@ -704,14 +713,28 @@ class MiiApiResponse
      *@param array $hash The has containing details about a single API call response.
      *@param string A callable that turns the JSON data payload into a PHP object, if
      *required. */
-    public static function FromHash($hash, $dataProcessor)
+    public static function FromHash($hash, $dataProcessor, $isArrayPayload = false)
     {
         $payloadJson = Util::TryGet($hash, 'Data');
         $payload = null;
 
         if ($dataProcessor !== null)
         {
-            $payload = call_user_func($dataProcessor, $payloadJson);
+            if ($isArrayPayload === true)
+            {
+                if (isset($payloadJson))
+                {
+                  $payload = array();
+                  foreach ($payloadJson as $item)
+                  {
+                      array_push($payload, call_user_func($dataProcessor, $item));
+                  }
+                }
+            }
+            else
+            {
+                $payload = call_user_func($dataProcessor, $payloadJson);
+            }
         }
         else if ($payloadJson !== null)
         {
