@@ -132,6 +132,7 @@
       <title>miiCard PHP API Wrappers Test Harness</title>
       <style type="text/css">
       .page-header { margin-top: 50px; margin-bottom: 10px; }
+      input[type=text] { width: 50%; }
       </style>
   </head>
 <body>
