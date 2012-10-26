@@ -110,6 +110,11 @@ class Identity extends Claim
      *@param array $hash The hash containing details about a single identity. */
     public static function FromHash($hash)
     {
+        if (!isset($hash))
+        {
+        	return null;
+        }
+
         return new Identity
         (
             Util::TryGet($hash, 'Verified'),
@@ -156,6 +161,11 @@ class EmailAddress extends Claim
      *@param array $hash The hash containing details about a single email address. */
     public static function FromHash($hash)
     {
+        if (!isset($hash))
+        {
+            return null;
+        }
+
         return new EmailAddress
         (
             Util::TryGet($hash, 'Verified'),
@@ -205,6 +215,11 @@ class PhoneNumber extends Claim
      *@param array $hash The has containing details about a single phone number. */
     public static function FromHash($hash)
     {
+        if (!isset($hash))
+        {
+            return null;
+        }
+
         return new PhoneNumber
         (
             Util::TryGet($hash, 'Verified'),
@@ -265,6 +280,11 @@ class PostalAddress extends Claim
      *@param array $hash The has containing details about a single postal address. */
     public static function FromHash($hash)
     {
+        if (!isset($hash))
+        {
+            return null;
+        }
+
         return new PostalAddress
         (
             Util::TryGet($hash, 'Verified'),
@@ -328,6 +348,11 @@ class WebProperty extends Claim
      *@param array $hash The has containing details about a single web property. */
     public static function FromHash($hash)
     {
+        if (!isset($hash))
+        {
+            return null;
+        }
+
         return new WebProperty
         (
             Util::TryGet($hash, 'Verified'),
@@ -479,6 +504,11 @@ class MiiUserProfile
      *@param array $hash The has containing details about a single user profile. */
     public static function FromHash($hash)
     {
+        if (!isset($hash))
+        {
+            return null;
+        }
+
         $emails = Util::TryGet($hash, 'EmailAddresses');
         $emailsParsed = array();
         if (isset($emails) && is_array($emails))
@@ -606,6 +636,11 @@ class IdentitySnapshotDetails
      *@param array $hash The has containing details about a single snapshot.*/
     public static function FromHash($hash)
     {
+        if (!isset($hash))
+        {
+            return null;
+        }
+
         // Try parsing the last-verified as a timestamp
         preg_match( '/\/Date\((\d+)\)/', Util::TryGet($hash, 'TimestampUtc'), $matches);
 
@@ -655,6 +690,11 @@ class IdentitySnapshot
      **/
     public static function FromHash($hash)
     {
+        if (!isset($hash))
+        {
+            return null;
+        }
+
         return new IdentitySnapshot
         (
             IdentitySnapshotDetails::FromHash(Util::TryGet($hash, 'Details')),
@@ -715,6 +755,11 @@ class MiiApiResponse
      *required. */
     public static function FromHash($hash, $dataProcessor, $isArrayPayload = false)
     {
+        if (!isset($hash))
+        {
+            return null;
+        }
+
         $payloadJson = Util::TryGet($hash, 'Data');
         $payload = null;
 
@@ -761,14 +806,12 @@ class Util
      *@param string $key The key whose value is to be returned if available. */
     public static function TryGet($hash, $key)
     {
-        if (array_key_exists($key, $hash))
+        if (!isset($hash) || !is_array($hash) || !array_key_exists($key, $hash))
         {
-            return $hash[$key];
+            return false;
         }
-        else
-        {
-            return null;
-        }
+
+        return $hash[$key];
     }
 }
 ?>
