@@ -576,28 +576,28 @@ class MiiUserProfile
         }
 
        	return new MiiUserProfile
-          (
-      		Util::TryGet($hash, 'Username'),
-      		Util::TryGet($hash, 'Salutation'),
-      		Util::TryGet($hash, 'FirstName'),
-      		Util::TryGet($hash, 'MiddleName'),
-      		Util::TryGet($hash, 'LastName'),
-      		Util::TryGet($hash, 'PreviousFirstName'),
-      		Util::TryGet($hash, 'PreviousMiddleName'),
-      		Util::TryGet($hash, 'PreviousLastName'),
-      		$lastVerifiedParsed,
-      		Util::TryGet($hash, 'ProfileUrl'),
-      		Util::TryGet($hash, 'ProfileShortUrl'),
-      		Util::TryGet($hash, 'CardImageUrl'),
-      		$emailsParsed,
-      		$identitiesParsed,
-      		$phoneNumbersParsed,
-      		$postalAddressesParsed,
-      		$webPropertiesParsed,
-      		Util::TryGet($hash, 'IdentityAssured'),
-      		Util::TryGet($hash, 'HasPublicProfile'),
-      		$publicProfileParsed
-          );
+        (
+    		Util::TryGet($hash, 'Username'),
+    		Util::TryGet($hash, 'Salutation'),
+    		Util::TryGet($hash, 'FirstName'),
+    		Util::TryGet($hash, 'MiddleName'),
+    		Util::TryGet($hash, 'LastName'),
+    		Util::TryGet($hash, 'PreviousFirstName'),
+    		Util::TryGet($hash, 'PreviousMiddleName'),
+    		Util::TryGet($hash, 'PreviousLastName'),
+    		$lastVerifiedParsed,
+    		Util::TryGet($hash, 'ProfileUrl'),
+    		Util::TryGet($hash, 'ProfileShortUrl'),
+    		Util::TryGet($hash, 'CardImageUrl'),
+    		$emailsParsed,
+    		$identitiesParsed,
+    		$phoneNumbersParsed,
+    		$postalAddressesParsed,
+    		$webPropertiesParsed,
+    		Util::TryGet($hash, 'IdentityAssured'),
+    		Util::TryGet($hash, 'HasPublicProfile'),
+    		$publicProfileParsed
+        );
     }
 }
 
@@ -647,7 +647,7 @@ class IdentitySnapshotDetails
         $timestampUtcParsed = null;
         if (isset($matches) && count($matches) > 1)
         {
-          $timestampUtcParsed = ($matches[1] / 1000);
+            $timestampUtcParsed = ($matches[1] / 1000);
         }
 
         return new IdentitySnapshotDetails
@@ -752,7 +752,9 @@ class MiiApiResponse
      *
      *@param array $hash The has containing details about a single API call response.
      *@param string A callable that turns the JSON data payload into a PHP object, if
-     *required. */
+     *required.
+     *@param bool $isArrayPayload Indicates that the payload of the response is an array-type,
+     *over which the $dataProcessor callable should be iteratively evaluated. */
     public static function FromHash($hash, $dataProcessor, $isArrayPayload = false)
     {
         if (!isset($hash))

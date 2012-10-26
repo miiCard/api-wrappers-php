@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>phpDocumentor » \OAuthToken</title>
+<title>phpDocumentor » \IdentitySnapshotDetails</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -57,103 +57,130 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method___construct" title="__construct :: key = the token
-secret = the token secret"><span class="description">key = the token
-secret = the token secret</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method___toString" title="__toString :: "><span class="description">__toString()
-        </span><pre>__toString()</pre></a></li>
-<li class="method public "><a href="#method_getKey" title="getKey :: "><span class="description">getKey()
-        </span><pre>getKey()</pre></a></li>
-<li class="method public "><a href="#method_getSecret" title="getSecret :: "><span class="description">getSecret()
-        </span><pre>getSecret()</pre></a></li>
-<li class="method public "><a href="#method_to_string" title="to_string :: generates the basic string serialization of a token that a server
-would respond to request_token and access_token calls with"><span class="description">generates the basic string serialization of a token that a server
-would respond to request_token and access_token calls with</span><pre>to_string()</pre></a></li>
+<li class="method public "><a href="#method_FromHash" title="FromHash :: Builds a new IdentitySnapshotDetails from a hash obtained from the Claims API."><span class="description">Builds a new IdentitySnapshotDetails from a hash obtained from the Claims API.</span><pre>FromHash()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Initialises a new IdentitySnapshotDetails object."><span class="description">Initialises a new IdentitySnapshotDetails object.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_getSnapshotId" title="getSnapshotId :: Gets the unique identifier for this snapshot."><span class="description">Gets the unique identifier for this snapshot.</span><pre>getSnapshotId()</pre></a></li>
+<li class="method public "><a href="#method_getTimestampUtc" title="getTimestampUtc :: Gets the UNIX timestamp representing the date the
+snapshot of the user's identity was taken."><span class="description">Gets the UNIX timestamp representing the date the
+snapshot of the user's identity was taken.</span><pre>getTimestampUtc()</pre></a></li>
+<li class="method public "><a href="#method_getUsername" title="getUsername :: Gets the username of the miiCard member of whose data
+the snapshot was taken."><span class="description">Gets the username of the miiCard member of whose data
+the snapshot was taken.</span><pre>getUsername()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header private">» Private
                     <ul>
-<li class="property public "><a href="#property_key" title="$key :: "><span class="description">$key</span><pre>$key</pre></a></li>
-<li class="property public "><a href="#property_secret" title="$secret :: "><span class="description">$secret</span><pre>$secret</pre></a></li>
+<li class="property private "><a href="#property__snapshotId" title="$_snapshotId :: "><span class="description">$_snapshotId</span><pre>$_snapshotId</pre></a></li>
+<li class="property private "><a href="#property__timestampUtc" title="$_timestampUtc :: "><span class="description">$_timestampUtc</span><pre>$_timestampUtc</pre></a></li>
+<li class="property private "><a href="#property__username" title="$_username :: "><span class="description">$_username</span><pre>$_username</pre></a></li>
 </ul>
 </li>
 </ul>
 </div>
 <div class="span8">
-<a id="\OAuthToken"></a><ul class="breadcrumb">
+<a id="\IdentitySnapshotDetails"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/global.html">global</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/OAuthToken.html">OAuthToken</a>
+<span class="divider">\</span><a href="../classes/IdentitySnapshotDetails.html">IdentitySnapshotDetails</a>
 </li>
 </ul>
-<div class="element class"><div class="details">
+<div class="element class">
+<p class="short_description">Represents the metadata associated with a snapshot of a single miiCard member's
+details.</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/miiCard.Consumers.html">miiCard.Consumers</a></td>
+</tr></table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_FromHash"></a><div class="element clickable method public method_FromHash" data-toggle="collapse" data-target=".method_FromHash .collapse">
+<h2>Builds a new IdentitySnapshotDetails from a hash obtained from the Claims API.</h2>
+<pre>FromHash(array $hash) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$hash</h4>
+<code>array</code><p>The has containing details about a single snapshot.</p></div>
+</div></div>
+</div>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
-<h2>key = the token
-secret = the token secret</h2>
-<pre>__construct($key, $secret) </pre>
+<h2>Initialises a new IdentitySnapshotDetails object.</h2>
+<pre>__construct(string $snapshotId, string $username, int $timestampUtc) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$key</h4></div>
-<div class="subelement argument"><h4>$secret</h4></div>
+<div class="subelement argument">
+<h4>$snapshotId</h4>
+<code>string</code><p>The unique identifier for this snapshot.</p></div>
+<div class="subelement argument">
+<h4>$username</h4>
+<code>string</code><p>The username of the miiCard member of whose data the snapshot was taken.</p></div>
+<div class="subelement argument">
+<h4>$timestampUtc</h4>
+<code>int</code><p>The UNIX timestamp representing the date the snapshot of the user's identity was taken.</p>
+</div>
 </div></div>
 </div>
-<a id="method___toString"></a><div class="element clickable method public method___toString" data-toggle="collapse" data-target=".method___toString .collapse">
-<h2>__toString()
-        </h2>
-<pre>__toString() </pre>
+<a id="method_getSnapshotId"></a><div class="element clickable method public method_getSnapshotId" data-toggle="collapse" data-target=".method_getSnapshotId .collapse">
+<h2>Gets the unique identifier for this snapshot.</h2>
+<pre>getSnapshotId() </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="method_getKey"></a><div class="element clickable method public method_getKey" data-toggle="collapse" data-target=".method_getKey .collapse">
-<h2>getKey()
-        </h2>
-<pre>getKey() </pre>
+<a id="method_getTimestampUtc"></a><div class="element clickable method public method_getTimestampUtc" data-toggle="collapse" data-target=".method_getTimestampUtc .collapse">
+<h2>Gets the UNIX timestamp representing the date the
+snapshot of the user's identity was taken.</h2>
+<pre>getTimestampUtc() </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="method_getSecret"></a><div class="element clickable method public method_getSecret" data-toggle="collapse" data-target=".method_getSecret .collapse">
-<h2>getSecret()
-        </h2>
-<pre>getSecret() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="method_to_string"></a><div class="element clickable method public method_to_string" data-toggle="collapse" data-target=".method_to_string .collapse">
-<h2>generates the basic string serialization of a token that a server
-would respond to request_token and access_token calls with</h2>
-<pre>to_string() </pre>
+<a id="method_getUsername"></a><div class="element clickable method public method_getUsername" data-toggle="collapse" data-target=".method_getUsername .collapse">
+<h2>Gets the username of the miiCard member of whose data
+the snapshot was taken.</h2>
+<pre>getUsername() </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property_key"> </a><div class="element clickable property public property_key" data-toggle="collapse" data-target=".property_key .collapse">
-<h2>$key</h2>
-<pre>$key </pre>
+<a id="property__snapshotId"> </a><div class="element clickable property private property__snapshotId" data-toggle="collapse" data-target=".property__snapshotId .collapse">
+<h2>$_snapshotId</h2>
+<pre>$_snapshotId </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property_secret"> </a><div class="element clickable property public property_secret" data-toggle="collapse" data-target=".property_secret .collapse">
-<h2>$secret</h2>
-<pre>$secret </pre>
+<a id="property__timestampUtc"> </a><div class="element clickable property private property__timestampUtc" data-toggle="collapse" data-target=".property__timestampUtc .collapse">
+<h2>$_timestampUtc</h2>
+<pre>$_timestampUtc </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-</div></div>
+<a id="property__username"> </a><div class="element clickable property private property__username" data-toggle="collapse" data-target=".property__username .collapse">
+<h2>$_username</h2>
+<pre>$_username </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-26T14:13:48+01:00.<br></footer></div>
+            generated on 2012-10-26T14:13:47+01:00.<br></footer></div>
 </div>
 </body>
 </html>

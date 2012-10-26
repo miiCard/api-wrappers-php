@@ -356,7 +356,9 @@
          *@param string $postData JSON string of parameter data required by the API method, if any.
          *@param string $payloadProcessor Callable to be invoked to process the payload of the response, if any.
          *@param bool $wrappedResponse Specifies whether the response from the API is wrapped in a MiiApiResponse object (true), or is
-         *a raw stream (false). */
+         *a raw stream (false).
+         *@param bool $arrayTypePayload Specifies that the payload of the response is an array-type - examples would be the GetIdentitySnapshotDetails
+         *call which returns an array of IdentitySnapshotDetails objects. */
         private function makeRequest($methodName, $postData, $payloadProcessor, $wrappedResponse, $arrayTypePayload = false)
         {
             $response = $this->makeSignedRequest(MiiCardServiceUrls::getMethodUrl($methodName), $postData, array(0 => "Content-Type: application/json"), true);
