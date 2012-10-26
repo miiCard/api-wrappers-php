@@ -20,6 +20,10 @@
         {
             $toReturn .= renderIdentitySnapshot($data);
         }
+        else if ($data instanceof IdentitySnapshotDetails)
+        {
+            $toReturn .= renderIdentitySnapshotDetails($data);
+        }
         else if (is_array($data) && count($data) > 0)
         {
             $sample = $data[0];
