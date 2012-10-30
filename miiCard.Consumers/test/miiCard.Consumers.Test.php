@@ -1,10 +1,25 @@
 <?php
     require_once('../miiCard.Model.php');
 
+    class IdentitySnapshotDetailsTest extends PHPUnit_Framework_TestCase
+    {
+        private $_jsonBody = '{"SnapshotId":"0fc60a0e-a058-4cae-bae1-460db73f2947","TimestampUtc":"\/Date(1351594328296)\/","Username":"testuser","WasTestUser":true}';
+
+        public function testCanDeserialiseIdentitySnapshotDetailsResponse()
+        {
+            $o = IdentitySnapshotDetails::FromHash(json_decode($this->_jsonBody, true));
+
+            $this->assertEquals("0fc60a0e-a058-4cae-bae1-460db73f2947", $o->getSnapshotId());
+            $this->assertEquals(1351594328.296, $o->getTimestampUtc());
+            $this->assertEquals("testuser", $o->getUsername());
+            $this->assertTrue($o->getWasTestUser());
+        }
+    }
+
     class MiiUserProfileTest extends PHPUnit_Framework_TestCase
     {
         private $_jsonBody = '{"CardImageUrl":"https:\/\/my.miicard.com\/img\/test.png","EmailAddresses":[{"Verified":true,"Address":"test@example.com","DisplayName":"testEmail","IsPrimary":true},{"Verified":false,"Address":"test2@example.com","DisplayName":"test2Email","IsPrimary":false}],"FirstName":"Test","HasPublicProfile":true,"Identities":null,"IdentityAssured":true,"LastName":"User","LastVerified":"\/Date(1345812103000)\/","MiddleName":"Middle","PhoneNumbers":[{"Verified":true,"CountryCode":"44","DisplayName":"Default","IsMobile":true,"IsPrimary":true,"NationalNumber":"7800123456"},{"Verified":false,"CountryCode":"44","DisplayName":"Default","IsMobile":false,"IsPrimary":false,"NationalNumber":"7800123457"}],"PostalAddresses":[{"House":"Addr1 House1","Line1":"Addr1 Line1","Line2":"Addr1 Line2","City":"Addr1 City","Region":"Addr1 Region","Code":"Addr1 Code","Country":"Addr1 Country","IsPrimary":true,"Verified":true},{"House":"Addr2 House1","Line1":"Addr2 Line1","Line2":"Addr2 Line2","City":"Addr2 City","Region":"Addr2 Region","Code":"Addr2 Code","Country":"Addr2 Country","IsPrimary":false,"Verified":false}],"PreviousFirstName":"PrevFirst","PreviousLastName":"PrevLast","PreviousMiddleName":"PrevMiddle","ProfileShortUrl":"http:\/\/miicard.me\/123456","ProfileUrl":"https:\/\/my.miicard.com\/card\/test","PublicProfile":{"CardImageUrl":"https:\/\/my.miicard.com\/img\/test.png","FirstName":"Test","HasPublicProfile":true,"IdentityAssured":true,"LastName":"User","LastVerified":"\/Date(1345812103000)\/","MiddleName":"Middle","PreviousFirstName":"PrevFirst","PreviousLastName":"PrevLast","PreviousMiddleName":"PrevMiddle","ProfileShortUrl":"http:\/\/miicard.me\/123456","ProfileUrl":"https:\/\/my.miicard.com\/card\/test","PublicProfile":null,"Salutation":"Ms","Username":"testUser"},"Salutation":"Ms","Username":"testUser","WebProperties":[{"Verified":true,"DisplayName":"example.com","Identifier":"example.com","Type":0},{"Verified":false,"DisplayName":"2.example.com","Identifier":"http:\/\/www.2.example.com","Type":1}]}';
-        private $_jsonResponseBody = '{"ErrorCode":0,"Status":0,"ErrorMessage":"A test error message","Data":true}';
+        private $_jsonResponseBody = '{"ErrorCode":0,"Status":0,"ErrorMessage":"A test error message","Data":true,"IsTestUser":true}';
 
         public function testCanDeserialiseUserProfile()
         {
@@ -101,6 +116,7 @@
             $this->assertEquals(MiiApiCallStatus::SUCCESS, $o->getStatus());
             $this->assertEquals(MiiApiErrorCode::SUCCESS, $o->getErrorCode());
             $this->assertEquals("A test error message", $o->getErrorMessage());
+            $this->assertEquals(true, $o->getIsTestUser());
             $this->assertEquals(true, $o->getData());
         }
 

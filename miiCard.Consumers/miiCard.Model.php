@@ -606,7 +606,7 @@ class MiiUserProfile
  *@package miiCard.Consumers */
 class IdentitySnapshotDetails
 {
-    private $_snapshotId, $_username, $_timestampUtc;
+    private $_snapshotId, $_username, $_timestampUtc, $_wasTestUser;
 
     /** Initialises a new IdentitySnapshotDetails object.
      *
@@ -615,11 +615,12 @@ class IdentitySnapshotDetails
      *the snapshot was taken.
      *@param int $timestampUtc The UNIX timestamp representing the date the
      *snapshot of the user's identity was taken. */
-    function __construct($snapshotId, $username, $timestampUtc)
+    function __construct($snapshotId, $username, $timestampUtc, $wasTestUser)
     {
         $this->_snapshotId = $snapshotId;
         $this->_username = $username;
         $this->_timestampUtc = $timestampUtc;
+        $this->_wasTestUser = $wasTestUser;
     }
 
     /** Gets the unique identifier for this snapshot. */
@@ -630,6 +631,11 @@ class IdentitySnapshotDetails
     /** Gets the UNIX timestamp representing the date the
      *snapshot of the user's identity was taken. */
     public function getTimestampUtc() { return $this->_timestampUtc; }
+    /** Gets whether the user whose identity has been snapshotted was marked as a
+     *test user at the point the snapshot was taken. Identity checks are skipped
+     *for test users, so production code should reject snapshots for test users
+     *as appropriate. */
+    public function getWasTestUser() { return $this->_wasTestUser; }
 
     /** Builds a new IdentitySnapshotDetails from a hash obtained from the Claims API.
      *
@@ -654,7 +660,8 @@ class IdentitySnapshotDetails
         (
             Util::TryGet($hash, 'SnapshotId'),
             Util::TryGet($hash, 'Username'),
-            $timestampUtcParsed
+            $timestampUtcParsed,
+            Util::TryGet($hash, 'WasTestUser')
         );
     }
 }
@@ -710,7 +717,7 @@ class IdentitySnapshot
 class MiiApiResponse
 {
     /** @access private */
-    private $_status, $_errorCode, $_errorMessage, $_data;
+    private $_status, $_errorCode, $_errorMessage, $_data, $_isTestUser;
 
     /** Initialises a new MiiApiResponse object.
      *
@@ -724,11 +731,12 @@ class MiiApiResponse
      *suitable for display to the public.
      *@param mixed $data The payload of the response, whose type will vary depending
      *on the API method being called. */
-    function __construct($status, $errorCode, $errorMessage, $data)
+    function __construct($status, $errorCode, $errorMessage, $isTestUser, $data)
     {
         $this->_status = $status;
         $this->_errorCode = $errorCode;
         $this->_errorMessage = $errorMessage;
+        $this->_isTestUser = $isTestUser;
 
         $this->_data = $data;
     }
@@ -747,6 +755,11 @@ class MiiApiResponse
     /** Gets the payload of the response, whose type will vary depending
      *on the API method being called. */
     public function getData() { return $this->_data; }
+    /** Gets whether the user to whom the response pertains is currently marked as
+     *a test user. Identity assurance checks are skipped for test users for
+     *development purposes - your production code should check this field and reject
+     *test accounts as appropriate. */
+    public function getIsTestUser() { return $this->_isTestUser; }
 
     /** Builds a new MiiApiResponse from a hash obtained from the Claims API.
      *
@@ -793,6 +806,7 @@ class MiiApiResponse
             Util::TryGet($hash, 'Status'),
             Util::TryGet($hash, 'ErrorCode'),
             Util::TryGet($hash, 'ErrorMessage'),
+            Util::TryGet($hash, 'IsTestUser'),
             $payload
         );
     }

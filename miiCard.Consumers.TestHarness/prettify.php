@@ -9,6 +9,7 @@
         $toReturn .= renderFact("Status", $obj->getStatus());
         $toReturn .= renderFact("Error code", $obj->getErrorCode());
         $toReturn .= renderFact("Error message", $obj->getErrorMessage());
+        $toReturn .= renderFact("Is a test user?", $obj->getIsTestUser());
                 
         $data = $obj->getData();
         
@@ -70,6 +71,7 @@
         $toReturn .= renderFact("Snapshot ID", $identitySnapshotDetails->getSnapshotId());
         $toReturn .= renderFact("Username", $identitySnapshotDetails->getUsername());
         $toReturn .= renderFact("Timestamp",  date('d-m-y H:i:s', $identitySnapshotDetails->getTimestampUtc()) . " GMT");
+        $toReturn .= renderFact("Was a test user?", $identitySnapshotDetails->getWasTestUser());
         $toReturn .= "</div>";
 
         return $toReturn;
