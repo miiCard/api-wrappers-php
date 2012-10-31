@@ -107,9 +107,6 @@
                     $showAssuranceImage = true;
                 }
                 break;
-            case 'create-identity-snapshot':
-                $lastCreateIdentitySnapshotResult = $miiCardObj->createIdentitySnapshot();
-                break;
             case 'get-identity-snapshot-details':
                 $lastGetIdentitySnapshotDetailsResult = $miiCardObj->getIdentitySnapshotDetails($_REQUEST['identitySnapshotDetailsSnapshotId']);
                 break;
@@ -265,24 +262,6 @@
                 <p><img src="assuranceimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&type=<?php echo rawurlencode($assuranceImageType); ?>" /></p>
                 <?php } ?>
                 <button type="submit" name="btn-invoke" value="assurance-image" class="btn btn-large">Invoke method &raquo;</button>
-            </div>
-        </div>
-
-        <div class="page-header">
-            <h2>CreateIdentitySnapshot
-            <small>Create a point-in-time snapshot of a miiCard member's identity</small>
-            </h2>
-        </div>
-        <div class="row">
-            <div class="span12">
-                <h3>Parameters</h3>
-                <p>There are no parameters</p>
-
-                <h4>Result</h4>
-                <?php if (isset($lastCreateIdentitySnapshotResult)) { ?>
-                <p><?php echo renderResponse($lastCreateIdentitySnapshotResult); ?></p>
-                <?php } ?>
-                <button type="submit" name="btn-invoke" value="create-identity-snapshot" class="btn btn-large">Invoke method &raquo;</button>
             </div>
         </div>
 
