@@ -10,9 +10,9 @@
     class MiiCardServiceUrls
     {
         /** URL of the OAuth authorisation endpoint. */
-        const OAUTH_ENDPOINT = "https://stsbeta.miicard.com/auth/oauth.ashx";
+        const OAUTH_ENDPOINT = "https://127.0.0.1:444/auth/oauth.ashx";
         /** URL of the Claims API v1 JSON endpoint. */
-        const CLAIMS_SVC = "https://stsbeta.miicard.com/api/v1/Claims.svc/json";
+        const CLAIMS_SVC = "https://127.0.0.1:444/api/v1/Claims.svc/json";
 
         /** Calculates the URL to be requested when the specified method name
         * of the Claims API is to be invoked.
@@ -383,6 +383,7 @@
     {
         /** The callback URL that the OAuth process will return to once completed. */
         private $_callbackUrl;
+        private $_referrerCode;
 
         /** @access private */ const SESSION_KEY_ACCESS_TOKEN = "miiCard.OAuth.InProgress.AccessToken";
         /** @access private */ const SESSION_KEY_ACCESS_TOKEN_SECRET = "miiCard.OAuth.InProgress.AccessTokenSecret";
@@ -392,12 +393,15 @@
          *@param string $consumerKey The OAuth consumer key.
          *@param string $consumerSecret The OAuth consumer secret.
          *@param string $accessToken The OAuth access token.
-         *@param string $accessTokenSecret The OAuth access token secret. */
-        function __construct($consumerKey, $consumerSecret, $accessToken = null, $accessTokenSecret = null)
+         *@param string $accessTokenSecret The OAuth access token secret.
+         *@param string $referrerCode Your referrer code, if you have one.
+         */
+        function __construct($consumerKey, $consumerSecret, $accessToken = null, $accessTokenSecret = null, $referrerCode = null)
         {
             parent::__construct($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
 
             $this->_callbackUrl = $this->getDefaultCallbackUrl();
+            $this->_referrerCode = $referrerCode;
         }
 
         /** Gets the access token that this MiiCard object was constructed with, or was obtained via an OAuth exchange. */
@@ -457,6 +461,10 @@
             $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET] = $this->getAccessTokenSecret();
             
             $redirectUrl = MiiCardServiceUrls::OAUTH_ENDPOINT . "?oauth_token=" . rawurlencode($requestToken->getKey());
+            if (isset($this->_referrerCode))
+            {
+                $redirectUrl .= "&referrer=" . $this->_referrerCode;
+            }
             
             // Doing a header here means we never set the session cookie, which is bad if we're the first thing
             // that ever tries as we'll forget the request token secret. Instead, do a quick bounce through a

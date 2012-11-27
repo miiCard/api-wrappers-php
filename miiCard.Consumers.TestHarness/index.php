@@ -18,6 +18,8 @@
 
     $identitySnapshotId = isset($_REQUEST['identitySnapshotId']) ? $_REQUEST['identitySnapshotId'] : NULL;
     $identitySnapshotDetailsSnapshotId = isset($_REQUEST['identitySnapshotDetailsSnapshotId']) ? $_REQUEST['identitySnapshotDetailsSnapshotId'] : NULL;
+
+    $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
         
     const SESSION_KEY_CONSUMER_KEY = 'miiCard.PHP.TestHarness.ConsumerKey';
     const SESSION_KEY_CONSUMER_SECRET = 'miiCard.PHP.TestHarness.ConsumerSecret';
@@ -53,7 +55,7 @@
     $miiCardObj = null;
     if (!$incompleteConsumerDetails) 
     {
-        $miiCardObj = new MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+        $miiCardObj = new MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode);
     }
 
     if ($isLoginRequest && !$incompleteConsumerDetails && $miiCardObj !== null)
@@ -184,6 +186,8 @@
                 <input type="text" name="accessToken" value="<?php echo $accessToken; ?>" />
                 <label for="accessTokenSecret">OAuth Access Token Secret</label>
                 <input type="text" name="accessTokenSecret" value="<?php echo $accessTokenSecret; ?>" />
+                <label for="accessTokenSecret">Referrer Code (if any)</label>
+                <input type="text" name="referrerCode" value="<?php echo $referrerCode; ?>" />
             </div>
         </div>
         <div class="page-header">
