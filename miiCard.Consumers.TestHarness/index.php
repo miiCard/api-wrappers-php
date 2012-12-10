@@ -20,6 +20,7 @@
     $identitySnapshotDetailsSnapshotId = isset($_REQUEST['identitySnapshotDetailsSnapshotId']) ? $_REQUEST['identitySnapshotDetailsSnapshotId'] : NULL;
 
     $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
+    $forceClaimsPicker = isset($_REQUEST['forceClaimsPicker']) ? $_REQUEST['forceClaimsPicker'] == 'on' : false;
         
     const SESSION_KEY_CONSUMER_KEY = 'miiCard.PHP.TestHarness.ConsumerKey';
     const SESSION_KEY_CONSUMER_SECRET = 'miiCard.PHP.TestHarness.ConsumerSecret';
@@ -55,7 +56,7 @@
     $miiCardObj = null;
     if (!$incompleteConsumerDetails) 
     {
-        $miiCardObj = new MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode);
+        $miiCardObj = new MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode, $forceClaimsPicker);
     }
 
     if ($isLoginRequest && !$incompleteConsumerDetails && $miiCardObj !== null)
@@ -142,6 +143,7 @@
         </div>
     </div>
     <form method="POST" action="index.php">
+        <a href="#" onclick="window.open('https://stsbeta.miicard.com/login.aspx', 'login', 'height=400,width=400,scrollbars=yes'); return false;">Test popup</a>
         <input type="hidden" name="<?php echo POSTBACK_FLAG ?>" value="true" />
         <div class="page-header">
             <h1>OAuth token settings
@@ -188,6 +190,8 @@
                 <input type="text" name="accessTokenSecret" value="<?php echo $accessTokenSecret; ?>" />
                 <label for="accessTokenSecret">Referrer Code (if any)</label>
                 <input type="text" name="referrerCode" value="<?php echo $referrerCode; ?>" />
+                <br />
+                <input type="checkbox" name="forceClaimsPicker" value="on" <?php echo isset($referrerCode) && $referrerCode ? "checked=checked" : "" ?>" />&nbsp;Force claims picker
             </div>
         </div>
         <div class="page-header">
