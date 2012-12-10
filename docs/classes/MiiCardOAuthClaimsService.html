@@ -32,7 +32,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">166</span></a></li>
+                <span class="label label-info">175</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -59,9 +59,6 @@
                     <ul>
 <li class="method public "><a href="#method___construct" title="__construct :: Initialises a new MiiCardOAuthClaimsService with specified OAuth credentials."><span class="description">Initialises a new MiiCardOAuthClaimsService with specified OAuth credentials.</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#method_assuranceImage" title="assuranceImage :: Gets a PNG-encoded image representation of the miiCard member's identity assurance status."><span class="description">Gets a PNG-encoded image representation of the miiCard member's identity assurance status.</span><pre>assuranceImage()</pre></a></li>
-<li class="method public "><a href="#method_createIdentitySnapshot" title="createIdentitySnapshot :: Creates a snapshot of the miiCard member's identity, returning metadata that can be used
-to request the snapshot content."><span class="description">Creates a snapshot of the miiCard member's identity, returning metadata that can be used
-to request the snapshot content.</span><pre>createIdentitySnapshot()</pre></a></li>
 <li class="method public inherited"><a href="#method_getAccessToken" title="getAccessToken :: Gets the OAuth access token, or null if not set"><span class="description">Gets the OAuth access token, or null if not set</span><pre>getAccessToken()</pre></a></li>
 <li class="method public inherited"><a href="#method_getAccessTokenSecret" title="getAccessTokenSecret :: Gets the OAuth access token secret, or null if not set"><span class="description">Gets the OAuth access token secret, or null if not set</span><pre>getAccessTokenSecret()</pre></a></li>
 <li class="method public "><a href="#method_getClaims" title="getClaims :: Gets the identity claims that the miiCard member has shared with your application."><span class="description">Gets the identity claims that the miiCard member has shared with your application.</span><pre>getClaims()</pre></a></li>
@@ -163,13 +160,6 @@ and return types as PHP objects rather than raw JSON.</p></div>
 </div>
 </div></div>
 </div>
-<a id="method_createIdentitySnapshot"></a><div class="element clickable method public method_createIdentitySnapshot" data-toggle="collapse" data-target=".method_createIdentitySnapshot .collapse">
-<h2>Creates a snapshot of the miiCard member's identity, returning metadata that can be used
-to request the snapshot content.</h2>
-<pre>createIdentitySnapshot() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
 <a id="method_getAccessToken"></a><div class="element clickable method public method_getAccessToken" data-toggle="collapse" data-target=".method_getAccessToken .collapse">
 <h2>Gets the OAuth access token, or null if not set</h2>
 <pre>getAccessToken() </pre>
@@ -253,9 +243,8 @@ to request the snapshot content.</h2>
 <pre>getIdentitySnapshot(string $snapshotId) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>To create a snapshot,
-you must first call the createIdentitySnapshot function. To discover existing snapshots, use the getIdentitySnapshotDetails
-function.</p></div>
+<div class="long_description"><p>To discover existing
+snapshots, use the getIdentitySnapshotDetails function.</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$snapshotId</h4>
@@ -371,7 +360,7 @@ JSON-encoded parameters are sent raw in the body of the request).</p></div>
 <a id="method_makeRequest"></a><div class="element clickable method private method_makeRequest" data-toggle="collapse" data-target=".method_makeRequest .collapse">
 <h2>Makes an OAuth signed request to the specified Claims API method, and parses the response into
 an appropriate PHP object.</h2>
-<pre>makeRequest(string $methodName, string $postData, string $payloadProcessor, bool $wrappedResponse, $arrayTypePayload) </pre>
+<pre>makeRequest(string $methodName, string $postData, string $payloadProcessor, bool $wrappedResponse, bool $arrayTypePayload) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -389,7 +378,10 @@ an appropriate PHP object.</h2>
 <h4>$wrappedResponse</h4>
 <code>bool</code><p>Specifies whether the response from the API is wrapped in a MiiApiResponse object (true), or is a raw stream (false).</p>
 </div>
-<div class="subelement argument"><h4>$arrayTypePayload</h4></div>
+<div class="subelement argument">
+<h4>$arrayTypePayload</h4>
+<code>bool</code><p>Specifies that the payload of the response is an array-type - examples would be the GetIdentitySnapshotDetails call which returns an array of IdentitySnapshotDetails objects.</p>
+</div>
 </div></div>
 </div>
 <h3>
@@ -473,7 +465,7 @@ an appropriate PHP object.</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-26T14:13:46+01:00.<br></footer></div>
+            generated on 2012-12-10T16:23:18Z.<br></footer></div>
 </div>
 </body>
 </html>

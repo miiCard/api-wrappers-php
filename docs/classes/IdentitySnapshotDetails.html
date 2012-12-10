@@ -32,7 +32,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">166</span></a></li>
+                <span class="label label-info">175</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -66,6 +66,9 @@ snapshot of the user's identity was taken.</span><pre>getTimestampUtc()</pre></a
 <li class="method public "><a href="#method_getUsername" title="getUsername :: Gets the username of the miiCard member of whose data
 the snapshot was taken."><span class="description">Gets the username of the miiCard member of whose data
 the snapshot was taken.</span><pre>getUsername()</pre></a></li>
+<li class="method public "><a href="#method_getWasTestUser" title="getWasTestUser :: Gets whether the user whose identity has been snapshotted was marked as a
+test user at the point the snapshot was taken."><span class="description">Gets whether the user whose identity has been snapshotted was marked as a
+test user at the point the snapshot was taken.</span><pre>getWasTestUser()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header">
@@ -77,6 +80,7 @@ the snapshot was taken.</span><pre>getUsername()</pre></a></li>
 <li class="property private "><a href="#property__snapshotId" title="$_snapshotId :: "><span class="description">$_snapshotId</span><pre>$_snapshotId</pre></a></li>
 <li class="property private "><a href="#property__timestampUtc" title="$_timestampUtc :: "><span class="description">$_timestampUtc</span><pre>$_timestampUtc</pre></a></li>
 <li class="property private "><a href="#property__username" title="$_username :: "><span class="description">$_username</span><pre>$_username</pre></a></li>
+<li class="property private "><a href="#property__wasTestUser" title="$_wasTestUser :: "><span class="description">$_wasTestUser</span><pre>$_wasTestUser</pre></a></li>
 </ul>
 </li>
 </ul>
@@ -116,7 +120,7 @@ details.</p>
 </div>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
 <h2>Initialises a new IdentitySnapshotDetails object.</h2>
-<pre>__construct(string $snapshotId, string $username, int $timestampUtc) </pre>
+<pre>__construct(string $snapshotId, string $username, int $timestampUtc, $wasTestUser) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
@@ -131,6 +135,7 @@ details.</p>
 <h4>$timestampUtc</h4>
 <code>int</code><p>The UNIX timestamp representing the date the snapshot of the user's identity was taken.</p>
 </div>
+<div class="subelement argument"><h4>$wasTestUser</h4></div>
 </div></div>
 </div>
 <a id="method_getSnapshotId"></a><div class="element clickable method public method_getSnapshotId" data-toggle="collapse" data-target=".method_getSnapshotId .collapse">
@@ -153,6 +158,15 @@ the snapshot was taken.</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="method_getWasTestUser"></a><div class="element clickable method public method_getWasTestUser" data-toggle="collapse" data-target=".method_getWasTestUser .collapse">
+<h2>Gets whether the user whose identity has been snapshotted was marked as a
+test user at the point the snapshot was taken.</h2>
+<pre>getWasTestUser() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Identity checks are skipped
+for test users, so production code should reject snapshots for test users
+as appropriate.</p></div></div></div>
+</div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
 <a id="property__snapshotId"> </a><div class="element clickable property private property__snapshotId" data-toggle="collapse" data-target=".property__snapshotId .collapse">
@@ -173,6 +187,12 @@ the snapshot was taken.</h2>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
+<a id="property__wasTestUser"> </a><div class="element clickable property private property__wasTestUser" data-toggle="collapse" data-target=".property__wasTestUser .collapse">
+<h2>$_wasTestUser</h2>
+<pre>$_wasTestUser </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -180,7 +200,7 @@ the snapshot was taken.</h2>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-10-26T14:13:47+01:00.<br></footer></div>
+            generated on 2012-12-10T16:23:18Z.<br></footer></div>
 </div>
 </body>
 </html>

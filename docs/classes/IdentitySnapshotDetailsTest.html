@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>phpDocumentor » \IdentitySnapshot</title>
+<title>phpDocumentor » \IdentitySnapshotDetailsTest</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -56,107 +56,47 @@
 <ul class="side-nav nav nav-list">
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
-                    <ul>
-<li class="method public "><a href="#method_FromHash" title="FromHash :: Builds a new IdentitySnapshot from a hash obtained from the Claims API."><span class="description">Builds a new IdentitySnapshot from a hash obtained from the Claims API.</span><pre>FromHash()</pre></a></li>
-<li class="method public "><a href="#method___construct" title="__construct :: Initialises a new IdentitySnapshot object."><span class="description">Initialises a new IdentitySnapshot object.</span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method_getDetails" title="getDetails :: Gets the IdentitySnapshotDetails object
-that describes the contents of the snapshot."><span class="description">Gets the IdentitySnapshotDetails object
-that describes the contents of the snapshot.</span><pre>getDetails()</pre></a></li>
-<li class="method public "><a href="#method_getSnapshot" title="getSnapshot :: Gets the MiiUserProfile object containing the
-miiCard member's identity at the point the snapshot was taken."><span class="description">Gets the MiiUserProfile object containing the
-miiCard member's identity at the point the snapshot was taken.</span><pre>getSnapshot()</pre></a></li>
-</ul>
+                    <ul><li class="method public "><a href="#method_testCanDeserialiseIdentitySnapshotDetailsResponse" title="testCanDeserialiseIdentitySnapshotDetailsResponse :: "><span class="description">testCanDeserialiseIdentitySnapshotDetailsResponse()
+        </span><pre>testCanDeserialiseIdentitySnapshotDetailsResponse()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
                     <ul></ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul>
-<li class="property private "><a href="#property__details" title="$_details :: "><span class="description">$_details</span><pre>$_details</pre></a></li>
-<li class="property private "><a href="#property__snapshot" title="$_snapshot :: "><span class="description">$_snapshot</span><pre>$_snapshot</pre></a></li>
-</ul>
+                    <ul><li class="property private "><a href="#property__jsonBody" title="$_jsonBody :: "><span class="description">$_jsonBody</span><pre>$_jsonBody</pre></a></li></ul>
 </li>
 </ul>
 </div>
 <div class="span8">
-<a id="\IdentitySnapshot"></a><ul class="breadcrumb">
+<a id="\IdentitySnapshotDetailsTest"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/global.html">global</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/IdentitySnapshot.html">IdentitySnapshot</a>
+<span class="divider">\</span><a href="../classes/IdentitySnapshotDetailsTest.html">IdentitySnapshotDetailsTest</a>
 </li>
 </ul>
-<div class="element class">
-<p class="short_description">Represents a single snapshot of miiCard member's identity.</p>
-<div class="details">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>package</th>
-<td><a href="../packages/miiCard.Consumers.html">miiCard.Consumers</a></td>
-</tr></table>
+<div class="element class"><div class="details">
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method_FromHash"></a><div class="element clickable method public method_FromHash" data-toggle="collapse" data-target=".method_FromHash .collapse">
-<h2>Builds a new IdentitySnapshot from a hash obtained from the Claims API.</h2>
-<pre>FromHash(array $hash) </pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$hash</h4>
-<code>array</code><p>The has containing details about the identity snapshot.</p></div>
-</div></div>
-</div>
-<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
-<h2>Initialises a new IdentitySnapshot object.</h2>
-<pre>__construct(<a href="../classes/IdentitySnapshotDetails.html">\IdentitySnapshotDetails</a> $details, <a href="../classes/MiiUserProfile.html">\MiiUserProfile</a> $snapshot) </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$details</h4>
-<code><a href="../classes/IdentitySnapshotDetails.html">\IdentitySnapshotDetails</a></code><p>An IdentitySnapshotDetails object that describes the contents of the snapshot.</p></div>
-<div class="subelement argument">
-<h4>$snapshot</h4>
-<code><a href="../classes/MiiUserProfile.html">\MiiUserProfile</a></code><p>The MiiUserProfile object containing the miiCard member's identity at the point the snapshot was taken.</p>
-</div>
-</div></div>
-</div>
-<a id="method_getDetails"></a><div class="element clickable method public method_getDetails" data-toggle="collapse" data-target=".method_getDetails .collapse">
-<h2>Gets the IdentitySnapshotDetails object
-that describes the contents of the snapshot.</h2>
-<pre>getDetails() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="method_getSnapshot"></a><div class="element clickable method public method_getSnapshot" data-toggle="collapse" data-target=".method_getSnapshot .collapse">
-<h2>Gets the MiiUserProfile object containing the
-miiCard member's identity at the point the snapshot was taken.</h2>
-<pre>getSnapshot() </pre>
+<a id="method_testCanDeserialiseIdentitySnapshotDetailsResponse"></a><div class="element clickable method public method_testCanDeserialiseIdentitySnapshotDetailsResponse" data-toggle="collapse" data-target=".method_testCanDeserialiseIdentitySnapshotDetailsResponse .collapse">
+<h2>testCanDeserialiseIdentitySnapshotDetailsResponse()
+        </h2>
+<pre>testCanDeserialiseIdentitySnapshotDetailsResponse() </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__details"> </a><div class="element clickable property private property__details" data-toggle="collapse" data-target=".property__details .collapse">
-<h2>$_details</h2>
-<pre>$_details </pre>
+<a id="property__jsonBody"> </a><div class="element clickable property private property__jsonBody" data-toggle="collapse" data-target=".property__jsonBody .collapse">
+<h2>$_jsonBody</h2>
+<pre>$_jsonBody </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__snapshot"> </a><div class="element clickable property private property__snapshot" data-toggle="collapse" data-target=".property__snapshot .collapse">
-<h2>$_snapshot</h2>
-<pre>$_snapshot </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-</div>
-</div>
+</div></div>
 </div>
 </div>
 <div class="row"><footer class="span12">

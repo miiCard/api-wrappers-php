@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project version="2.0.0a10" title="">
-  <file path="miiCard.Consumers\miiCard.Consumers.php" hash="daa99637fbd21acad1a073cf46b0433f" package="miiCard\Consumers">
+  <file path="miiCard.Consumers\miiCard.Consumers.php" hash="88dd3792e0cb05c77b6b296173a92f3f" package="miiCard\Consumers">
     <docblock line="3">
       <description><![CDATA[]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -24,691 +24,705 @@
       <constant namespace="global" line="13" package="miiCard\Consumers">
         <name>OAUTH_ENDPOINT</name>
         <full_name>OAUTH_ENDPOINT</full_name>
-        <value><![CDATA["https://127.0.0.1:444/auth/oauth.ashx"]]></value>
+        <value><![CDATA["https://sts.miicard.com/auth/oauth.ashx"]]></value>
         <docblock line="12">
           <description><![CDATA[URL of the OAuth authorisation endpoint.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <constant namespace="global" line="15" package="miiCard\Consumers">
+      <constant namespace="global" line="16" package="miiCard\Consumers">
         <name>CLAIMS_SVC</name>
         <full_name>CLAIMS_SVC</full_name>
-        <value><![CDATA["https://127.0.0.1:444/api/v1/Claims.svc/json"]]></value>
-        <docblock line="14">
+        <value><![CDATA["https://sts.miicard.com/api/v1/Claims.svc/json"]]></value>
+        <docblock line="15">
           <description><![CDATA[URL of the Claims API v1 JSON endpoint.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </constant>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="21" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="22" package="miiCard\Consumers">
         <name>getMethodUrl</name>
         <full_name>getMethodUrl</full_name>
-        <docblock line="17">
+        <docblock line="18">
           <description><![CDATA[Calculates the URL to be requested when the specified method name
 of the Claims API is to be invoked.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="17" name="param" description="The name of the API method to be invoked." type="string" variable="$method">
+          <tag line="18" name="param" description="The name of the API method to be invoked." type="string" variable="$method">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="21">
+        <argument line="22">
           <name>$method</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="true" abstract="true" namespace="global" line="31" package="miiCard\Consumers">
+    <class final="true" abstract="true" namespace="global" line="32" package="miiCard\Consumers">
       <extends/>
       <name>OAuthSignedRequestMaker</name>
       <full_name>\OAuthSignedRequestMaker</full_name>
-      <docblock line="27">
+      <docblock line="28">
         <description><![CDATA[Base class for classes that make OAuth 1.0a-signed HTTP requests]]></description>
         <long-description><![CDATA[]]></long-description>
-        <tag line="27" name="abstract" description=""/>
-        <tag line="27" name="package" description="miiCard.Consumers"/>
+        <tag line="28" name="abstract" description=""/>
+        <tag line="28" name="package" description="miiCard.Consumers"/>
       </docblock>
-      <property final="false" static="false" visibility="private" line="34" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="35" namespace="global" package="Default">
         <name>$_consumerKey</name>
         <default><![CDATA[]]></default>
-        <docblock line="33">
+        <docblock line="34">
           <description><![CDATA[The OAuth consumer key.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="36" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="37" namespace="global" package="Default">
         <name>$_consumerSecret</name>
         <default><![CDATA[]]></default>
-        <docblock line="35">
+        <docblock line="36">
           <description><![CDATA[The OAuth consumer secret.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="protected" line="38" namespace="global" package="Default">
+      <property final="false" static="false" visibility="protected" line="39" namespace="global" package="Default">
         <name>$_accessToken</name>
         <default><![CDATA[]]></default>
-        <docblock line="37">
+        <docblock line="38">
           <description><![CDATA[The OAuth access token, if known.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="protected" line="40" namespace="global" package="Default">
+      <property final="false" static="false" visibility="protected" line="41" namespace="global" package="Default">
         <name>$_accessTokenSecret</name>
         <default><![CDATA[]]></default>
-        <docblock line="39">
+        <docblock line="40">
           <description><![CDATA[The OAuth access token secret, if known.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="53" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="54" package="miiCard\Consumers">
         <name>__construct</name>
         <full_name>__construct</full_name>
-        <docblock line="42">
+        <docblock line="43">
           <description><![CDATA[Initialises a new OAuthSignedRequestMaker with specified key and secret information.]]></description>
           <long-description><![CDATA[<p>A consumer key and secret are mandatory - without them an InvalidArgumentException is thrown.
 The caller may supply an access token and secret if they are known, or omit them if they intend
 to make requests that aren't signed by an access token and secret (for example, as would be the
 case during an initial OAuth exchange).</p>]]></long-description>
-          <tag line="42" name="param" description="The OAuth consumer key obtained by request from miiCard." type="string" variable="$consumerKey">
+          <tag line="43" name="param" description="The OAuth consumer key obtained by request from miiCard." type="string" variable="$consumerKey">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="42" name="param" description="The OAuth consumer secret obtained by request from miiCard." type="string" variable="$consumerSecret">
+          <tag line="43" name="param" description="The OAuth consumer secret obtained by request from miiCard." type="string" variable="$consumerSecret">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="42" name="param" description="The OAuth access token obtained by performing an OAuth exchange." type="string" variable="$accessToken">
+          <tag line="43" name="param" description="The OAuth access token obtained by performing an OAuth exchange." type="string" variable="$accessToken">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="42" name="param" description="The OAuth access token secret obtained by performing an OAuth exchange." type="string" variable="$accessTokenSecret">
+          <tag line="43" name="param" description="The OAuth access token secret obtained by performing an OAuth exchange." type="string" variable="$accessTokenSecret">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="53">
+        <argument line="54">
           <name>$consumerKey</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="53">
+        <argument line="54">
           <name>$consumerSecret</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="53">
+        <argument line="54">
           <name>$accessToken</name>
           <default><![CDATA[null]]></default>
           <type/>
         </argument>
-        <argument line="53">
+        <argument line="54">
           <name>$accessTokenSecret</name>
           <default><![CDATA[null]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="71" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="72" package="miiCard\Consumers">
         <name>getConsumerKey</name>
         <full_name>getConsumerKey</full_name>
-        <docblock line="70">
+        <docblock line="71">
           <description><![CDATA[Gets the OAuth consumer key]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="73" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="74" package="miiCard\Consumers">
         <name>getConsumerSecret</name>
         <full_name>getConsumerSecret</full_name>
-        <docblock line="72">
+        <docblock line="73">
           <description><![CDATA[Gets the OAuth consumer secret]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="76" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="77" package="miiCard\Consumers">
         <name>getAccessToken</name>
         <full_name>getAccessToken</full_name>
-        <docblock line="75">
+        <docblock line="76">
           <description><![CDATA[Gets the OAuth access token, or null if not set]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="89" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="90" package="miiCard\Consumers">
         <name>getAccessTokenSecret</name>
         <full_name>getAccessTokenSecret</full_name>
-        <docblock line="88">
+        <docblock line="89">
           <description><![CDATA[Gets the OAuth access token secret, or null if not set]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="114" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="115" package="miiCard\Consumers">
         <name>makeSignedRequest</name>
         <full_name>makeSignedRequest</full_name>
-        <docblock line="101">
+        <docblock line="102">
           <description><![CDATA[Makes an OAuth-signed HTTP POST request]]></description>
           <long-description><![CDATA[<p>Makes signed requests both during the initial OAuth exchange (where OAuth parameters are sent form-encoded
 as part of the body of the request, with $rawPostBody = false) and afterwards when accessing the API (when
 JSON-encoded parameters are sent raw in the body of the request).</p>]]></long-description>
-          <tag line="101" name="param" description="The URL to be requested." type="string" variable="$url">
+          <tag line="102" name="param" description="The URL to be requested." type="string" variable="$url">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="101" name="param" description="An array of parameters to be sent with the request as a post body (if $rawPostBody = false), or a string containing the raw post body to be sent (if $rawPostBody = true)." type="mixed" variable="$params">
+          <tag line="102" name="param" description="An array of parameters to be sent with the request as a post body (if $rawPostBody = false), or a string containing the raw post body to be sent (if $rawPostBody = true)." type="mixed" variable="$params">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="101" name="param" description="Additional HTTP headers to be sent with the request." type="array" variable="$headers">
+          <tag line="102" name="param" description="Additional HTTP headers to be sent with the request." type="array" variable="$headers">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="101" name="param" description="If true, $params is interpreted as pre-parsed content to be dropped into the body of the request as-is. If false, the default, $params is interpreted as an array of key-value pairs to be form-encoded and sent in the body of the request." type="bool" variable="$rawPostBody">
+          <tag line="102" name="param" description="If true, $params is interpreted as pre-parsed content to be dropped into the body of the request as-is. If false, the default, $params is interpreted as an array of key-value pairs to be form-encoded and sent in the body of the request." type="bool" variable="$rawPostBody">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="114">
+        <argument line="115">
           <name>$url</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="114">
+        <argument line="115">
           <name>$params</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="114">
+        <argument line="115">
           <name>$headers</name>
           <default><![CDATA[array()]]></default>
           <type/>
         </argument>
-        <argument line="114">
+        <argument line="115">
           <name>$rawPostBody</name>
           <default><![CDATA[false]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="159" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="160" package="miiCard\Consumers">
         <name>makeHttpRequest</name>
         <full_name>makeHttpRequest</full_name>
-        <docblock line="150">
+        <docblock line="151">
           <description><![CDATA[Makes an HTTP Post request, returning the response.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="150" name="param" description="The URL to be requested." type="string" variable="$url">
+          <tag line="151" name="param" description="The URL to be requested." type="string" variable="$url">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="150" name="param" description="An array of parameters to be sent with the request as a post body (if $rawPostBody = false), or a string containing the raw post body to be sent (if $rawPostBody = true)." type="mixed" variable="$params">
+          <tag line="151" name="param" description="An array of parameters to be sent with the request as a post body (if $rawPostBody = false), or a string containing the raw post body to be sent (if $rawPostBody = true)." type="mixed" variable="$params">
             <type by_reference="false">mixed</type>
           </tag>
-          <tag line="150" name="param" description="Additional HTTP headers to be sent with the request." type="array" variable="$headers">
+          <tag line="151" name="param" description="Additional HTTP headers to be sent with the request." type="array" variable="$headers">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="150" name="param" description="If true, $params is interpreted as pre-parsed content to be dropped into the body of the request as-is. If false, the default, $params is interpreted as an array of key-value pairs to be form-encoded and sent in the body of the request." type="bool" variable="$rawPostBody">
+          <tag line="151" name="param" description="If true, $params is interpreted as pre-parsed content to be dropped into the body of the request as-is. If false, the default, $params is interpreted as an array of key-value pairs to be form-encoded and sent in the body of the request." type="bool" variable="$rawPostBody">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="159">
+        <argument line="160">
           <name>$url</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="159">
+        <argument line="160">
           <name>$params</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="159">
+        <argument line="160">
           <name>$headers</name>
           <default><![CDATA[array()]]></default>
           <type/>
         </argument>
-        <argument line="159">
+        <argument line="160">
           <name>$rawPostBody</name>
           <default><![CDATA[false]]></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="false" abstract="false" namespace="global" line="226" package="miiCard\Consumers">
+    <class final="false" abstract="false" namespace="global" line="227" package="miiCard\Consumers">
       <extends>\Exception</extends>
       <name>MiiCardException</name>
       <full_name>\MiiCardException</full_name>
-      <docblock line="223">
+      <docblock line="224">
         <description><![CDATA[Base class for exceptions raised by the library]]></description>
         <long-description><![CDATA[]]></long-description>
-        <tag line="223" name="package" description="miiCard.Consumers"/>
+        <tag line="224" name="package" description="miiCard.Consumers"/>
       </docblock>
     </class>
-    <class final="true" abstract="true" namespace="global" line="232" package="miiCard\Consumers">
+    <class final="true" abstract="true" namespace="global" line="233" package="miiCard\Consumers">
       <extends>\OAuthSignedRequestMaker</extends>
       <name>MiiCardOAuthServiceBase</name>
       <full_name>\MiiCardOAuthServiceBase</full_name>
-      <docblock line="228">
+      <docblock line="229">
         <description><![CDATA[Base class for wrappers around an OAuth-protected API]]></description>
         <long-description><![CDATA[]]></long-description>
-        <tag line="228" name="abstract" description=""/>
-        <tag line="228" name="package" description="miiCard.Consumers"/>
+        <tag line="229" name="abstract" description=""/>
+        <tag line="229" name="package" description="miiCard.Consumers"/>
       </docblock>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="240" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="241" package="miiCard\Consumers">
         <name>__construct</name>
         <full_name>__construct</full_name>
-        <docblock line="234">
+        <docblock line="235">
           <description><![CDATA[Initialises a new MiiCardOAuthServiceBase with specified OAuth credentials.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="234" name="param" description="The OAuth consumer key." type="string" variable="$consumerKey">
+          <tag line="235" name="param" description="The OAuth consumer key." type="string" variable="$consumerKey">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="234" name="param" description="The OAuth consumer secret." type="string" variable="$consumerSecret">
+          <tag line="235" name="param" description="The OAuth consumer secret." type="string" variable="$consumerSecret">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="234" name="param" description="The OAuth access token." type="string" variable="$accessToken">
+          <tag line="235" name="param" description="The OAuth access token." type="string" variable="$accessToken">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="234" name="param" description="The OAuth access token secret." type="string" variable="$accessTokenSecret">
+          <tag line="235" name="param" description="The OAuth access token secret." type="string" variable="$accessTokenSecret">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="240">
+        <argument line="241">
           <name>$consumerKey</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="240">
+        <argument line="241">
           <name>$consumerSecret</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="240">
+        <argument line="241">
           <name>$accessToken</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="240">
+        <argument line="241">
           <name>$accessTokenSecret</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="false" abstract="false" namespace="global" line="261" package="miiCard\Consumers">
+    <class final="false" abstract="false" namespace="global" line="262" package="miiCard\Consumers">
       <extends>\MiiCardOAuthServiceBase</extends>
       <name>MiiCardOAuthClaimsService</name>
       <full_name>\MiiCardOAuthClaimsService</full_name>
-      <docblock line="255">
+      <docblock line="256">
         <description><![CDATA[Wrapper around the miiCard Claims API v1.]]></description>
         <long-description><![CDATA[<p>This class wraps the miiCard Claims API v1, exposing the same methods as PHP functions
 and return types as PHP objects rather than raw JSON.</p>]]></long-description>
-        <tag line="255" name="package" description="miiCard.Consumers"/>
+        <tag line="256" name="package" description="miiCard.Consumers"/>
       </docblock>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="271" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="272" package="miiCard\Consumers">
         <name>__construct</name>
         <full_name>__construct</full_name>
-        <docblock line="263">
+        <docblock line="264">
           <description><![CDATA[Initialises a new MiiCardOAuthClaimsService with specified OAuth credentials.]]></description>
           <long-description><![CDATA[<p>If any constructor parameters are omitted, an InvalidArgumentException shall be thrown.</p>]]></long-description>
-          <tag line="263" name="param" description="The OAuth consumer key." type="string" variable="$consumerKey">
+          <tag line="264" name="param" description="The OAuth consumer key." type="string" variable="$consumerKey">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="263" name="param" description="The OAuth consumer secret." type="string" variable="$consumerSecret">
+          <tag line="264" name="param" description="The OAuth consumer secret." type="string" variable="$consumerSecret">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="263" name="param" description="The OAuth access token." type="string" variable="$accessToken">
+          <tag line="264" name="param" description="The OAuth access token." type="string" variable="$accessToken">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="263" name="param" description="The OAuth access token secret." type="string" variable="$accessTokenSecret">
+          <tag line="264" name="param" description="The OAuth access token secret." type="string" variable="$accessTokenSecret">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="271">
+        <argument line="272">
           <name>$consumerKey</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="271">
+        <argument line="272">
           <name>$consumerSecret</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="271">
+        <argument line="272">
           <name>$accessToken</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="271">
+        <argument line="272">
           <name>$accessTokenSecret</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="277" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="278" package="miiCard\Consumers">
         <name>getClaims</name>
         <full_name>getClaims</full_name>
-        <docblock line="276">
+        <docblock line="277">
           <description><![CDATA[Gets the identity claims that the miiCard member has shared with your application.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="289" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="290" package="miiCard\Consumers">
         <name>isSocialAccountAssured</name>
         <full_name>isSocialAccountAssured</full_name>
-        <docblock line="282">
+        <docblock line="283">
           <description><![CDATA[Gets whether the miiCard member owns a social media account identified by the specified
 ID and type, assuming that they have shared details of that account with your application.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="282" name="param" description="The ID of the user on the social network in question as supplied by that social network - see the miiCard Developers site API documentation for more details." type="string" variable="$socialAccountId">
+          <tag line="283" name="param" description="The ID of the user on the social network in question as supplied by that social network - see the miiCard Developers site API documentation for more details." type="string" variable="$socialAccountId">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="282" name="param" description="The network on which thr miiCard member may have an account - see the miiCard Developers site API documentation for more details." type="string" variable="$socialAccountType">
+          <tag line="283" name="param" description="The network on which thr miiCard member may have an account - see the miiCard Developers site API documentation for more details." type="string" variable="$socialAccountType">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="289">
+        <argument line="290">
           <name>$socialAccountId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="289">
+        <argument line="290">
           <name>$socialAccountType</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="300" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="301" package="miiCard\Consumers">
         <name>isUserAssured</name>
         <full_name>isUserAssured</full_name>
-        <docblock line="298">
+        <docblock line="299">
           <description><![CDATA[Gets whether the miiCard member's identity has been assured by miiCard through linking a
 financial account to their miiCard profile.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="309" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="310" package="miiCard\Consumers">
         <name>assuranceImage</name>
         <full_name>assuranceImage</full_name>
-        <docblock line="305">
+        <docblock line="306">
           <description><![CDATA[Gets a PNG-encoded image representation of the miiCard member's identity assurance status.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="305" name="param" description="One of 'banner', 'badge-small' or 'badge' that determines the size and content of the assurance image." type="string" variable="$type">
+          <tag line="306" name="param" description="One of 'banner', 'badge-small' or 'badge' that determines the size and content of the assurance image." type="string" variable="$type">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="309">
+        <argument line="310">
           <name>$type</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="319" package="miiCard\Consumers">
-        <name>createIdentitySnapshot</name>
-        <full_name>createIdentitySnapshot</full_name>
-        <docblock line="317">
-          <description><![CDATA[Creates a snapshot of the miiCard member's identity, returning metadata that can be used
-to request the snapshot content.]]></description>
-          <long-description><![CDATA[]]></long-description>
-        </docblock>
-      </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="328" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="322" package="miiCard\Consumers">
         <name>getIdentitySnapshotDetails</name>
         <full_name>getIdentitySnapshotDetails</full_name>
-        <docblock line="324">
+        <docblock line="318">
           <description><![CDATA[Gets details of a snapshot identified by its ID, or of all snapshots for the miiCard member if
 not supplied.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="324" name="param" description="The unique identifier of the snapshot for which details should be retrieved, or null if details of all snapshots should be retrieved." type="string" variable="$snapshotId">
+          <tag line="318" name="param" description="The unique identifier of the snapshot for which details should be retrieved, or null if details of all snapshots should be retrieved." type="string" variable="$snapshotId">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="328">
+        <argument line="322">
           <name>$snapshotId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="344" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="337" package="miiCard\Consumers">
         <name>getIdentitySnapshot</name>
         <full_name>getIdentitySnapshot</full_name>
-        <docblock line="339">
+        <docblock line="333">
           <description><![CDATA[Gets the snapshot of a miiCard member's identity specified by the supplied snapshot ID.]]></description>
-          <long-description><![CDATA[<p>To create a snapshot,
-you must first call the createIdentitySnapshot function. To discover existing snapshots, use the getIdentitySnapshotDetails
-function.</p>]]></long-description>
-          <tag line="339" name="param" description="The unique identifier of the snapshot for which details should be retrieved." type="string" variable="$snapshotId">
+          <long-description><![CDATA[<p>To discover existing
+snapshots, use the getIdentitySnapshotDetails function.</p>]]></long-description>
+          <tag line="333" name="param" description="The unique identifier of the snapshot for which details should be retrieved." type="string" variable="$snapshotId">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="344">
+        <argument line="337">
           <name>$snapshotId</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="360" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="355" package="miiCard\Consumers">
         <name>makeRequest</name>
         <full_name>makeRequest</full_name>
-        <docblock line="352">
+        <docblock line="345">
           <description><![CDATA[Makes an OAuth signed request to the specified Claims API method, and parses the response into
 an appropriate PHP object.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="352" name="param" description="The name of the Claims API method to invoke." type="string" variable="$methodName">
+          <tag line="345" name="param" description="The name of the Claims API method to invoke." type="string" variable="$methodName">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="352" name="param" description="JSON string of parameter data required by the API method, if any." type="string" variable="$postData">
+          <tag line="345" name="param" description="JSON string of parameter data required by the API method, if any." type="string" variable="$postData">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="352" name="param" description="Callable to be invoked to process the payload of the response, if any." type="string" variable="$payloadProcessor">
+          <tag line="345" name="param" description="Callable to be invoked to process the payload of the response, if any." type="string" variable="$payloadProcessor">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="352" name="param" description="Specifies whether the response from the API is wrapped in a MiiApiResponse object (true), or is a raw stream (false)." type="bool" variable="$wrappedResponse">
+          <tag line="345" name="param" description="Specifies whether the response from the API is wrapped in a MiiApiResponse object (true), or is a raw stream (false)." type="bool" variable="$wrappedResponse">
+            <type by_reference="false">bool</type>
+          </tag>
+          <tag line="345" name="param" description="Specifies that the payload of the response is an array-type - examples would be the GetIdentitySnapshotDetails call which returns an array of IdentitySnapshotDetails objects." type="bool" variable="$arrayTypePayload">
             <type by_reference="false">bool</type>
           </tag>
         </docblock>
-        <argument line="360">
+        <argument line="355">
           <name>$methodName</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="360">
+        <argument line="355">
           <name>$postData</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="360">
+        <argument line="355">
           <name>$payloadProcessor</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="360">
+        <argument line="355">
           <name>$wrappedResponse</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="360">
+        <argument line="355">
           <name>$arrayTypePayload</name>
           <default><![CDATA[false]]></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="false" abstract="false" namespace="global" line="388" package="miiCard\Consumers">
+    <class final="false" abstract="false" namespace="global" line="383" package="miiCard\Consumers">
       <extends>\OAuthSignedRequestMaker</extends>
       <name>MiiCard</name>
       <full_name>\MiiCard</full_name>
-      <docblock line="386">
+      <docblock line="381">
         <description><![CDATA[Wrapper around the miiCard OAuth authorisation process.]]></description>
         <long-description><![CDATA[]]></long-description>
-        <tag line="386" name="package" description="miiCard.Consumers"/>
+        <tag line="381" name="package" description="miiCard.Consumers"/>
       </docblock>
-      <constant namespace="global" line="393" package="miiCard\Consumers">
+      <constant namespace="global" line="390" package="miiCard\Consumers">
         <name>SESSION_KEY_ACCESS_TOKEN</name>
         <full_name>SESSION_KEY_ACCESS_TOKEN</full_name>
         <value><![CDATA["miiCard.OAuth.InProgress.AccessToken"]]></value>
-        <docblock line="393">
+        <docblock line="390">
           <description><![CDATA[]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="393" name="access" description="private"/>
+          <tag line="390" name="access" description="private"/>
         </docblock>
       </constant>
-      <constant namespace="global" line="394" package="miiCard\Consumers">
+      <constant namespace="global" line="391" package="miiCard\Consumers">
         <name>SESSION_KEY_ACCESS_TOKEN_SECRET</name>
         <full_name>SESSION_KEY_ACCESS_TOKEN_SECRET</full_name>
         <value><![CDATA["miiCard.OAuth.InProgress.AccessTokenSecret"]]></value>
-        <docblock line="394">
+        <docblock line="391">
           <description><![CDATA[]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="394" name="access" description="private"/>
+          <tag line="391" name="access" description="private"/>
         </docblock>
       </constant>
-      <property final="false" static="false" visibility="private" line="391" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="386" namespace="global" package="Default">
         <name>$_callbackUrl</name>
         <default><![CDATA[]]></default>
-        <docblock line="390">
+        <docblock line="385">
           <description><![CDATA[The callback URL that the OAuth process will return to once completed.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="402" package="miiCard\Consumers">
+      <property final="false" static="false" visibility="private" line="387" namespace="global" package="Default">
+        <name>$_referrerCode</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <property final="false" static="false" visibility="private" line="388" namespace="global" package="Default">
+        <name>$_forceClaimsPicker</name>
+        <default><![CDATA[]]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="401" package="miiCard\Consumers">
         <name>__construct</name>
         <full_name>__construct</full_name>
-        <docblock line="396">
+        <docblock line="393">
           <description><![CDATA[Builds a new MiiCard object using the supplied OAuth credentials.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="396" name="param" description="The OAuth consumer key." type="string" variable="$consumerKey">
+          <tag line="393" name="param" description="The OAuth consumer key." type="string" variable="$consumerKey">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="396" name="param" description="The OAuth consumer secret." type="string" variable="$consumerSecret">
+          <tag line="393" name="param" description="The OAuth consumer secret." type="string" variable="$consumerSecret">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="396" name="param" description="The OAuth access token." type="string" variable="$accessToken">
+          <tag line="393" name="param" description="The OAuth access token." type="string" variable="$accessToken">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="396" name="param" description="The OAuth access token secret." type="string" variable="$accessTokenSecret">
+          <tag line="393" name="param" description="The OAuth access token secret." type="string" variable="$accessTokenSecret">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="393" name="param" description="Your referrer code, if you have one." type="string" variable="$referrerCode">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="402">
+        <argument line="401">
           <name>$consumerKey</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="402">
+        <argument line="401">
           <name>$consumerSecret</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="402">
+        <argument line="401">
           <name>$accessToken</name>
           <default><![CDATA[null]]></default>
           <type/>
         </argument>
-        <argument line="402">
+        <argument line="401">
           <name>$accessTokenSecret</name>
           <default><![CDATA[null]]></default>
           <type/>
         </argument>
+        <argument line="401">
+          <name>$referrerCode</name>
+          <default><![CDATA[null]]></default>
+          <type/>
+        </argument>
+        <argument line="401">
+          <name>$forceClaimsPicker</name>
+          <default><![CDATA[false]]></default>
+          <type/>
+        </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="410" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="411" package="miiCard\Consumers">
         <name>getAccessToken</name>
         <full_name>getAccessToken</full_name>
-        <docblock line="409">
+        <docblock line="410">
           <description><![CDATA[Gets the access token that this MiiCard object was constructed with, or was obtained via an OAuth exchange.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="422" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="423" package="miiCard\Consumers">
         <name>getAccessTokenSecret</name>
         <full_name>getAccessTokenSecret</full_name>
-        <docblock line="421">
+        <docblock line="422">
           <description><![CDATA[Gets the access token secret that this MiiCard object was constructed with, or was obtained via an OAuth exchange.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="434" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="435" package="miiCard\Consumers">
         <name>getDefaultCallbackUrl</name>
         <full_name>getDefaultCallbackUrl</full_name>
-        <docblock line="433">
+        <docblock line="434">
           <description><![CDATA[Gets the default callback URL that the OAuth process will return to once completed.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="447" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="448" package="miiCard\Consumers">
         <name>beginAuthorisation</name>
         <full_name>beginAuthorisation</full_name>
-        <docblock line="442">
+        <docblock line="443">
           <description><![CDATA[Starts an OAuth authorisation process.]]></description>
           <long-description><![CDATA[<p>Your script must not have sent any HTML content to the
 browser at the point when this is called, and should have called session_start().</p>]]></long-description>
-          <tag line="442" name="param" description="The URL that should be returned to after the OAuth process completes. This is automatically detected if not supplied." type="string" variable="$callbackUrl">
+          <tag line="443" name="param" description="The URL that should be returned to after the OAuth process completes. This is automatically detected if not supplied." type="string" variable="$callbackUrl">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="447">
+        <argument line="448">
           <name>$callbackUrl</name>
           <default><![CDATA[null]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="482" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="491" package="miiCard\Consumers">
         <name>isAuthorisationCallback</name>
         <full_name>isAuthorisationCallback</full_name>
-        <docblock line="478">
+        <docblock line="487">
           <description><![CDATA[Determines whether the current request is the result of a callback from the OAuth exchange.]]></description>
           <long-description><![CDATA[<p>The caller should check this function on each page load of the callback page, and attempt to handle the
 OAuth callback only in the event that it returns true.</p>]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="491" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="500" package="miiCard\Consumers">
         <name>handleAuthorisationCallback</name>
         <full_name>handleAuthorisationCallback</full_name>
-        <docblock line="487">
+        <docblock line="496">
           <description><![CDATA[Processes the OAuth callback, obtaining an access token and access token secret in the process.]]></description>
           <long-description><![CDATA[<p>The caller should check the return value of the isAuthorisationSuccess function after trying to handle
 the callback.</p>]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="508" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="517" package="miiCard\Consumers">
         <name>isAuthorisationSuccess</name>
         <full_name>isAuthorisationSuccess</full_name>
-        <docblock line="506">
+        <docblock line="515">
           <description><![CDATA[Determines if the attempt to obtain OAuth access token and secret information was successful.]]></description>
           <long-description><![CDATA[<p>If true,
 the caller can obtain the two tokens using the getAccessToken and getAccessTokenSecret functions.</p>]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="515" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="524" package="miiCard\Consumers">
         <name>getUserProfile</name>
         <full_name>getUserProfile</full_name>
-        <docblock line="513">
+        <docblock line="522">
           <description><![CDATA[Gets the identity claims the miiCard member elected to share with your application.]]></description>
           <long-description><![CDATA[<p>This is a convenience method,
 and building a MiiCardOAuthClaimsService object is the preferred approach.</p>]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="539" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="548" package="miiCard\Consumers">
         <name>clearMiiCard</name>
         <full_name>clearMiiCard</full_name>
-        <docblock line="537">
+        <docblock line="546">
           <description><![CDATA[Clears any OAuth credentials that might be stored ahead of performing a new OAuth exchange.]]></description>
           <long-description><![CDATA[<p>This is
 called automatically by the beginAuthorisation method.</p>]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="549" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="558" package="miiCard\Consumers">
         <name>getRequestToken</name>
         <full_name>getRequestToken</full_name>
-        <docblock line="548">
+        <docblock line="557">
           <description><![CDATA[Obtains an OAuth request token from the miiCard OAuth endpoint.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="570" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="579" package="miiCard\Consumers">
         <name>processAccessToken</name>
         <full_name>processAccessToken</full_name>
-        <docblock line="565">
+        <docblock line="574">
           <description><![CDATA[Converts the request token currently stored by this object into a fully-fledged access token
 using the specified server-supplied verifier.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="565" name="param" description="The server supplied verifier that signifies the request token has been authorised by the miiCard member." type="string" variable="$verifier">
+          <tag line="574" name="param" description="The server supplied verifier that signifies the request token has been authorised by the miiCard member." type="string" variable="$verifier">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="570">
+        <argument line="579">
           <name>$verifier</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="592" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="601" package="miiCard\Consumers">
         <name>ensureSessionAvailable</name>
         <full_name>ensureSessionAvailable</full_name>
-        <docblock line="591">
+        <docblock line="600">
           <description><![CDATA[Attempts to make sure that session state is available.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
@@ -716,10 +730,12 @@ using the specified server-supplied verifier.]]></description>
     </class>
     <parse_markers>
       <critical line="3" code="50008">No short description for file miiCard.Consumers\miiCard.Consumers.php</critical>
-      <error line="352" code="50015">Argument $arrayTypePayload is missing from the Docblock of makeRequest()</error>
+      <error line="387" code="50018">No DocBlock was found for property $_referrerCode</error>
+      <error line="388" code="50018">No DocBlock was found for property $_forceClaimsPicker</error>
+      <error line="393" code="50015">Argument $forceClaimsPicker is missing from the Docblock of __construct()</error>
     </parse_markers>
   </file>
-  <file path="miiCard.Consumers\miiCard.Model.php" hash="4f40e4069e9624f08d266a7ec6825f96" package="miiCard\Consumers">
+  <file path="miiCard.Consumers\miiCard.Model.php" hash="d45375381c5fbc55552d71d28cfa8faf" package="miiCard\Consumers">
     <docblock line="2">
       <description><![CDATA[]]></description>
       <long-description><![CDATA[]]></long-description>
@@ -2236,6 +2252,10 @@ details.]]></description>
         <name>$_timestampUtc</name>
         <default><![CDATA[]]></default>
       </property>
+      <property final="false" static="false" visibility="private" line="609" namespace="global" package="Default">
+        <name>$_wasTestUser</name>
+        <default><![CDATA[]]></default>
+      </property>
       <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="618" package="miiCard\Consumers">
         <name>__construct</name>
         <full_name>__construct</full_name>
@@ -2267,310 +2287,354 @@ details.]]></description>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
+        <argument line="618">
+          <name>$wasTestUser</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="626" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="627" package="miiCard\Consumers">
         <name>getSnapshotId</name>
         <full_name>getSnapshotId</full_name>
-        <docblock line="625">
+        <docblock line="626">
           <description><![CDATA[Gets the unique identifier for this snapshot.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="629" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="630" package="miiCard\Consumers">
         <name>getUsername</name>
         <full_name>getUsername</full_name>
-        <docblock line="627">
+        <docblock line="628">
           <description><![CDATA[Gets the username of the miiCard member of whose data
 the snapshot was taken.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="632" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="633" package="miiCard\Consumers">
         <name>getTimestampUtc</name>
         <full_name>getTimestampUtc</full_name>
-        <docblock line="630">
+        <docblock line="631">
           <description><![CDATA[Gets the UNIX timestamp representing the date the
 snapshot of the user's identity was taken.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="637" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="638" package="miiCard\Consumers">
+        <name>getWasTestUser</name>
+        <full_name>getWasTestUser</full_name>
+        <docblock line="634">
+          <description><![CDATA[Gets whether the user whose identity has been snapshotted was marked as a
+test user at the point the snapshot was taken.]]></description>
+          <long-description><![CDATA[<p>Identity checks are skipped
+for test users, so production code should reject snapshots for test users
+as appropriate.</p>]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="643" package="miiCard\Consumers">
         <name>FromHash</name>
         <full_name>FromHash</full_name>
-        <docblock line="634">
+        <docblock line="640">
           <description><![CDATA[Builds a new IdentitySnapshotDetails from a hash obtained from the Claims API.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="634" name="param" description="The has containing details about a single snapshot." type="array" variable="$hash">
+          <tag line="640" name="param" description="The has containing details about a single snapshot." type="array" variable="$hash">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="637">
+        <argument line="643">
           <name>$hash</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="false" abstract="false" namespace="global" line="664" package="miiCard\Consumers">
+    <class final="false" abstract="false" namespace="global" line="671" package="miiCard\Consumers">
       <extends/>
       <name>IdentitySnapshot</name>
       <full_name>\IdentitySnapshot</full_name>
-      <docblock line="662">
+      <docblock line="669">
         <description><![CDATA[Represents a single snapshot of miiCard member's identity.]]></description>
         <long-description><![CDATA[]]></long-description>
-        <tag line="662" name="package" description="miiCard.Consumers"/>
+        <tag line="669" name="package" description="miiCard.Consumers"/>
       </docblock>
-      <property final="false" static="false" visibility="private" line="666" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="673" namespace="global" package="Default">
         <name>$_details</name>
         <default><![CDATA[]]></default>
       </property>
-      <property final="false" static="false" visibility="private" line="666" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="673" namespace="global" package="Default">
         <name>$_snapshot</name>
         <default><![CDATA[]]></default>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="674" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="681" package="miiCard\Consumers">
         <name>__construct</name>
         <full_name>__construct</full_name>
-        <docblock line="668">
+        <docblock line="675">
           <description><![CDATA[Initialises a new IdentitySnapshot object.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="668" name="param" description="An IdentitySnapshotDetails object that describes the contents of the snapshot." type="\IdentitySnapshotDetails" variable="$details">
+          <tag line="675" name="param" description="An IdentitySnapshotDetails object that describes the contents of the snapshot." type="\IdentitySnapshotDetails" variable="$details">
             <type by_reference="false">\IdentitySnapshotDetails</type>
           </tag>
-          <tag line="668" name="param" description="The MiiUserProfile object containing the miiCard member's identity at the point the snapshot was taken." type="\MiiUserProfile" variable="$snapshot">
+          <tag line="675" name="param" description="The MiiUserProfile object containing the miiCard member's identity at the point the snapshot was taken." type="\MiiUserProfile" variable="$snapshot">
             <type by_reference="false">\MiiUserProfile</type>
           </tag>
         </docblock>
-        <argument line="674">
+        <argument line="681">
           <name>$details</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="674">
+        <argument line="681">
           <name>$snapshot</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="682" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="689" package="miiCard\Consumers">
         <name>getDetails</name>
         <full_name>getDetails</full_name>
-        <docblock line="680">
+        <docblock line="687">
           <description><![CDATA[Gets the IdentitySnapshotDetails object
 that describes the contents of the snapshot.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="685" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="692" package="miiCard\Consumers">
         <name>getSnapshot</name>
         <full_name>getSnapshot</full_name>
-        <docblock line="683">
+        <docblock line="690">
           <description><![CDATA[Gets the MiiUserProfile object containing the
 miiCard member's identity at the point the snapshot was taken.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="691" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="698" package="miiCard\Consumers">
         <name>FromHash</name>
         <full_name>FromHash</full_name>
-        <docblock line="687">
+        <docblock line="694">
           <description><![CDATA[Builds a new IdentitySnapshot from a hash obtained from the Claims API.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="687" name="param" description="The has containing details about the identity snapshot." type="array" variable="$hash">
+          <tag line="694" name="param" description="The has containing details about the identity snapshot." type="array" variable="$hash">
             <type by_reference="false">array</type>
           </tag>
         </docblock>
-        <argument line="691">
+        <argument line="698">
           <name>$hash</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="false" abstract="false" namespace="global" line="710" package="miiCard\Consumers">
+    <class final="false" abstract="false" namespace="global" line="717" package="miiCard\Consumers">
       <extends/>
       <name>MiiApiResponse</name>
       <full_name>\MiiApiResponse</full_name>
-      <docblock line="706">
+      <docblock line="713">
         <description><![CDATA[A wrapper around most responses to miiCard Claims API calls, detailing
 the success or failure of the call and containing additional information
 to help diagnose issues.]]></description>
         <long-description><![CDATA[]]></long-description>
-        <tag line="706" name="package" description="miiCard.Consumers"/>
+        <tag line="713" name="package" description="miiCard.Consumers"/>
       </docblock>
-      <property final="false" static="false" visibility="private" line="713" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="720" namespace="global" package="Default">
         <name>$_status</name>
         <default><![CDATA[]]></default>
-        <docblock line="712">
+        <docblock line="719">
           <description><![CDATA[]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="712" name="access" description="private"/>
+          <tag line="719" name="access" description="private"/>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="713" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="720" namespace="global" package="Default">
         <name>$_errorCode</name>
         <default><![CDATA[]]></default>
-        <docblock line="712">
+        <docblock line="719">
           <description><![CDATA[]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="712" name="access" description="private"/>
+          <tag line="719" name="access" description="private"/>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="713" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="720" namespace="global" package="Default">
         <name>$_errorMessage</name>
         <default><![CDATA[]]></default>
-        <docblock line="712">
+        <docblock line="719">
           <description><![CDATA[]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="712" name="access" description="private"/>
+          <tag line="719" name="access" description="private"/>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="private" line="713" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="720" namespace="global" package="Default">
         <name>$_data</name>
         <default><![CDATA[]]></default>
-        <docblock line="712">
+        <docblock line="719">
           <description><![CDATA[]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="712" name="access" description="private"/>
+          <tag line="719" name="access" description="private"/>
         </docblock>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="727" package="miiCard\Consumers">
+      <property final="false" static="false" visibility="private" line="720" namespace="global" package="Default">
+        <name>$_isTestUser</name>
+        <default><![CDATA[]]></default>
+        <docblock line="719">
+          <description><![CDATA[]]></description>
+          <long-description><![CDATA[]]></long-description>
+          <tag line="719" name="access" description="private"/>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="734" package="miiCard\Consumers">
         <name>__construct</name>
         <full_name>__construct</full_name>
-        <docblock line="715">
+        <docblock line="722">
           <description><![CDATA[Initialises a new MiiApiResponse object.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="715" name="param" description="The overall status of the API call, linked to one of the constants of the MiiApiCallStatus class." type="int" variable="$status">
+          <tag line="722" name="param" description="The overall status of the API call, linked to one of the constants of the MiiApiCallStatus class." type="int" variable="$status">
             <type by_reference="false">int</type>
           </tag>
-          <tag line="715" name="param" description="The error code that describes any error that occurred during the API call, linked to one of the constants of the MiiApiErrorCode class." type="int" variable="$errorCode">
+          <tag line="722" name="param" description="The error code that describes any error that occurred during the API call, linked to one of the constants of the MiiApiErrorCode class." type="int" variable="$errorCode">
             <type by_reference="false">int</type>
           </tag>
-          <tag line="715" name="param" description="Additional error message optionally supplied for certain types of API error. Intended for diagnostics only and strictly not suitable for display to the public." type="string" variable="$errorMessage">
+          <tag line="722" name="param" description="Additional error message optionally supplied for certain types of API error. Intended for diagnostics only and strictly not suitable for display to the public." type="string" variable="$errorMessage">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="715" name="param" description="The payload of the response, whose type will vary depending on the API method being called." type="mixed" variable="$data">
+          <tag line="722" name="param" description="The payload of the response, whose type will vary depending on the API method being called." type="mixed" variable="$data">
             <type by_reference="false">mixed</type>
           </tag>
         </docblock>
-        <argument line="727">
+        <argument line="734">
           <name>$status</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="727">
+        <argument line="734">
           <name>$errorCode</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="727">
+        <argument line="734">
           <name>$errorMessage</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="727">
+        <argument line="734">
+          <name>$isTestUser</name>
+          <default><![CDATA[]]></default>
+          <type/>
+        </argument>
+        <argument line="734">
           <name>$data</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="738" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="746" package="miiCard\Consumers">
         <name>getStatus</name>
         <full_name>getStatus</full_name>
-        <docblock line="736">
+        <docblock line="744">
           <description><![CDATA[Gets the overall status of the API call, linked to one of the
 constants of the MiiApiCallStatus class.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="742" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="750" package="miiCard\Consumers">
         <name>getErrorCode</name>
         <full_name>getErrorCode</full_name>
-        <docblock line="739">
+        <docblock line="747">
           <description><![CDATA[Gets the error code that describes any error that occurred
 during the API call, linked to one of the constants of the MiiApiErrorCode
 class.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="746" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="754" package="miiCard\Consumers">
         <name>getErrorMessage</name>
         <full_name>getErrorMessage</full_name>
-        <docblock line="743">
+        <docblock line="751">
           <description><![CDATA[Gets the additional error message optionally supplied for
 certain types of API error.]]></description>
           <long-description><![CDATA[<p>Intended for diagnostics only and strictly not
 suitable for display to the public.</p>]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="749" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="757" package="miiCard\Consumers">
         <name>getData</name>
         <full_name>getData</full_name>
-        <docblock line="747">
+        <docblock line="755">
           <description><![CDATA[Gets the payload of the response, whose type will vary depending
 on the API method being called.]]></description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </method>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="756" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="762" package="miiCard\Consumers">
+        <name>getIsTestUser</name>
+        <full_name>getIsTestUser</full_name>
+        <docblock line="758">
+          <description><![CDATA[Gets whether the user to whom the response pertains is currently marked as
+a test user.]]></description>
+          <long-description><![CDATA[<p>Identity assurance checks are skipped for test users for
+development purposes - your production code should check this field and reject
+test accounts as appropriate.</p>]]></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="771" package="miiCard\Consumers">
         <name>FromHash</name>
         <full_name>FromHash</full_name>
-        <docblock line="751">
+        <docblock line="764">
           <description><![CDATA[Builds a new MiiApiResponse from a hash obtained from the Claims API.]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="751" name="param" description="The has containing details about a single API call response." type="array" variable="$hash">
+          <tag line="764" name="param" description="The has containing details about a single API call response." type="array" variable="$hash">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="751" name="param" description="A callable that turns the JSON data payload into a PHP object, if required." type="string" variable="$dataProcessor">
+          <tag line="764" name="param" description="A callable that turns the JSON data payload into a PHP object, if required." type="string" variable="$dataProcessor">
             <type by_reference="false">string</type>
           </tag>
+          <tag line="764" name="param" description="Indicates that the payload of the response is an array-type, over which the $dataProcessor callable should be iteratively evaluated." type="bool" variable="$isArrayPayload">
+            <type by_reference="false">bool</type>
+          </tag>
         </docblock>
-        <argument line="756">
+        <argument line="771">
           <name>$hash</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="756">
+        <argument line="771">
           <name>$dataProcessor</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="756">
+        <argument line="771">
           <name>$isArrayPayload</name>
           <default><![CDATA[false]]></default>
           <type/>
         </argument>
       </method>
     </class>
-    <class final="false" abstract="false" namespace="global" line="801" package="miiCard\Consumers">
+    <class final="false" abstract="false" namespace="global" line="817" package="miiCard\Consumers">
       <extends/>
       <name>Util</name>
       <full_name>\Util</full_name>
-      <docblock line="799">
+      <docblock line="815">
         <description><![CDATA[General utilities class]]></description>
         <long-description><![CDATA[]]></long-description>
-        <tag line="799" name="package" description="miiCard.Consumers"/>
+        <tag line="815" name="package" description="miiCard.Consumers"/>
       </docblock>
-      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="807" package="miiCard\Consumers">
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="823" package="miiCard\Consumers">
         <name>TryGet</name>
         <full_name>TryGet</full_name>
-        <docblock line="803">
+        <docblock line="819">
           <description><![CDATA[Attempts to get a value from an associative array, returning
 null if the key doesn't exist]]></description>
           <long-description><![CDATA[]]></long-description>
-          <tag line="803" name="param" description="The associative array." type="array" variable="$hash">
+          <tag line="819" name="param" description="The associative array." type="array" variable="$hash">
             <type by_reference="false">array</type>
           </tag>
-          <tag line="803" name="param" description="The key whose value is to be returned if available." type="string" variable="$key">
+          <tag line="819" name="param" description="The key whose value is to be returned if available." type="string" variable="$key">
             <type by_reference="false">string</type>
           </tag>
         </docblock>
-        <argument line="807">
+        <argument line="823">
           <name>$hash</name>
           <default><![CDATA[]]></default>
           <type/>
         </argument>
-        <argument line="807">
+        <argument line="823">
           <name>$key</name>
           <default><![CDATA[]]></default>
           <type/>
@@ -2625,13 +2689,17 @@ null if the key doesn't exist]]></description>
       <error line="609" code="50018">No DocBlock was found for property $_snapshotId</error>
       <error line="609" code="50018">No DocBlock was found for property $_username</error>
       <error line="609" code="50018">No DocBlock was found for property $_timestampUtc</error>
-      <error line="666" code="50018">No DocBlock was found for property $_details</error>
-      <error line="666" code="50018">No DocBlock was found for property $_snapshot</error>
-      <critical line="712" code="50019">No short description for property $_status</critical>
-      <critical line="712" code="50019">No short description for property $_errorCode</critical>
-      <critical line="712" code="50019">No short description for property $_errorMessage</critical>
-      <critical line="712" code="50019">No short description for property $_data</critical>
-      <error line="751" code="50015">Argument $isArrayPayload is missing from the Docblock of FromHash()</error>
+      <error line="609" code="50018">No DocBlock was found for property $_wasTestUser</error>
+      <error line="611" code="50015">Argument $wasTestUser is missing from the Docblock of __construct()</error>
+      <error line="673" code="50018">No DocBlock was found for property $_details</error>
+      <error line="673" code="50018">No DocBlock was found for property $_snapshot</error>
+      <critical line="719" code="50019">No short description for property $_status</critical>
+      <critical line="719" code="50019">No short description for property $_errorCode</critical>
+      <critical line="719" code="50019">No short description for property $_errorMessage</critical>
+      <critical line="719" code="50019">No short description for property $_data</critical>
+      <critical line="719" code="50019">No short description for property $_isTestUser</critical>
+      <error line="722" code="50014">Name of argument $isTestUser does not match with the DocBlock's name $data in __construct()</error>
+      <error line="722" code="50015">Argument $data is missing from the Docblock of __construct()</error>
     </parse_markers>
   </file>
   <file path="miiCard.Consumers\oauth\OAuth.php" hash="3ba028a43f6d1c535d3eb3d95d32b982" package="Default">
@@ -3716,34 +3784,47 @@ should guess the signature method appropriately]]></description>
       <error line="869" code="50010">No DocBlock was found for method build_http_query()</error>
     </parse_markers>
   </file>
-  <file path="miiCard.Consumers\test\miiCard.Consumers.Test.php" hash="e845e0dedb321cf01a2128d4b70b55bc" package="Default">
+  <file path="miiCard.Consumers\test\miiCard.Consumers.Test.php" hash="b4d610686d3fac581186a0387af3a157" package="Default">
     <include line="2" type="Require Once" package="Default">
       <name>../miiCard.Model.php</name>
     </include>
     <class final="false" abstract="false" namespace="global" line="4" package="Default">
       <extends>\PHPUnit_Framework_TestCase</extends>
+      <name>IdentitySnapshotDetailsTest</name>
+      <full_name>\IdentitySnapshotDetailsTest</full_name>
+      <property final="false" static="false" visibility="private" line="6" namespace="global" package="Default">
+        <name>$_jsonBody</name>
+        <default><![CDATA['{"SnapshotId":"0fc60a0e-a058-4cae-bae1-460db73f2947","TimestampUtc":"\/Date(1351594328296)\/","Username":"testuser","WasTestUser":true}']]></default>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="8" package="Default">
+        <name>testCanDeserialiseIdentitySnapshotDetailsResponse</name>
+        <full_name>testCanDeserialiseIdentitySnapshotDetailsResponse</full_name>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="19" package="Default">
+      <extends>\PHPUnit_Framework_TestCase</extends>
       <name>MiiUserProfileTest</name>
       <full_name>\MiiUserProfileTest</full_name>
-      <property final="false" static="false" visibility="private" line="6" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="21" namespace="global" package="Default">
         <name>$_jsonBody</name>
         <default><![CDATA['{"CardImageUrl":"https:\/\/my.miicard.com\/img\/test.png","EmailAddresses":[{"Verified":true,"Address":"test@example.com","DisplayName":"testEmail","IsPrimary":true},{"Verified":false,"Address":"test2@example.com","DisplayName":"test2Email","IsPrimary":false}],"FirstName":"Test","HasPublicProfile":true,"Identities":null,"IdentityAssured":true,"LastName":"User","LastVerified":"\/Date(1345812103000)\/","MiddleName":"Middle","PhoneNumbers":[{"Verified":true,"CountryCode":"44","DisplayName":"Default","IsMobile":true,"IsPrimary":true,"NationalNumber":"7800123456"},{"Verified":false,"CountryCode":"44","DisplayName":"Default","IsMobile":false,"IsPrimary":false,"NationalNumber":"7800123457"}],"PostalAddresses":[{"House":"Addr1 House1","Line1":"Addr1 Line1","Line2":"Addr1 Line2","City":"Addr1 City","Region":"Addr1 Region","Code":"Addr1 Code","Country":"Addr1 Country","IsPrimary":true,"Verified":true},{"House":"Addr2 House1","Line1":"Addr2 Line1","Line2":"Addr2 Line2","City":"Addr2 City","Region":"Addr2 Region","Code":"Addr2 Code","Country":"Addr2 Country","IsPrimary":false,"Verified":false}],"PreviousFirstName":"PrevFirst","PreviousLastName":"PrevLast","PreviousMiddleName":"PrevMiddle","ProfileShortUrl":"http:\/\/miicard.me\/123456","ProfileUrl":"https:\/\/my.miicard.com\/card\/test","PublicProfile":{"CardImageUrl":"https:\/\/my.miicard.com\/img\/test.png","FirstName":"Test","HasPublicProfile":true,"IdentityAssured":true,"LastName":"User","LastVerified":"\/Date(1345812103000)\/","MiddleName":"Middle","PreviousFirstName":"PrevFirst","PreviousLastName":"PrevLast","PreviousMiddleName":"PrevMiddle","ProfileShortUrl":"http:\/\/miicard.me\/123456","ProfileUrl":"https:\/\/my.miicard.com\/card\/test","PublicProfile":null,"Salutation":"Ms","Username":"testUser"},"Salutation":"Ms","Username":"testUser","WebProperties":[{"Verified":true,"DisplayName":"example.com","Identifier":"example.com","Type":0},{"Verified":false,"DisplayName":"2.example.com","Identifier":"http:\/\/www.2.example.com","Type":1}]}']]></default>
       </property>
-      <property final="false" static="false" visibility="private" line="7" namespace="global" package="Default">
+      <property final="false" static="false" visibility="private" line="22" namespace="global" package="Default">
         <name>$_jsonResponseBody</name>
-        <default><![CDATA['{"ErrorCode":0,"Status":0,"ErrorMessage":"A test error message","Data":true}']]></default>
+        <default><![CDATA['{"ErrorCode":0,"Status":0,"ErrorMessage":"A test error message","Data":true,"IsTestUser":true}']]></default>
       </property>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="9" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="24" package="Default">
         <name>testCanDeserialiseUserProfile</name>
         <full_name>testCanDeserialiseUserProfile</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="97" package="Default">
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="112" package="Default">
         <name>testCanDeserialiseBoolean</name>
         <full_name>testCanDeserialiseBoolean</full_name>
       </method>
-      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="107" package="Default">
+      <method final="false" abstract="false" static="false" visibility="private" namespace="global" line="123" package="Default">
         <name>assertBasics</name>
         <full_name>assertBasics</full_name>
-        <argument line="107">
+        <argument line="123">
           <name>$obj</name>
           <default><![CDATA[]]></default>
           <type/>
@@ -3752,12 +3833,15 @@ should guess the signature method appropriately]]></description>
     </class>
     <parse_markers>
       <error line="0" code="50007">No page-level DocBlock was found in file miiCard.Consumers\test\miiCard.Consumers.Test.php</error>
-      <error line="4" code="50000">No DocBlock was found for \MiiUserProfileTest</error>
+      <error line="4" code="50000">No DocBlock was found for \IdentitySnapshotDetailsTest</error>
       <error line="6" code="50018">No DocBlock was found for property $_jsonBody</error>
-      <error line="7" code="50018">No DocBlock was found for property $_jsonResponseBody</error>
-      <error line="9" code="50010">No DocBlock was found for method testCanDeserialiseUserProfile()</error>
-      <error line="97" code="50010">No DocBlock was found for method testCanDeserialiseBoolean()</error>
-      <error line="107" code="50010">No DocBlock was found for method assertBasics()</error>
+      <error line="8" code="50010">No DocBlock was found for method testCanDeserialiseIdentitySnapshotDetailsResponse()</error>
+      <error line="19" code="50000">No DocBlock was found for \MiiUserProfileTest</error>
+      <error line="21" code="50018">No DocBlock was found for property $_jsonBody</error>
+      <error line="22" code="50018">No DocBlock was found for property $_jsonResponseBody</error>
+      <error line="24" code="50010">No DocBlock was found for method testCanDeserialiseUserProfile()</error>
+      <error line="112" code="50010">No DocBlock was found for method testCanDeserialiseBoolean()</error>
+      <error line="123" code="50010">No DocBlock was found for method assertBasics()</error>
     </parse_markers>
   </file>
   <file path="miiCard.Consumers.TestHarness\assuranceimage.php" hash="f543a025de9ee18ab09cf6d908bdbfe6" package="Default">
@@ -3768,24 +3852,24 @@ should guess the signature method appropriately]]></description>
       <error line="0" code="50007">No page-level DocBlock was found in file miiCard.Consumers.TestHarness\assuranceimage.php</error>
     </parse_markers>
   </file>
-  <file path="miiCard.Consumers.TestHarness\index.php" hash="faf9485df02be420c91ec5496fcc3752" package="Default">
+  <file path="miiCard.Consumers.TestHarness\index.php" hash="a350282e79ee3ea6990433e70d9c6284" package="Default">
     <include line="2" type="Require Once" package="Default">
       <name>../miiCard.Consumers/miiCard.Consumers.php</name>
     </include>
     <include line="3" type="Require Once" package="Default">
       <name>prettify.php</name>
     </include>
-    <constant namespace="global" line="22" package="Default">
+    <constant namespace="global" line="25" package="Default">
       <name>SESSION_KEY_CONSUMER_KEY</name>
       <full_name>\SESSION_KEY_CONSUMER_KEY</full_name>
       <value><![CDATA['miiCard.PHP.TestHarness.ConsumerKey']]></value>
     </constant>
-    <constant namespace="global" line="23" package="Default">
+    <constant namespace="global" line="26" package="Default">
       <name>SESSION_KEY_CONSUMER_SECRET</name>
       <full_name>\SESSION_KEY_CONSUMER_SECRET</full_name>
       <value><![CDATA['miiCard.PHP.TestHarness.ConsumerSecret']]></value>
     </constant>
-    <constant namespace="global" line="25" package="Default">
+    <constant namespace="global" line="28" package="Default">
       <name>POSTBACK_FLAG</name>
       <full_name>\POSTBACK_FLAG</full_name>
       <value><![CDATA["testHarnessPostback"]]></value>
@@ -3794,7 +3878,7 @@ should guess the signature method appropriately]]></description>
       <error line="0" code="50007">No page-level DocBlock was found in file miiCard.Consumers.TestHarness\index.php</error>
     </parse_markers>
   </file>
-  <file path="miiCard.Consumers.TestHarness\prettify.php" hash="850dc5442ce47c105ca34fe7ae9ab834" package="Default">
+  <file path="miiCard.Consumers.TestHarness\prettify.php" hash="98f888d555311ad5699863ec1b4bc6f6" package="Default">
     <function namespace="global" line="5" package="Default">
       <name>renderResponse</name>
       <full_name>\renderResponse</full_name>
@@ -3804,96 +3888,96 @@ should guess the signature method appropriately]]></description>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="55" package="Default">
+    <function namespace="global" line="56" package="Default">
       <name>renderFact</name>
       <full_name>\renderFact</full_name>
-      <argument line="55">
+      <argument line="56">
         <name>$factName</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
-      <argument line="55">
+      <argument line="56">
         <name>$factValue</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="66" package="Default">
+    <function namespace="global" line="67" package="Default">
       <name>renderIdentitySnapshotDetails</name>
       <full_name>\renderIdentitySnapshotDetails</full_name>
-      <argument line="66">
+      <argument line="67">
         <name>$identitySnapshotDetails</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="78" package="Default">
+    <function namespace="global" line="80" package="Default">
       <name>renderIdentitySnapshot</name>
       <full_name>\renderIdentitySnapshot</full_name>
-      <argument line="78">
+      <argument line="80">
         <name>$identitySnapshot</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="93" package="Default">
+    <function namespace="global" line="95" package="Default">
       <name>renderIdentity</name>
       <full_name>\renderIdentity</full_name>
-      <argument line="93">
+      <argument line="95">
         <name>$identity</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="106" package="Default">
+    <function namespace="global" line="108" package="Default">
       <name>renderEmail</name>
       <full_name>\renderEmail</full_name>
-      <argument line="106">
+      <argument line="108">
         <name>$email</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="119" package="Default">
+    <function namespace="global" line="121" package="Default">
       <name>renderAddress</name>
       <full_name>\renderAddress</full_name>
-      <argument line="119">
+      <argument line="121">
         <name>$address</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="137" package="Default">
+    <function namespace="global" line="139" package="Default">
       <name>renderPhone</name>
       <full_name>\renderPhone</full_name>
-      <argument line="137">
+      <argument line="139">
         <name>$number</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="152" package="Default">
+    <function namespace="global" line="154" package="Default">
       <name>renderWebProperty</name>
       <full_name>\renderWebProperty</full_name>
-      <argument line="152">
+      <argument line="154">
         <name>$property</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="165" package="Default">
+    <function namespace="global" line="167" package="Default">
       <name>renderFactHeading</name>
       <full_name>\renderFactHeading</full_name>
-      <argument line="165">
+      <argument line="167">
         <name>$heading</name>
         <default><![CDATA[]]></default>
         <type/>
       </argument>
     </function>
-    <function namespace="global" line="170" package="Default">
+    <function namespace="global" line="172" package="Default">
       <name>renderUserProfile</name>
       <full_name>\renderUserProfile</full_name>
-      <argument line="170">
+      <argument line="172">
         <name>$profile</name>
         <default><![CDATA[]]></default>
         <type/>
@@ -3902,16 +3986,16 @@ should guess the signature method appropriately]]></description>
     <parse_markers>
       <error line="0" code="50007">No page-level DocBlock was found in file miiCard.Consumers.TestHarness\prettify.php</error>
       <error line="5" code="50009">No DocBlock was found for function \renderResponse()</error>
-      <error line="55" code="50009">No DocBlock was found for function \renderFact()</error>
-      <error line="66" code="50009">No DocBlock was found for function \renderIdentitySnapshotDetails()</error>
-      <error line="78" code="50009">No DocBlock was found for function \renderIdentitySnapshot()</error>
-      <error line="93" code="50009">No DocBlock was found for function \renderIdentity()</error>
-      <error line="106" code="50009">No DocBlock was found for function \renderEmail()</error>
-      <error line="119" code="50009">No DocBlock was found for function \renderAddress()</error>
-      <error line="137" code="50009">No DocBlock was found for function \renderPhone()</error>
-      <error line="152" code="50009">No DocBlock was found for function \renderWebProperty()</error>
-      <error line="165" code="50009">No DocBlock was found for function \renderFactHeading()</error>
-      <error line="170" code="50009">No DocBlock was found for function \renderUserProfile()</error>
+      <error line="56" code="50009">No DocBlock was found for function \renderFact()</error>
+      <error line="67" code="50009">No DocBlock was found for function \renderIdentitySnapshotDetails()</error>
+      <error line="80" code="50009">No DocBlock was found for function \renderIdentitySnapshot()</error>
+      <error line="95" code="50009">No DocBlock was found for function \renderIdentity()</error>
+      <error line="108" code="50009">No DocBlock was found for function \renderEmail()</error>
+      <error line="121" code="50009">No DocBlock was found for function \renderAddress()</error>
+      <error line="139" code="50009">No DocBlock was found for function \renderPhone()</error>
+      <error line="154" code="50009">No DocBlock was found for function \renderWebProperty()</error>
+      <error line="167" code="50009">No DocBlock was found for function \renderFactHeading()</error>
+      <error line="172" code="50009">No DocBlock was found for function \renderUserProfile()</error>
     </parse_markers>
   </file>
   <package name="Default" full_name="Default"/>
