@@ -388,6 +388,8 @@ class MiiUserProfile
     private $_emailAddresses, $_identities, $_phoneNumbers, $_postalAddresses, $webProperties;
     /** @access private */
     private $_identityAssured, $_hasPublicProfile, $_publicProfile;
+    /** @access private */
+    private $_dateOfBirth;
     
     /** Initialises a new MiiUserProfile object.
      * @param string $username The miiCard username of the member.
@@ -420,7 +422,7 @@ class MiiUserProfile
                          $previousFirstName, $previousMiddleName, $previousLastName,
                          $lastVerified, $profileUrl, $profileShortUrl, $cardImageUrl,
                          $emailAddresses, $identities, $phoneNumbers, $postalAddresses,
-                         $webProperties, $identityAssured, $hasPublicProfile, $publicProfile)
+                         $webProperties, $identityAssured, $hasPublicProfile, $publicProfile, $dateOfBirth)
     {
         $this->_username = $username;
         $this->_salutation = $salutation;
@@ -446,7 +448,9 @@ class MiiUserProfile
         
         $this->_identityAssured = $identityAssured;
         $this->_hasPublicProfile = $hasPublicProfile;
-        $this->_publicProfile = $publicProfile;        
+        $this->_publicProfile = $publicProfile;
+
+        $this->_dateOfBirth = $dateOfBirth;
     }
 
     /** Gets the miiCard username of the member.*/
@@ -459,6 +463,9 @@ class MiiUserProfile
     public function getMiddleName() { return $this->_middleName; }
     /** Gets the last name of the member, if known. */
     public function getLastName() { return $this->_lastName; }
+    /** Gets the UNIX timestamp representing the date of birth of the member,
+     * if known and verified. */
+    public function getDateOfBirth() { return $this->_dateOfBirth; }
 
     /** Gets the previous first name of the member, if known.*/
     public function getPreviousFirstName() { return $this->_previousFirstName; }
@@ -572,31 +579,39 @@ class MiiUserProfile
         $lastVerifiedParsed = null;
         if (isset($matches) && count($matches) > 1)
         {
-          $lastVerifiedParsed = ($matches[1] / 1000);
+            $lastVerifiedParsed = ($matches[1] / 1000);
+        }
+
+        $dateOfBirthParsed = null;
+        preg_match( '/\/Date\((\d+)\)/', Util::TryGet($hash, 'DateOfBirth'), $matchesDOB);
+        if (isset($matchesDOB) && count($matchesDOB) > 1)
+        {
+            $dateOfBirthParsed = ($matchesDOB[1] / 1000);
         }
 
        	return new MiiUserProfile
         (
-    		Util::TryGet($hash, 'Username'),
-    		Util::TryGet($hash, 'Salutation'),
-    		Util::TryGet($hash, 'FirstName'),
-    		Util::TryGet($hash, 'MiddleName'),
-    		Util::TryGet($hash, 'LastName'),
-    		Util::TryGet($hash, 'PreviousFirstName'),
-    		Util::TryGet($hash, 'PreviousMiddleName'),
-    		Util::TryGet($hash, 'PreviousLastName'),
-    		$lastVerifiedParsed,
-    		Util::TryGet($hash, 'ProfileUrl'),
-    		Util::TryGet($hash, 'ProfileShortUrl'),
-    		Util::TryGet($hash, 'CardImageUrl'),
-    		$emailsParsed,
-    		$identitiesParsed,
-    		$phoneNumbersParsed,
-    		$postalAddressesParsed,
-    		$webPropertiesParsed,
-    		Util::TryGet($hash, 'IdentityAssured'),
-    		Util::TryGet($hash, 'HasPublicProfile'),
-    		$publicProfileParsed
+        		Util::TryGet($hash, 'Username'),
+        		Util::TryGet($hash, 'Salutation'),
+        		Util::TryGet($hash, 'FirstName'),
+        		Util::TryGet($hash, 'MiddleName'),
+        		Util::TryGet($hash, 'LastName'),
+        		Util::TryGet($hash, 'PreviousFirstName'),
+        		Util::TryGet($hash, 'PreviousMiddleName'),
+        		Util::TryGet($hash, 'PreviousLastName'),
+        		$lastVerifiedParsed,
+        		Util::TryGet($hash, 'ProfileUrl'),
+        		Util::TryGet($hash, 'ProfileShortUrl'),
+        		Util::TryGet($hash, 'CardImageUrl'),
+        		$emailsParsed,
+        		$identitiesParsed,
+        		$phoneNumbersParsed,
+        		$postalAddressesParsed,
+        		$webPropertiesParsed,
+        		Util::TryGet($hash, 'IdentityAssured'),
+        		Util::TryGet($hash, 'HasPublicProfile'),
+        		$publicProfileParsed,
+            $dateOfBirthParsed
         );
     }
 }

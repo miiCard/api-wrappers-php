@@ -179,6 +179,7 @@
         $toReturn .= renderFact("First name", $profile->getFirstName());
         $toReturn .= renderFact("Middle name", $profile->getMiddleName());
         $toReturn .= renderFact("Last name", $profile->getLastName());
+        $toReturn .= renderFact("Date of birth", date('d-m-y', $profile->getDateOfBirth()));
         $toReturn .= renderFact("Identity verified?", $profile->getIdentityAssured());
         $toReturn .= renderFact("Identity last verified?", date('d-m-y H:i:s', $profile->getLastVerified()) . " GMT");
         $toReturn .= renderFact("Has a public profile?", $profile->getHasPublicProfile());
