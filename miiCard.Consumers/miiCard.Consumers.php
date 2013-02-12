@@ -189,12 +189,12 @@
             $curl_options = array
             (
                 CURLOPT_URL => $url,
-                CURLOPT_CONNECTTIMEOUT => 30,
-                CURLOPT_TIMEOUT => 30,
+                CURLOPT_CONNECTTIMEOUT => 90,
+                CURLOPT_TIMEOUT => 90,
                 CURLOPT_FOLLOWLOCATION => TRUE,
                 CURLOPT_RETURNTRANSFER => TRUE,
-                CURLOPT_SSL_VERIFYHOST => FALSE,
-                CURLOPT_SSL_VERIFYPEER => FALSE,
+                CURLOPT_SSL_VERIFYHOST => TRUE,
+                CURLOPT_SSL_VERIFYPEER => TRUE,
                 CURLOPT_CAINFO => dirname(__FILE__) . "/certs/sts.miicard.com.pem",
                 CURLOPT_HTTPHEADER => $headers,
                 CURLOPT_FORBID_REUSE => TRUE,
