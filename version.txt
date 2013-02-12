@@ -1,0 +1,12 @@
+Release notes
+-------------
+
+1.1 	2013-02-12
++ Added support for DateOfBirth from API
++ Fixed redirect to OAuth endpoint not working in IE
++ Added more extensive documentation in README.md re: mapping of API data types to the wrapper library equivalents
++ Added extra enumeration members to MiiApiErrorCode
++ Fixed rendering of nullable dates in the test harness
+
+1.0 
+Initial release
