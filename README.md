@@ -185,7 +185,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 
 ####PostalAddress
 <table>
-<tr><th>API data-type property</td><th>PHP equivalent (given $address instance of PhoneNumber)</th></tr>
+<tr><th>API data-type property</td><th>PHP equivalent (given $address instance of PostalAddress)</th></tr>
 <tr><td>House</td><td>$address->getHouse()</td></tr>
 <tr><td>Line1</td><td>$address->getLine1()</td></tr>
 <tr><td>Line2</td><td>$address->getLine2()</td></tr>
@@ -199,7 +199,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 
 ####WebProperty
 <table>
-<tr><th>API data-type property</td><th>PHP equivalent (given $property instance of PhoneNumber)</th></tr>
+<tr><th>API data-type property</td><th>PHP equivalent (given $property instance of WebProperty)</th></tr>
 <tr><td>DisplayName</td><td>$property->getDisplayName()</td></tr>
 <tr><td>Identifier</td><td>$property->getIdentifier()</td></tr>
 <tr><td>Type</td><td>$property->getType()</td></tr>
