@@ -52,6 +52,30 @@
         
         return $toReturn;
     }
+
+    function renderAsDateTime($value)
+    {
+         if ($value != null)
+         {
+            return date('d-m-y H:i:s', $value) . " GMT";
+         }
+         else
+         {
+            return null;
+         }
+    }
+
+    function renderAsDate($value)
+    {
+         if ($value != null)
+         {
+            return date('d-m-y', $value);
+         }
+         else
+         {
+            return null;
+         }
+    }
     
     function renderFact($factName, $factValue)
     {
@@ -179,9 +203,9 @@
         $toReturn .= renderFact("First name", $profile->getFirstName());
         $toReturn .= renderFact("Middle name", $profile->getMiddleName());
         $toReturn .= renderFact("Last name", $profile->getLastName());
-        $toReturn .= renderFact("Date of birth", date('d-m-y', $profile->getDateOfBirth()));
+        $toReturn .= renderFact("Date of birth", renderAsDate($profile->getDateOfBirth()));
         $toReturn .= renderFact("Identity verified?", $profile->getIdentityAssured());
-        $toReturn .= renderFact("Identity last verified?", date('d-m-y H:i:s', $profile->getLastVerified()) . " GMT");
+        $toReturn .= renderFact("Identity last verified?", renderAsDateTime($profile->getLastVerified()));
         $toReturn .= renderFact("Has a public profile?", $profile->getHasPublicProfile());
         $toReturn .= renderFact("Previous first name", $profile->getPreviousFirstName());
         $toReturn .= renderFact("Previous middle name", $profile->getPreviousMiddleName());
