@@ -37,6 +37,17 @@ class MiiApiErrorCode
     /** Signifies that the snapshot ID supplied to a snapshot-based API method was either invalid
      * or corresponded to a user for which authorisation tokens didn't match. */
     const INVALID_SNAPSHOT_ID = 1020;
+    /** Signifies that your application has been suspended and no API access can take place
+     * until miiCard releases the suspension on your application. */
+    const BLACKLISTED = 2000;
+    /** Signifies that your application has been disabled, either by your request or
+     * by miiCard. miiCard members will be unable to go through the OAuth process for
+     * your application, though you will still be able to access the API. */
+    const PRODUCT_DISABLED = 2010;
+    /** Signifies that your application has been deleted. miiCard members will be unable
+     * to go through the OAuth process for your application, nor will you be able to
+     * access identity details through the API. */
+    const PRODUCT_DELETED = 2020;
 
     /** Signifies that a more general exception took place during the call. Further information may
      *be available by calling the MiiApiResponse's getErrorMessage() function. */
