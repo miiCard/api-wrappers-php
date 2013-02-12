@@ -143,7 +143,6 @@
         </div>
     </div>
     <form method="POST" action="index.php">
-        <a href="#" onclick="window.open('https://stsbeta.miicard.com/login.aspx', 'login', 'height=400,width=400,scrollbars=yes'); return false;">Test popup</a>
         <input type="hidden" name="<?php echo POSTBACK_FLAG ?>" value="true" />
         <div class="page-header">
             <h1>OAuth token settings
