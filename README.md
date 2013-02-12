@@ -70,13 +70,13 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 
 ###Methods
 <table>
-<tr><th>API method</td><th>PHP equivalent (given $miiCardObj instance of MiiCard)</th></tr>
-<tr><td>AssuranceImage</td><td>$miiCardObj->assuranceImage($type)</td></tr>
-<tr><td>GetClaims</td><td>$miiCardObj->getClaims()</td></tr>
-<tr><td>GetIdentitySnapshot</td><td>$miiCardObj->getIdentitySnapshot($snapshotId)</td></tr>
-<tr><td>GetIdentitySnapshotDetails</td><td>$miiCardObj->getIdentitySnapshotDetails()<br /><b>Or, for a specific snapshot:</b><br />$miiCardObj->getIdentitySnapshotDetails($snapshotId)</td></tr>
-<tr><td>IsSocialAccountAssured</td><td>$miiCardObj->isSocialAccountAssured($socialAccountId, $socialAccountType)</td></tr>
-<tr><td>IsUserAssured</td><td>$miiCardObj->isUserAssured()</td></tr>
+<tr><th>API method</td><th>PHP equivalent (given $api instance of MiiCardOAuthClaimsService)</th></tr>
+<tr><td>AssuranceImage</td><td>$api->assuranceImage($type)</td></tr>
+<tr><td>GetClaims</td><td>$api->getClaims()</td></tr>
+<tr><td>GetIdentitySnapshot</td><td>$api->getIdentitySnapshot($snapshotId)</td></tr>
+<tr><td>GetIdentitySnapshotDetails</td><td>$api->getIdentitySnapshotDetails()<br /><b>Or, for a specific snapshot:</b><br />$api->getIdentitySnapshotDetails($snapshotId)</td></tr>
+<tr><td>IsSocialAccountAssured</td><td>$api->isSocialAccountAssured($socialAccountId, $socialAccountType)</td></tr>
+<tr><td>IsUserAssured</td><td>$api->isUserAssured()</td></tr>
 </table>
 
 ###Data types
