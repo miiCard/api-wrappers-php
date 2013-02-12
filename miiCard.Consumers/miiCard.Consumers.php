@@ -189,8 +189,8 @@
             $curl_options = array
             (
                 CURLOPT_URL => $url,
-                CURLOPT_CONNECTTIMEOUT => 30,
-                CURLOPT_TIMEOUT => 30,
+                CURLOPT_CONNECTTIMEOUT => 90,
+                CURLOPT_TIMEOUT => 90,
                 CURLOPT_FOLLOWLOCATION => TRUE,
                 CURLOPT_RETURNTRANSFER => TRUE,
                 CURLOPT_SSL_VERIFYHOST => TRUE,
@@ -477,7 +477,7 @@
             // that ever tries as we'll forget the request token secret. Instead, do a quick bounce through a
             // meta refresh
             ?>
-                <html><head><meta http-equiv="refresh" content="0;<?php echo $redirectUrl ?>"></head>
+                <html><head><meta http-equiv="refresh" content="0;url=<?php echo $redirectUrl ?>"></head><title>Redirecting to miiCard.com</title>
                 <body>You should be redirected automatically - if not, <a href="<?php echo $redirectUrl ?>">click here</a>.</body></html>
             <?php
             
