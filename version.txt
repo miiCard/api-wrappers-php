@@ -1,6 +1,9 @@
 Release notes
 -------------
 
+1.1.1   2013-02-13
++ Fixed typo in enumeration
+
 1.1 	2013-02-12
 + Added support for DateOfBirth from API
 + Fixed redirect to OAuth endpoint not working in IE
