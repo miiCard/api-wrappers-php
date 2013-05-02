@@ -406,6 +406,20 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
   }
 
   /**
+   * Gets a PDF of an identity snapshot.
+   *
+   * @param string $snapshot_id
+   *   The unique identifier of the snapshot for which details should be
+   *   retrieved.
+   */
+  public function getIdentitySnapshotPdf($snapshot_id) {
+    $request_array = array();
+    $request_array['snapshotId'] = $snapshot_id;
+
+    return $this->makeRequest('GetIdentitySnapshotPdf', json_encode($request_array), NULL, FALSE);
+  }
+
+  /**
    * Makes an OAuth signed request to the specified Claims API method.
    *
    * @param string $method_name
