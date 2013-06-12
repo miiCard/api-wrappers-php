@@ -1,4 +1,7 @@
 <?php
+    use miiCard\Consumers\Consumers;
+    use miiCard\Consumers\Model;
+
     /* A couple of functions render date-times and these come in as UTC (equiv. GMT) */
     date_default_timezone_set("GMT");
 
@@ -13,22 +16,22 @@
                 
         $data = $obj->getData();
         
-        if ($data instanceof MiiUserProfile)
+        if ($data instanceof Model\MiiUserProfile)
         {
             $toReturn .= renderUserProfile($data);
         }
-        else if ($data instanceof IdentitySnapshot)
+        else if ($data instanceof Model\IdentitySnapshot)
         {
             $toReturn .= renderIdentitySnapshot($data);
         }
-        else if ($data instanceof IdentitySnapshotDetails)
+        else if ($data instanceof Model\IdentitySnapshotDetails)
         {
             $toReturn .= renderIdentitySnapshotDetails($data);
         }
         else if (is_array($data) && count($data) > 0)
         {
             $sample = $data[0];
-            if ($sample instanceof IdentitySnapshotDetails)
+            if ($sample instanceof Model\IdentitySnapshotDetails)
             {
                 $ct = 0;
                 foreach ($data as $identitySnapshotDetails)

@@ -1,0 +1,625 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \miiCard\Consumers\Model\MiiUserProfile</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/global.html"><i class="icon-th"></i> global</a></li>
+<li><a href="../namespaces/miiCard.html"><i class="icon-th"></i> miiCard</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/MiiCardConsumers.html"><i class="icon-folder-open"></i> MiiCardConsumers</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">173</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_FromHash" title="FromHash :: Builds a new MiiUserProfile from a hash obtained from the Claims API."><span class="description">Builds a new MiiUserProfile from a hash obtained from the Claims API.</span><pre>FromHash()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Initialises a new MiiUserProfile object."><span class="description">Initialises a new MiiUserProfile object.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_getCardImageUrl" title="getCardImageUrl :: Gets the URL to the user's miiCard card image."><span class="description">Gets the URL to the user's miiCard card image.</span><pre>getCardImageUrl()</pre></a></li>
+<li class="method public "><a href="#method_getDateOfBirth" title="getDateOfBirth :: Gets the UNIX timestamp representing the date of birth of the member."><span class="description">Gets the UNIX timestamp representing the date of birth of the member.</span><pre>getDateOfBirth()</pre></a></li>
+<li class="method public "><a href="#method_getEmailAddresses" title="getEmailAddresses :: Gets the array of EmailAddress objects associated with the member."><span class="description">Gets the array of EmailAddress objects associated with the member.</span><pre>getEmailAddresses()</pre></a></li>
+<li class="method public "><a href="#method_getFirstName" title="getFirstName :: Gets the first name of the member."><span class="description">Gets the first name of the member.</span><pre>getFirstName()</pre></a></li>
+<li class="method public "><a href="#method_getHasPublicProfile" title="getHasPublicProfile :: Gets whether the user has published their public profile."><span class="description">Gets whether the user has published their public profile.</span><pre>getHasPublicProfile()</pre></a></li>
+<li class="method public "><a href="#method_getIdentities" title="getIdentities :: Gets the array of alternative identities for the member."><span class="description">Gets the array of alternative identities for the member.</span><pre>getIdentities()</pre></a></li>
+<li class="method public "><a href="#method_getIdentityAssured" title="getIdentityAssured :: Gets whether the member has met LOA required by your application."><span class="description">Gets whether the member has met LOA required by your application.</span><pre>getIdentityAssured()</pre></a></li>
+<li class="method public "><a href="#method_getLastName" title="getLastName :: Gets the last name of the member, if known."><span class="description">Gets the last name of the member, if known.</span><pre>getLastName()</pre></a></li>
+<li class="method public "><a href="#method_getLastVerified" title="getLastVerified :: Gets the UNIX timestamp of the date the identity was last verified."><span class="description">Gets the UNIX timestamp of the date the identity was last verified.</span><pre>getLastVerified()</pre></a></li>
+<li class="method public "><a href="#method_getMiddleName" title="getMiddleName :: Gets the middle name of the member, if known."><span class="description">Gets the middle name of the member, if known.</span><pre>getMiddleName()</pre></a></li>
+<li class="method public "><a href="#method_getPhoneNumbers" title="getPhoneNumbers :: Gets the array of PhoneNumber objects associated with the member."><span class="description">Gets the array of PhoneNumber objects associated with the member.</span><pre>getPhoneNumbers()</pre></a></li>
+<li class="method public "><a href="#method_getPostalAddresses" title="getPostalAddresses :: Gets the array of PostalAddress objects associated with the member."><span class="description">Gets the array of PostalAddress objects associated with the member.</span><pre>getPostalAddresses()</pre></a></li>
+<li class="method public "><a href="#method_getPreviousFirstName" title="getPreviousFirstName :: Gets the previous first name of the member, if known."><span class="description">Gets the previous first name of the member, if known.</span><pre>getPreviousFirstName()</pre></a></li>
+<li class="method public "><a href="#method_getPreviousLastName" title="getPreviousLastName :: Gets the previous last name of the member, if known."><span class="description">Gets the previous last name of the member, if known.</span><pre>getPreviousLastName()</pre></a></li>
+<li class="method public "><a href="#method_getPreviousMiddleName" title="getPreviousMiddleName :: Gets the previous middle name of the member, if known."><span class="description">Gets the previous middle name of the member, if known.</span><pre>getPreviousMiddleName()</pre></a></li>
+<li class="method public "><a href="#method_getProfileShortUrl" title="getProfileShortUrl :: Gets the short URL to the member's public miiCard profile page."><span class="description">Gets the short URL to the member's public miiCard profile page.</span><pre>getProfileShortUrl()</pre></a></li>
+<li class="method public "><a href="#method_getProfileUrl" title="getProfileUrl :: Gets the URL to the member's public miiCard profile page."><span class="description">Gets the URL to the member's public miiCard profile page.</span><pre>getProfileUrl()</pre></a></li>
+<li class="method public "><a href="#method_getPublicProfile" title="getPublicProfile :: Gets the MiiUserProfile object representing the user's public profile."><span class="description">Gets the MiiUserProfile object representing the user's public profile.</span><pre>getPublicProfile()</pre></a></li>
+<li class="method public "><a href="#method_getSalutation" title="getSalutation :: Gets the salutation of the member (e.g."><span class="description">Gets the salutation of the member (e.g.</span><pre>getSalutation()</pre></a></li>
+<li class="method public "><a href="#method_getUsername" title="getUsername :: Gets the miiCard username of the member."><span class="description">Gets the miiCard username of the member.</span><pre>getUsername()</pre></a></li>
+<li class="method public "><a href="#method_getWebProperties" title="getWebProperties :: Gets the array of WebProperty objects associated with the member."><span class="description">Gets the array of WebProperty objects associated with the member.</span><pre>getWebProperties()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_cardImageUrl" title="$cardImageUrl :: "><span class="description">$cardImageUrl</span><pre>$cardImageUrl</pre></a></li>
+<li class="property protected "><a href="#property_dateOfBirth" title="$dateOfBirth :: "><span class="description">$dateOfBirth</span><pre>$dateOfBirth</pre></a></li>
+<li class="property protected "><a href="#property_emailAddresses" title="$emailAddresses :: "><span class="description">$emailAddresses</span><pre>$emailAddresses</pre></a></li>
+<li class="property protected "><a href="#property_firstName" title="$firstName :: "><span class="description">$firstName</span><pre>$firstName</pre></a></li>
+<li class="property protected "><a href="#property_hasPublicProfile" title="$hasPublicProfile :: "><span class="description">$hasPublicProfile</span><pre>$hasPublicProfile</pre></a></li>
+<li class="property protected "><a href="#property_identities" title="$identities :: "><span class="description">$identities</span><pre>$identities</pre></a></li>
+<li class="property protected "><a href="#property_identityAssured" title="$identityAssured :: "><span class="description">$identityAssured</span><pre>$identityAssured</pre></a></li>
+<li class="property protected "><a href="#property_lastName" title="$lastName :: "><span class="description">$lastName</span><pre>$lastName</pre></a></li>
+<li class="property protected "><a href="#property_lastVerified" title="$lastVerified :: "><span class="description">$lastVerified</span><pre>$lastVerified</pre></a></li>
+<li class="property protected "><a href="#property_middleName" title="$middleName :: "><span class="description">$middleName</span><pre>$middleName</pre></a></li>
+<li class="property protected "><a href="#property_phoneNumbers" title="$phoneNumbers :: "><span class="description">$phoneNumbers</span><pre>$phoneNumbers</pre></a></li>
+<li class="property protected "><a href="#property_postalAddresses" title="$postalAddresses :: "><span class="description">$postalAddresses</span><pre>$postalAddresses</pre></a></li>
+<li class="property protected "><a href="#property_previousFirstName" title="$previousFirstName :: "><span class="description">$previousFirstName</span><pre>$previousFirstName</pre></a></li>
+<li class="property protected "><a href="#property_previousLastName" title="$previousLastName :: "><span class="description">$previousLastName</span><pre>$previousLastName</pre></a></li>
+<li class="property protected "><a href="#property_previousMiddleName" title="$previousMiddleName :: "><span class="description">$previousMiddleName</span><pre>$previousMiddleName</pre></a></li>
+<li class="property protected "><a href="#property_profileShortUrl" title="$profileShortUrl :: "><span class="description">$profileShortUrl</span><pre>$profileShortUrl</pre></a></li>
+<li class="property protected "><a href="#property_profileUrl" title="$profileUrl :: "><span class="description">$profileUrl</span><pre>$profileUrl</pre></a></li>
+<li class="property protected "><a href="#property_publicProfile" title="$publicProfile :: "><span class="description">$publicProfile</span><pre>$publicProfile</pre></a></li>
+<li class="property protected "><a href="#property_salutation" title="$salutation :: "><span class="description">$salutation</span><pre>$salutation</pre></a></li>
+<li class="property protected "><a href="#property_username" title="$username :: "><span class="description">$username</span><pre>$username</pre></a></li>
+<li class="property protected "><a href="#property_webProperties" title="$webProperties :: "><span class="description">$webProperties</span><pre>$webProperties</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\miiCard\Consumers\Model\MiiUserProfile"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/miiCard.html">miiCard</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/miiCard.Consumers.html">Consumers</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/miiCard.Consumers.Model.html">Model</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/miiCard.Consumers.Model.MiiUserProfile.html">MiiUserProfile</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Represents a subset of the miiCard member's identity.</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/MiiCardConsumers.html">MiiCardConsumers</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_FromHash"></a><div class="element clickable method public method_FromHash" data-toggle="collapse" data-target=".method_FromHash .collapse">
+<h2>Builds a new MiiUserProfile from a hash obtained from the Claims API.</h2>
+<pre>FromHash(array $hash) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$hash</h4>
+<code>array</code><p>The has containing details about a single user profile.</p></div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Initialises a new MiiUserProfile object.</h2>
+<pre>__construct(string $username, string $salutation, string $first_name, string $middle_name, string $last_name, string $previous_first_name, string $previous_middle_name, string $previous_last_name, int $last_verified, string $profile_url, string $profile_short_url, string $card_image_url, array $email_addresses, array $identities, array $phone_numbers, array $postal_addresses, array $web_properties, bool $identity_assured, bool $has_public_profile, <a href="../classes/miiCard.Consumers.Model.MiiUserProfile.html">\miiCard\Consumers\Model\MiiUserProfile</a> $public_profile, int $date_of_birth) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$username</h4>
+<code>string</code><p>The miiCard username of the member.</p></div>
+<div class="subelement argument">
+<h4>$salutation</h4>
+<code>string</code><p>The salutation of the member (e.g. 'Mr', 'Mrs' etc).</p>
+</div>
+<div class="subelement argument">
+<h4>$first_name</h4>
+<code>string</code><p>The first name of the member</p></div>
+<div class="subelement argument">
+<h4>$middle_name</h4>
+<code>string</code><p>The middle name of the member, if known.</p></div>
+<div class="subelement argument">
+<h4>$last_name</h4>
+<code>string</code><p>The last name of the member.</p></div>
+<div class="subelement argument">
+<h4>$previous_first_name</h4>
+<code>string</code><p>The previous first name of the member, if known.</p></div>
+<div class="subelement argument">
+<h4>$previous_middle_name</h4>
+<code>string</code><p>The previous middle name of the member, if known.</p></div>
+<div class="subelement argument">
+<h4>$previous_last_name</h4>
+<code>string</code><p>The previous last name of the member, if known.</p></div>
+<div class="subelement argument">
+<h4>$last_verified</h4>
+<code>int</code><p>The UNIX timestamp representing the date the user's identity was last verified.</p>
+</div>
+<div class="subelement argument">
+<h4>$profile_url</h4>
+<code>string</code><p>The URL to the member's public miiCard profile page.</p>
+</div>
+<div class="subelement argument">
+<h4>$profile_short_url</h4>
+<code>string</code><p>The short URL to the member's public miiCard profile page.</p>
+</div>
+<div class="subelement argument">
+<h4>$card_image_url</h4>
+<code>string</code><p>The URL to the user's miiCard card image, as shown on their public profile page.</p>
+</div>
+<div class="subelement argument">
+<h4>$email_addresses</h4>
+<code>array</code><p>An array of EmailAddress objects associated with the member.</p></div>
+<div class="subelement argument">
+<h4>$identities</h4>
+<code>array</code><p>An array of alternative identities for the member, for example on social media sites.</p></div>
+<div class="subelement argument">
+<h4>$phone_numbers</h4>
+<code>array</code><p>An array of PhoneNumber objects associated with the member.</p></div>
+<div class="subelement argument">
+<h4>$postal_addresses</h4>
+<code>array</code><p>An array of PostalAddress objects associated with the member.</p></div>
+<div class="subelement argument">
+<h4>$web_properties</h4>
+<code>array</code><p>An array of WebProperty objects associated with the member.</p></div>
+<div class="subelement argument">
+<h4>$identity_assured</h4>
+<code>bool</code><p>Indicates whether the member has met the level of identity assurance required by your application.</p></div>
+<div class="subelement argument">
+<h4>$has_public_profile</h4>
+<code>bool</code><p>Indicates whether the user has published their public profile. If FALSE, the card image and profile URLs are assumed to not resolve.</p></div>
+<div class="subelement argument">
+<h4>$public_profile</h4>
+<code><a href="../classes/miiCard.Consumers.Model.MiiUserProfile.html">\miiCard\Consumers\Model\MiiUserProfile</a></code><p>A MiiUserProfile object representing the subset of identity information that they have made publicly available on their profile page.</p></div>
+<div class="subelement argument">
+<h4>$date_of_birth</h4>
+<code>int</code><p>The miiCard user's date of birth</p>
+</div>
+</div></div>
+</div>
+<a id="method_getCardImageUrl"></a><div class="element clickable method public method_getCardImageUrl" data-toggle="collapse" data-target=".method_getCardImageUrl .collapse">
+<h2>Gets the URL to the user's miiCard card image.</h2>
+<pre>getCardImageUrl() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getDateOfBirth"></a><div class="element clickable method public method_getDateOfBirth" data-toggle="collapse" data-target=".method_getDateOfBirth .collapse">
+<h2>Gets the UNIX timestamp representing the date of birth of the member.</h2>
+<pre>getDateOfBirth() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getEmailAddresses"></a><div class="element clickable method public method_getEmailAddresses" data-toggle="collapse" data-target=".method_getEmailAddresses .collapse">
+<h2>Gets the array of EmailAddress objects associated with the member.</h2>
+<pre>getEmailAddresses() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getFirstName"></a><div class="element clickable method public method_getFirstName" data-toggle="collapse" data-target=".method_getFirstName .collapse">
+<h2>Gets the first name of the member.</h2>
+<pre>getFirstName() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getHasPublicProfile"></a><div class="element clickable method public method_getHasPublicProfile" data-toggle="collapse" data-target=".method_getHasPublicProfile .collapse">
+<h2>Gets whether the user has published their public profile.</h2>
+<pre>getHasPublicProfile() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>If FALSE, the card image and profile URLs are assumed to not resolve.</p></div></div></div>
+</div>
+<a id="method_getIdentities"></a><div class="element clickable method public method_getIdentities" data-toggle="collapse" data-target=".method_getIdentities .collapse">
+<h2>Gets the array of alternative identities for the member.</h2>
+<pre>getIdentities() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getIdentityAssured"></a><div class="element clickable method public method_getIdentityAssured" data-toggle="collapse" data-target=".method_getIdentityAssured .collapse">
+<h2>Gets whether the member has met LOA required by your application.</h2>
+<pre>getIdentityAssured() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getLastName"></a><div class="element clickable method public method_getLastName" data-toggle="collapse" data-target=".method_getLastName .collapse">
+<h2>Gets the last name of the member, if known.</h2>
+<pre>getLastName() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getLastVerified"></a><div class="element clickable method public method_getLastVerified" data-toggle="collapse" data-target=".method_getLastVerified .collapse">
+<h2>Gets the UNIX timestamp of the date the identity was last verified.</h2>
+<pre>getLastVerified() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getMiddleName"></a><div class="element clickable method public method_getMiddleName" data-toggle="collapse" data-target=".method_getMiddleName .collapse">
+<h2>Gets the middle name of the member, if known.</h2>
+<pre>getMiddleName() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getPhoneNumbers"></a><div class="element clickable method public method_getPhoneNumbers" data-toggle="collapse" data-target=".method_getPhoneNumbers .collapse">
+<h2>Gets the array of PhoneNumber objects associated with the member.</h2>
+<pre>getPhoneNumbers() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getPostalAddresses"></a><div class="element clickable method public method_getPostalAddresses" data-toggle="collapse" data-target=".method_getPostalAddresses .collapse">
+<h2>Gets the array of PostalAddress objects associated with the member.</h2>
+<pre>getPostalAddresses() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getPreviousFirstName"></a><div class="element clickable method public method_getPreviousFirstName" data-toggle="collapse" data-target=".method_getPreviousFirstName .collapse">
+<h2>Gets the previous first name of the member, if known.</h2>
+<pre>getPreviousFirstName() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getPreviousLastName"></a><div class="element clickable method public method_getPreviousLastName" data-toggle="collapse" data-target=".method_getPreviousLastName .collapse">
+<h2>Gets the previous last name of the member, if known.</h2>
+<pre>getPreviousLastName() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getPreviousMiddleName"></a><div class="element clickable method public method_getPreviousMiddleName" data-toggle="collapse" data-target=".method_getPreviousMiddleName .collapse">
+<h2>Gets the previous middle name of the member, if known.</h2>
+<pre>getPreviousMiddleName() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getProfileShortUrl"></a><div class="element clickable method public method_getProfileShortUrl" data-toggle="collapse" data-target=".method_getProfileShortUrl .collapse">
+<h2>Gets the short URL to the member's public miiCard profile page.</h2>
+<pre>getProfileShortUrl() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getProfileUrl"></a><div class="element clickable method public method_getProfileUrl" data-toggle="collapse" data-target=".method_getProfileUrl .collapse">
+<h2>Gets the URL to the member's public miiCard profile page.</h2>
+<pre>getProfileUrl() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getPublicProfile"></a><div class="element clickable method public method_getPublicProfile" data-toggle="collapse" data-target=".method_getPublicProfile .collapse">
+<h2>Gets the MiiUserProfile object representing the user's public profile.</h2>
+<pre>getPublicProfile() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getSalutation"></a><div class="element clickable method public method_getSalutation" data-toggle="collapse" data-target=".method_getSalutation .collapse">
+<h2>Gets the salutation of the member (e.g.</h2>
+<pre>getSalutation() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>'Mr', 'Mrs' etc).</p></div></div></div>
+</div>
+<a id="method_getUsername"></a><div class="element clickable method public method_getUsername" data-toggle="collapse" data-target=".method_getUsername .collapse">
+<h2>Gets the miiCard username of the member.</h2>
+<pre>getUsername() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getWebProperties"></a><div class="element clickable method public method_getWebProperties" data-toggle="collapse" data-target=".method_getWebProperties .collapse">
+<h2>Gets the array of WebProperty objects associated with the member.</h2>
+<pre>getWebProperties() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_cardImageUrl"> </a><div class="element clickable property protected property_cardImageUrl" data-toggle="collapse" data-target=".property_cardImageUrl .collapse">
+<h2>$cardImageUrl</h2>
+<pre>$cardImageUrl </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_dateOfBirth"> </a><div class="element clickable property protected property_dateOfBirth" data-toggle="collapse" data-target=".property_dateOfBirth .collapse">
+<h2>$dateOfBirth</h2>
+<pre>$dateOfBirth </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_emailAddresses"> </a><div class="element clickable property protected property_emailAddresses" data-toggle="collapse" data-target=".property_emailAddresses .collapse">
+<h2>$emailAddresses</h2>
+<pre>$emailAddresses </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_firstName"> </a><div class="element clickable property protected property_firstName" data-toggle="collapse" data-target=".property_firstName .collapse">
+<h2>$firstName</h2>
+<pre>$firstName </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_hasPublicProfile"> </a><div class="element clickable property protected property_hasPublicProfile" data-toggle="collapse" data-target=".property_hasPublicProfile .collapse">
+<h2>$hasPublicProfile</h2>
+<pre>$hasPublicProfile </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_identities"> </a><div class="element clickable property protected property_identities" data-toggle="collapse" data-target=".property_identities .collapse">
+<h2>$identities</h2>
+<pre>$identities </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_identityAssured"> </a><div class="element clickable property protected property_identityAssured" data-toggle="collapse" data-target=".property_identityAssured .collapse">
+<h2>$identityAssured</h2>
+<pre>$identityAssured </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_lastName"> </a><div class="element clickable property protected property_lastName" data-toggle="collapse" data-target=".property_lastName .collapse">
+<h2>$lastName</h2>
+<pre>$lastName </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_lastVerified"> </a><div class="element clickable property protected property_lastVerified" data-toggle="collapse" data-target=".property_lastVerified .collapse">
+<h2>$lastVerified</h2>
+<pre>$lastVerified </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_middleName"> </a><div class="element clickable property protected property_middleName" data-toggle="collapse" data-target=".property_middleName .collapse">
+<h2>$middleName</h2>
+<pre>$middleName </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_phoneNumbers"> </a><div class="element clickable property protected property_phoneNumbers" data-toggle="collapse" data-target=".property_phoneNumbers .collapse">
+<h2>$phoneNumbers</h2>
+<pre>$phoneNumbers </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_postalAddresses"> </a><div class="element clickable property protected property_postalAddresses" data-toggle="collapse" data-target=".property_postalAddresses .collapse">
+<h2>$postalAddresses</h2>
+<pre>$postalAddresses </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_previousFirstName"> </a><div class="element clickable property protected property_previousFirstName" data-toggle="collapse" data-target=".property_previousFirstName .collapse">
+<h2>$previousFirstName</h2>
+<pre>$previousFirstName </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_previousLastName"> </a><div class="element clickable property protected property_previousLastName" data-toggle="collapse" data-target=".property_previousLastName .collapse">
+<h2>$previousLastName</h2>
+<pre>$previousLastName </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_previousMiddleName"> </a><div class="element clickable property protected property_previousMiddleName" data-toggle="collapse" data-target=".property_previousMiddleName .collapse">
+<h2>$previousMiddleName</h2>
+<pre>$previousMiddleName </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_profileShortUrl"> </a><div class="element clickable property protected property_profileShortUrl" data-toggle="collapse" data-target=".property_profileShortUrl .collapse">
+<h2>$profileShortUrl</h2>
+<pre>$profileShortUrl </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_profileUrl"> </a><div class="element clickable property protected property_profileUrl" data-toggle="collapse" data-target=".property_profileUrl .collapse">
+<h2>$profileUrl</h2>
+<pre>$profileUrl </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_publicProfile"> </a><div class="element clickable property protected property_publicProfile" data-toggle="collapse" data-target=".property_publicProfile .collapse">
+<h2>$publicProfile</h2>
+<pre>$publicProfile </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_salutation"> </a><div class="element clickable property protected property_salutation" data-toggle="collapse" data-target=".property_salutation .collapse">
+<h2>$salutation</h2>
+<pre>$salutation </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_username"> </a><div class="element clickable property protected property_username" data-toggle="collapse" data-target=".property_username .collapse">
+<h2>$username</h2>
+<pre>$username </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_webProperties"> </a><div class="element clickable property protected property_webProperties" data-toggle="collapse" data-target=".property_webProperties .collapse">
+<h2>$webProperties</h2>
+<pre>$webProperties </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2013-06-12T12:50:38+01:00.<br></footer></div>
+</div>
+</body>
+</html>

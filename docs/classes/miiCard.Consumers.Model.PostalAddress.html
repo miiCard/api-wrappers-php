@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \miiCard\Consumers\Model\PostalAddress</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/global.html"><i class="icon-th"></i> global</a></li>
+<li><a href="../namespaces/miiCard.html"><i class="icon-th"></i> miiCard</a></li>
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/MiiCardConsumers.html"><i class="icon-folder-open"></i> MiiCardConsumers</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">173</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_FromHash" title="FromHash :: Builds a new PostalAddress from a hash obtained from the Claims API."><span class="description">Builds a new PostalAddress from a hash obtained from the Claims API.</span><pre>FromHash()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Initialises a new PostalAddress object."><span class="description">Initialises a new PostalAddress object.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_getCity" title="getCity :: Gets the city of the address."><span class="description">Gets the city of the address.</span><pre>getCity()</pre></a></li>
+<li class="method public "><a href="#method_getCode" title="getCode :: Gets the postal code of the address."><span class="description">Gets the postal code of the address.</span><pre>getCode()</pre></a></li>
+<li class="method public "><a href="#method_getCountry" title="getCountry :: Gets the country of the address."><span class="description">Gets the country of the address.</span><pre>getCountry()</pre></a></li>
+<li class="method public "><a href="#method_getHouse" title="getHouse :: Gets the name or number of the building referred to by the address."><span class="description">Gets the name or number of the building referred to by the address.</span><pre>getHouse()</pre></a></li>
+<li class="method public "><a href="#method_getIsPrimary" title="getIsPrimary :: Gets whether this is the user's primary postal address."><span class="description">Gets whether this is the user's primary postal address.</span><pre>getIsPrimary()</pre></a></li>
+<li class="method public "><a href="#method_getLine1" title="getLine1 :: Gets the first line of the address."><span class="description">Gets the first line of the address.</span><pre>getLine1()</pre></a></li>
+<li class="method public "><a href="#method_getLine2" title="getLine2 :: Gets the second line of the address."><span class="description">Gets the second line of the address.</span><pre>getLine2()</pre></a></li>
+<li class="method public "><a href="#method_getRegion" title="getRegion :: Gets the region (for example, county or state) of the address."><span class="description">Gets the region (for example, county or state) of the address.</span><pre>getRegion()</pre></a></li>
+<li class="method public inherited"><a href="#method_getVerified" title="getVerified :: Gets whether the piece of information has been verified by miiCard."><span class="description">Gets whether the piece of information has been verified by miiCard.</span><pre>getVerified()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_city" title="$city :: "><span class="description">$city</span><pre>$city</pre></a></li>
+<li class="property protected "><a href="#property_code" title="$code :: "><span class="description">$code</span><pre>$code</pre></a></li>
+<li class="property protected "><a href="#property_country" title="$country :: "><span class="description">$country</span><pre>$country</pre></a></li>
+<li class="property protected "><a href="#property_house" title="$house :: "><span class="description">$house</span><pre>$house</pre></a></li>
+<li class="property protected "><a href="#property_isPrimary" title="$isPrimary :: "><span class="description">$isPrimary</span><pre>$isPrimary</pre></a></li>
+<li class="property protected "><a href="#property_line1" title="$line1 :: "><span class="description">$line1</span><pre>$line1</pre></a></li>
+<li class="property protected "><a href="#property_line2" title="$line2 :: "><span class="description">$line2</span><pre>$line2</pre></a></li>
+<li class="property protected "><a href="#property_region" title="$region :: "><span class="description">$region</span><pre>$region</pre></a></li>
+<li class="property protected inherited"><a href="#property_verified" title="$verified :: "><span class="description">$verified</span><pre>$verified</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\miiCard\Consumers\Model\PostalAddress"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/miiCard.html">miiCard</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/miiCard.Consumers.html">Consumers</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/miiCard.Consumers.Model.html">Model</a>
+</li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/miiCard.Consumers.Model.PostalAddress.html">PostalAddress</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Represents a postal address that the user has added to their profile.</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>package</th>
+<td><a href="../packages/MiiCardConsumers.html">MiiCardConsumers</a></td>
+</tr></table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_FromHash"></a><div class="element clickable method public method_FromHash" data-toggle="collapse" data-target=".method_FromHash .collapse">
+<h2>Builds a new PostalAddress from a hash obtained from the Claims API.</h2>
+<pre>FromHash(array $hash) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$hash</h4>
+<code>array</code><p>The has containing details about a single postal address.</p></div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Initialises a new PostalAddress object.</h2>
+<pre>__construct(bool $verified, string $house, string $line1, string $line2, string $city, string $region, string $code, string $country, bool $is_primary) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$verified</h4>
+<code>bool</code><p>Indicates whether the address has been verified.</p></div>
+<div class="subelement argument">
+<h4>$house</h4>
+<code>string</code><p>The name or number of the building referred to by the address.</p></div>
+<div class="subelement argument">
+<h4>$line1</h4>
+<code>string</code><p>The first line of the address.</p></div>
+<div class="subelement argument">
+<h4>$line2</h4>
+<code>string</code><p>The second line of the address.</p></div>
+<div class="subelement argument">
+<h4>$city</h4>
+<code>string</code><p>The city of the address.</p></div>
+<div class="subelement argument">
+<h4>$region</h4>
+<code>string</code><p>The region (for example, county, state or department) of the address.</p>
+</div>
+<div class="subelement argument">
+<h4>$code</h4>
+<code>string</code><p>The postal code of the address.</p></div>
+<div class="subelement argument">
+<h4>$country</h4>
+<code>string</code><p>The country of the address.</p></div>
+<div class="subelement argument">
+<h4>$is_primary</h4>
+<code>bool</code><p>Indicates whether this is the user's primary postal address on the miiCard service.</p>
+</div>
+</div></div>
+</div>
+<a id="method_getCity"></a><div class="element clickable method public method_getCity" data-toggle="collapse" data-target=".method_getCity .collapse">
+<h2>Gets the city of the address.</h2>
+<pre>getCity() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getCode"></a><div class="element clickable method public method_getCode" data-toggle="collapse" data-target=".method_getCode .collapse">
+<h2>Gets the postal code of the address.</h2>
+<pre>getCode() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getCountry"></a><div class="element clickable method public method_getCountry" data-toggle="collapse" data-target=".method_getCountry .collapse">
+<h2>Gets the country of the address.</h2>
+<pre>getCountry() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getHouse"></a><div class="element clickable method public method_getHouse" data-toggle="collapse" data-target=".method_getHouse .collapse">
+<h2>Gets the name or number of the building referred to by the address.</h2>
+<pre>getHouse() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getIsPrimary"></a><div class="element clickable method public method_getIsPrimary" data-toggle="collapse" data-target=".method_getIsPrimary .collapse">
+<h2>Gets whether this is the user's primary postal address.</h2>
+<pre>getIsPrimary() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getLine1"></a><div class="element clickable method public method_getLine1" data-toggle="collapse" data-target=".method_getLine1 .collapse">
+<h2>Gets the first line of the address.</h2>
+<pre>getLine1() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getLine2"></a><div class="element clickable method public method_getLine2" data-toggle="collapse" data-target=".method_getLine2 .collapse">
+<h2>Gets the second line of the address.</h2>
+<pre>getLine2() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getRegion"></a><div class="element clickable method public method_getRegion" data-toggle="collapse" data-target=".method_getRegion .collapse">
+<h2>Gets the region (for example, county or state) of the address.</h2>
+<pre>getRegion() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_getVerified"></a><div class="element clickable method public method_getVerified" data-toggle="collapse" data-target=".method_getVerified .collapse">
+<h2>Gets whether the piece of information has been verified by miiCard.</h2>
+<pre>getVerified() </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>link</th>
+<td><a href="http://www-test.miicard.com/developers/claims-api#GetClaims%0D%0A">GetClaims API documentation.</a></td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\miiCard\Consumers\Model\Claim::getVerified()</td>
+</tr>
+</table>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_city"> </a><div class="element clickable property protected property_city" data-toggle="collapse" data-target=".property_city .collapse">
+<h2>$city</h2>
+<pre>$city </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_code"> </a><div class="element clickable property protected property_code" data-toggle="collapse" data-target=".property_code .collapse">
+<h2>$code</h2>
+<pre>$code </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_country"> </a><div class="element clickable property protected property_country" data-toggle="collapse" data-target=".property_country .collapse">
+<h2>$country</h2>
+<pre>$country </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_house"> </a><div class="element clickable property protected property_house" data-toggle="collapse" data-target=".property_house .collapse">
+<h2>$house</h2>
+<pre>$house </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_isPrimary"> </a><div class="element clickable property protected property_isPrimary" data-toggle="collapse" data-target=".property_isPrimary .collapse">
+<h2>$isPrimary</h2>
+<pre>$isPrimary </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_line1"> </a><div class="element clickable property protected property_line1" data-toggle="collapse" data-target=".property_line1 .collapse">
+<h2>$line1</h2>
+<pre>$line1 </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_line2"> </a><div class="element clickable property protected property_line2" data-toggle="collapse" data-target=".property_line2 .collapse">
+<h2>$line2</h2>
+<pre>$line2 </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_region"> </a><div class="element clickable property protected property_region" data-toggle="collapse" data-target=".property_region .collapse">
+<h2>$region</h2>
+<pre>$region </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_verified"> </a><div class="element clickable property protected property_verified" data-toggle="collapse" data-target=".property_verified .collapse">
+<h2>$verified</h2>
+<pre>$verified </pre>
+<div class="labels"><span class="label">Inherited</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>access</th>
+<td>protected</td>
+</tr>
+<tr>
+<th>inherited_from</th>
+<td>\miiCard\Consumers\Model\Claim::$$verified</td>
+</tr>
+</table>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
+            generated on 2013-06-12T12:50:38+01:00.<br></footer></div>
+</div>
+</body>
+</html>

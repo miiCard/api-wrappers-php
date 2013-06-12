@@ -14,12 +14,22 @@ You can obtain a consumer key and secret from miiCard by contacting us on our su
 
 ##Usage
 
+###Namespaces
+The wrapper library uses namespaces to avoid conflicts during integration.
+
+* Root namesapce is **miiCard\Consumers**
+* Consumer library functions, such as API wrappers live in **miiCard\Consumers\Consumers**
+* Models such as those returned by API **miiCard\Consumers\Model**
+
 ###Performing the OAuth exchange
 *Note: you must have called session_start before trying to initiate an OAuth exchange as certain temporary tokens need to be persisted across stages of the process.*
 
 To start an OAuth exchange, first build a MiiCard wrapper object and call its beginAuthorisation method - this will obtain a request token and redirect the user to the miiCard site to log in:
 
-    $miiCardObj = new MiiCard($consumerKey, $consumerSecret)
+    use miiCard\Consumers\Consumers;
+    use miiCard\Consumers\Model;
+
+    $miiCardObj = new Consumers\MiiCard($consumerKey, $consumerSecret)
     $miiCardObj->beginAuthorisation();
 
 Once the authorisation process has completed, the user will be redirected back to the page they left in your application. You can detect when your page is being called as an OAuth callback by asking the MiiCard object - you can then complete the authorisation process to obtain an access token and secret:
@@ -41,8 +51,8 @@ You can use the same MiiCard object to get the profile of the miiCard member who
 
 You can also extract the access token and secret information and construct a new API wrapper object to access the full API:
 
-    $api = new MiiCardOAuthClaimsService($miiCardObj->getConsumerKey(), $miiCardObj->getConsumerSecret(),
-                                         $miiCardObj->getAccessToken(), $miiCardObj->getAccessTokenSecret());
+    $api = new Consumers\MiiCardOAuthClaimsService($miiCardObj->getConsumerKey(), $miiCardObj->getConsumerSecret(),
+                                                   $miiCardObj->getAccessToken(), $miiCardObj->getAccessTokenSecret());
 
     $claimsResponse = $api->getClaims();
 
@@ -52,8 +62,11 @@ You can also extract the access token and secret information and construct a new
 
 Assuming you've stored the access token and secret, you can create a MiiCardOAuthClaimsService object suitable for accessing the API by supplying those parameters to the MiiCard constructor:
 
-    $api = new MiiCardOAuthClaimsService($consumerKey, $consumerSecret,
-                                         $accessToken, $accessTokenSecret);
+    use miiCard\Consumers\Consumers;
+    use miiCard\Consumers\Model;
+
+    $api = new Consumers\MiiCardOAuthClaimsService($consumerKey, $consumerSecret,
+                                                   $accessToken, $accessTokenSecret);
 
     $claimsResponse = $api->getClaims();
 
@@ -75,13 +88,14 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>GetClaims</td><td>$api->getClaims()</td></tr>
 <tr><td>GetIdentitySnapshot</td><td>$api->getIdentitySnapshot($snapshotId)</td></tr>
 <tr><td>GetIdentitySnapshotDetails</td><td>$api->getIdentitySnapshotDetails()<br /><b>Or, for a specific snapshot:</b><br />$api->getIdentitySnapshotDetails($snapshotId)</td></tr>
+<tr><td>GetIdentitySnapshotPdf</td><td>$api->getIdentitySnapshotPdf($snapshotId)</td></tr>
 <tr><td>IsSocialAccountAssured</td><td>$api->isSocialAccountAssured($socialAccountId, $socialAccountType)</td></tr>
 <tr><td>IsUserAssured</td><td>$api->isUserAssured()</td></tr>
 </table>
 
 ###Data types
 
-####EmailAddress
+####Model\EmailAddress
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $email instance of EmailAddress)</th></tr>
 <tr><td>DisplayName</td><td>$email->getDisplayName()</td></tr>
@@ -90,7 +104,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>Verified</td><td>$email->getVerified()</td></tr>
 </table>
 
-####Identity
+####Model\Identity
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $identity instance of Identity)</th></tr>
 <tr><td>Source</td><td>$identity->getSource()</td></tr>
@@ -99,14 +113,14 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>Verified</td><td>$identity->getVerified()</td></tr>
 </table>
 
-####IdentitySnapshot
+####Model\IdentitySnapshot
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $snapshot instance of IdentitySnapshot)</th></tr>
 <tr><td>Details</td><td>$snapshot->getDetails()</td></tr>
 <tr><td>Snapshot</td><td>$snapshot->getSnapshot()</td></tr>
 </table>
 
-####IdentitySnapshotDetails
+####Model\IdentitySnapshotDetails
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $snapshotDetails instance of IdentitySnapshotDetails)</th></tr>
 <tr><td>SnapshotId</td><td>$snapshotDetails->getSnapshotId()</td></tr>
@@ -115,14 +129,14 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>WasTestUser</td><td>$snapshotDetails->getWasTestUser()</td></tr>
 </table>
 
-####MiiApiCallStatus enumeration type
+####Model\MiiApiCallStatus enumeration type
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent</th></tr>
 <tr><td>Success</td><td>MiiApiCallStatus::SUCCESS</td></tr>
 <tr><td>Failure</td><td>MiiApiCallStatus::FAILURE</td></tr>
 </table>
 
-####MiiApiErrorCode enumeration type
+####Model\MiiApiErrorCode enumeration type
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent</th></tr>
 <tr><td>Success</td><td>MiiApiCallStatus::SUCCESS</td></tr>
@@ -137,7 +151,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>Exception</td><td>MiiApiCallStatus::EXCEPTION</td></tr>
 </table>
 
-####MiiApiResponse
+####Model\MiiApiResponse
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $response instance of MiiApiResponse)</th></tr>
 <tr><td>Status</td><td>$response->getStatus()</td></tr>
@@ -147,7 +161,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>IsTestUser</td><td>$response->getIsTestUser()</td></tr>
 </table>
 
-####MiiUserProfile
+####Model\MiiUserProfile
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $profile instance of MiiUserProfile)</th></tr>
 <tr><td>Salutation</td><td>$profile->getSalutation()</td></tr>
@@ -172,7 +186,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>PublicProfile</td><td>$profile->getPublicProfile()</td></tr>
 </table>
 
-####PhoneNumber
+####Model\PhoneNumber
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $phone instance of PhoneNumber)</th></tr>
 <tr><td>DisplayName</td><td>$phone->getDisplayName()</td></tr>
@@ -183,7 +197,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>Verified</td><td>$phone->getVerified()</td></tr>
 </table>
 
-####PostalAddress
+####Model\PostalAddress
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $address instance of PostalAddress)</th></tr>
 <tr><td>House</td><td>$address->getHouse()</td></tr>
@@ -197,7 +211,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>Verified</td><td>$address->getVerified()</td></tr>
 </table>
 
-####WebProperty
+####Model\WebProperty
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given $property instance of WebProperty)</th></tr>
 <tr><td>DisplayName</td><td>$property->getDisplayName()</td></tr>
@@ -206,7 +220,7 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>Verified</td><td>$property->getVerified()</td></tr>
 </table>
 
-####WebPropertyType enumeration type
+####Model\WebPropertyType enumeration type
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent</th></tr>
 <tr><td>Domain</td><td>WebPropertyType::DOMAIN</td></tr>

@@ -19,9 +19,12 @@
 <li class="dropdown">
 <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
                                     API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/global.html"><i class="icon-th"></i> global</a></li>
+<li><a href="../namespaces/miiCard.html"><i class="icon-th"></i> miiCard</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
-<li><a href="../packages/miiCard.html"><i class="icon-folder-open"></i> miiCard</a></li>
+<li><a href="../packages/MiiCardConsumers.html"><i class="icon-folder-open"></i> MiiCardConsumers</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -32,7 +35,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">175</span></a></li>
+                <span class="label label-info">173</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -57,24 +60,21 @@
 <li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method_testCanDeserialiseBoolean" title="testCanDeserialiseBoolean :: "><span class="description">testCanDeserialiseBoolean()
-        </span><pre>testCanDeserialiseBoolean()</pre></a></li>
-<li class="method public "><a href="#method_testCanDeserialiseUserProfile" title="testCanDeserialiseUserProfile :: "><span class="description">testCanDeserialiseUserProfile()
-        </span><pre>testCanDeserialiseUserProfile()</pre></a></li>
+<li class="method public "><a href="#method_testCanDeserialiseBoolean" title="testCanDeserialiseBoolean :: Ensures a MiiApiResponse of type bool can be deserialised."><span class="description">Ensures a MiiApiResponse of type bool can be deserialised.</span><pre>testCanDeserialiseBoolean()</pre></a></li>
+<li class="method public "><a href="#method_testCanDeserialiseUserProfile" title="testCanDeserialiseUserProfile :: Ensures that a full user profile can be deserialised."><span class="description">Ensures that a full user profile can be deserialised.</span><pre>testCanDeserialiseUserProfile()</pre></a></li>
 </ul>
 </li>
-<li class="nav-header private">» Private
-                    <ul><li class="method private "><a href="#method_assertBasics" title="assertBasics :: "><span class="description">assertBasics()
-        </span><pre>assertBasics()</pre></a></li></ul>
+<li class="nav-header protected">» Protected
+                    <ul><li class="method protected "><a href="#method_assertBasics" title="assertBasics :: General assertions for all test cases related to user profiles."><span class="description">General assertions for all test cases related to user profiles.</span><pre>assertBasics()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
                     <ul></ul>
 </li>
-<li class="nav-header private">» Private
+<li class="nav-header protected">» Protected
                     <ul>
-<li class="property private "><a href="#property__jsonBody" title="$_jsonBody :: "><span class="description">$_jsonBody</span><pre>$_jsonBody</pre></a></li>
-<li class="property private "><a href="#property__jsonResponseBody" title="$_jsonResponseBody :: "><span class="description">$_jsonResponseBody</span><pre>$_jsonResponseBody</pre></a></li>
+<li class="property protected "><a href="#property_jsonBody" title="$jsonBody :: "><span class="description">$jsonBody</span><pre>$jsonBody</pre></a></li>
+<li class="property protected "><a href="#property_jsonResponseBody" title="$jsonResponseBody :: "><span class="description">$jsonResponseBody</span><pre>$jsonResponseBody</pre></a></li>
 </ul>
 </li>
 </ul>
@@ -93,22 +93,19 @@
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method_testCanDeserialiseBoolean"></a><div class="element clickable method public method_testCanDeserialiseBoolean" data-toggle="collapse" data-target=".method_testCanDeserialiseBoolean .collapse">
-<h2>testCanDeserialiseBoolean()
-        </h2>
+<h2>Ensures a MiiApiResponse of type bool can be deserialised.</h2>
 <pre>testCanDeserialiseBoolean() </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
 <a id="method_testCanDeserialiseUserProfile"></a><div class="element clickable method public method_testCanDeserialiseUserProfile" data-toggle="collapse" data-target=".method_testCanDeserialiseUserProfile .collapse">
-<h2>testCanDeserialiseUserProfile()
-        </h2>
+<h2>Ensures that a full user profile can be deserialised.</h2>
 <pre>testCanDeserialiseUserProfile() </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="method_assertBasics"></a><div class="element clickable method private method_assertBasics" data-toggle="collapse" data-target=".method_assertBasics .collapse">
-<h2>assertBasics()
-        </h2>
+<a id="method_assertBasics"></a><div class="element clickable method protected method_assertBasics" data-toggle="collapse" data-target=".method_assertBasics .collapse">
+<h2>General assertions for all test cases related to user profiles.</h2>
 <pre>assertBasics($obj) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -119,15 +116,15 @@
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property__jsonBody"> </a><div class="element clickable property private property__jsonBody" data-toggle="collapse" data-target=".property__jsonBody .collapse">
-<h2>$_jsonBody</h2>
-<pre>$_jsonBody </pre>
+<a id="property_jsonBody"> </a><div class="element clickable property protected property_jsonBody" data-toggle="collapse" data-target=".property_jsonBody .collapse">
+<h2>$jsonBody</h2>
+<pre>$jsonBody </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property__jsonResponseBody"> </a><div class="element clickable property private property__jsonResponseBody" data-toggle="collapse" data-target=".property__jsonResponseBody .collapse">
-<h2>$_jsonResponseBody</h2>
-<pre>$_jsonResponseBody </pre>
+<a id="property_jsonResponseBody"> </a><div class="element clickable property protected property_jsonResponseBody" data-toggle="collapse" data-target=".property_jsonResponseBody .collapse">
+<h2>$jsonResponseBody</h2>
+<pre>$jsonResponseBody </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
@@ -137,7 +134,7 @@
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-12-10T16:23:18Z.<br></footer></div>
+            generated on 2013-06-12T12:50:38+01:00.<br></footer></div>
 </div>
 </body>
 </html>

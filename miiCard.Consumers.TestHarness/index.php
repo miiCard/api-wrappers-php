@@ -1,4 +1,7 @@
 <?php
+    use miiCard\Consumers\Consumers;
+    use miiCard\Consumers\Model;
+
     require_once('../miiCard.Consumers/miiCard.Consumers.php');
     require_once('prettify.php');
     
@@ -18,6 +21,7 @@
 
     $identitySnapshotId = isset($_REQUEST['identitySnapshotId']) ? $_REQUEST['identitySnapshotId'] : NULL;
     $identitySnapshotDetailsSnapshotId = isset($_REQUEST['identitySnapshotDetailsSnapshotId']) ? $_REQUEST['identitySnapshotDetailsSnapshotId'] : NULL;
+    $identitySnapshotPdfId = isset($_REQUEST['identitySnapshotPdfId']) ? $_REQUEST['identitySnapshotPdfId'] : NULL;
 
     $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
     $forceClaimsPicker = isset($_REQUEST['forceClaimsPicker']) ? $_REQUEST['forceClaimsPicker'] == 'on' : false;
@@ -56,7 +60,7 @@
     $miiCardObj = null;
     if (!$incompleteConsumerDetails) 
     {
-        $miiCardObj = new MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode, $forceClaimsPicker);
+        $miiCardObj = new Consumers\MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode, $forceClaimsPicker);
     }
 
     if ($isLoginRequest && !$incompleteConsumerDetails && $miiCardObj !== null)
@@ -89,7 +93,7 @@
     {
         $fn = $_REQUEST['btn-invoke'];
         
-        $miiCardObj = new MiiCardOAuthClaimsService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+        $miiCardObj = new Consumers\MiiCardOAuthClaimsService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
         switch ($fn)
         {
             case 'get-claims':
@@ -117,6 +121,15 @@
                 if (isset($_REQUEST['identitySnapshotId']))
                 {
                     $lastGetIdentitySnapshotResult = $miiCardObj->getIdentitySnapshot($_REQUEST['identitySnapshotId']);
+                }
+                break;
+            case 'get-identity-snapshot-pdf':
+                if (isset($_REQUEST['identitySnapshotPdfId']) && strlen($_REQUEST['identitySnapshotPdfId']) > 0)
+                {
+                    header("Content-type: application/pdf");
+                    header('Content-Disposition: attachment; filename="' . $_REQUEST['identitySnapshotPdfId'] . '".pdf');
+                    echo $miiCardObj->getIdentitySnapshotPdf($_REQUEST['identitySnapshotPdfId']);
+                    exit;
                 }
                 break;
         }
@@ -307,6 +320,21 @@
                 <p><?php echo renderResponse($lastGetIdentitySnapshotResult); ?></p>
                 <?php } ?>
                 <button type="submit" name="btn-invoke" value="get-identity-snapshot" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2>GetIdentitySnapshotPdf
+            <small>Retrieve a PDF of a created snapshot of a miiCard member's identity</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h3>Parameters</h3>
+                <label for="identitySnapshotId">Snapshot ID</label>
+                <input type="text" name="identitySnapshotPdfId" value="<?php echo $identitySnapshotPdfId; ?>" />
+
+                <button type="submit" name="btn-invoke" value="get-identity-snapshot-pdf" class="btn btn-large">Invoke method &raquo;</button>
             </div>
         </div>
     </form>
