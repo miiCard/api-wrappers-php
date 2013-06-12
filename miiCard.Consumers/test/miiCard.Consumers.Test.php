@@ -79,13 +79,13 @@ class MiiUserProfileTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(TRUE, $prop1->getVerified());
     $this->assertEquals("example.com", $prop1->getDisplayName());
     $this->assertEquals("example.com", $prop1->getIdentifier());
-    $this->assertEquals(WebPropertyType::DOMAIN, $prop1->getType());
+    $this->assertEquals(Model\WebPropertyType::DOMAIN, $prop1->getType());
 
     $prop2 = $props[1];
     $this->assertEquals(FALSE, $prop2->getVerified());
     $this->assertEquals("2.example.com", $prop2->getDisplayName());
     $this->assertEquals("http://www.2.example.com", $prop2->getIdentifier());
-    $this->assertEquals(WebPropertyType::WEBSITE, $prop2->getType());
+    $this->assertEquals(Model\WebPropertyType::WEBSITE, $prop2->getType());
 
     // Postal addresses.
     $addrs = $o->getPostalAddresses();
@@ -125,8 +125,8 @@ class MiiUserProfileTest extends PHPUnit_Framework_TestCase {
   public function testCanDeserialiseBoolean() {
     $o = Model\MiiApiResponse::FromHash(json_decode($this->jsonResponseBody, TRUE), NULL);
 
-    $this->assertEquals(MiiApiCallStatus::SUCCESS, $o->getStatus());
-    $this->assertEquals(MiiApiErrorCode::SUCCESS, $o->getErrorCode());
+    $this->assertEquals(Model\MiiApiCallStatus::SUCCESS, $o->getStatus());
+    $this->assertEquals(Model\MiiApiErrorCode::SUCCESS, $o->getErrorCode());
     $this->assertEquals("A test error message", $o->getErrorMessage());
     $this->assertEquals(TRUE, $o->getIsTestUser());
     $this->assertEquals(TRUE, $o->getData());
