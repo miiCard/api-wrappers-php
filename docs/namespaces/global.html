@@ -19,9 +19,12 @@
 <li class="dropdown">
 <a href="#api" class="dropdown-toggle" data-toggle="dropdown">
                                     API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Namespaces</a></li>
+<li><a href="../namespaces/global.html"><i class="icon-th"></i> global</a></li>
+<li><a href="../namespaces/miiCard.html"><i class="icon-th"></i> miiCard</a></li>
 <li><a>Packages</a></li>
 <li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
-<li><a href="../packages/miiCard.html"><i class="icon-folder-open"></i> miiCard</a></li>
+<li><a href="../packages/MiiCardConsumers.html"><i class="icon-folder-open"></i> MiiCardConsumers</a></li>
 </ul>
 </li>
 <li class="dropdown" id="charts-menu">
@@ -32,7 +35,7 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">175</span></a></li>
+                <span class="label label-info">173</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
@@ -80,6 +83,28 @@
 <div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument"><h4>$address</h4></div>
+</div></div>
+</div>
+<a id="function_renderAsDate"></a><div class="element clickable function  function_renderAsDate" data-toggle="collapse" data-target=".function_renderAsDate .collapse">
+<h2>renderAsDate()
+        </h2>
+<pre>renderAsDate($value) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$value</h4></div>
+</div></div>
+</div>
+<a id="function_renderAsDateTime"></a><div class="element clickable function  function_renderAsDateTime" data-toggle="collapse" data-target=".function_renderAsDateTime .collapse">
+<h2>renderAsDateTime()
+        </h2>
+<pre>renderAsDateTime($value) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$value</h4></div>
 </div></div>
 </div>
 <a id="function_renderEmail"></a><div class="element clickable function  function_renderEmail" data-toggle="collapse" data-target=".function_renderEmail .collapse">
@@ -195,114 +220,12 @@
 </div>
 <h3>
 <i class="icon-custom icon-class"></i> Classes and interfaces</h3>
-<div id="Claim" class="element ajax clickable class">
-<h1>Claim<a href="../classes/Claim.html">¶</a>
-</h1>
-<p class="short_description">Base class of all verifiable information supplied by the miiCard API.</p>
-<div class="details collapse"></div>
-<a href="../classes/Claim.html" class="more">« More »</a>
-</div>
-<div id="EmailAddress" class="element ajax clickable class">
-<h1>EmailAddress<a href="../classes/EmailAddress.html">¶</a>
-</h1>
-<p class="short_description">Represents an email address that the miiCard member has linked to their profile.</p>
-<div class="details collapse"></div>
-<a href="../classes/EmailAddress.html" class="more">« More »</a>
-</div>
-<div id="Identity" class="element ajax clickable class">
-<h1>Identity<a href="../classes/Identity.html">¶</a>
-</h1>
-<p class="short_description">Represents the miiCard member's account details on another website, such as a social media site.</p>
-<div class="details collapse"></div>
-<a href="../classes/Identity.html" class="more">« More »</a>
-</div>
-<div id="IdentitySnapshot" class="element ajax clickable class">
-<h1>IdentitySnapshot<a href="../classes/IdentitySnapshot.html">¶</a>
-</h1>
-<p class="short_description">Represents a single snapshot of miiCard member's identity.</p>
-<div class="details collapse"></div>
-<a href="../classes/IdentitySnapshot.html" class="more">« More »</a>
-</div>
-<div id="IdentitySnapshotDetails" class="element ajax clickable class">
-<h1>IdentitySnapshotDetails<a href="../classes/IdentitySnapshotDetails.html">¶</a>
-</h1>
-<p class="short_description">Represents the metadata associated with a snapshot of a single miiCard member's
-details.</p>
-<div class="details collapse"></div>
-<a href="../classes/IdentitySnapshotDetails.html" class="more">« More »</a>
-</div>
 <div id="IdentitySnapshotDetailsTest" class="element ajax clickable class">
 <h1>IdentitySnapshotDetailsTest<a href="../classes/IdentitySnapshotDetailsTest.html">¶</a>
 </h1>
 <p class="short_description"></p>
 <div class="details collapse"></div>
 <a href="../classes/IdentitySnapshotDetailsTest.html" class="more">« More »</a>
-</div>
-<div id="MiiApiCallStatus" class="element ajax clickable class">
-<h1>MiiApiCallStatus<a href="../classes/MiiApiCallStatus.html">¶</a>
-</h1>
-<p class="short_description">Represents different possible statuses returned by the miiCard API.</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiApiCallStatus.html" class="more">« More »</a>
-</div>
-<div id="MiiApiErrorCode" class="element ajax clickable class">
-<h1>MiiApiErrorCode<a href="../classes/MiiApiErrorCode.html">¶</a>
-</h1>
-<p class="short_description">Represents the specific error type returned by the miiCard API.</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiApiErrorCode.html" class="more">« More »</a>
-</div>
-<div id="MiiApiResponse" class="element ajax clickable class">
-<h1>MiiApiResponse<a href="../classes/MiiApiResponse.html">¶</a>
-</h1>
-<p class="short_description">A wrapper around most responses to miiCard Claims API calls, detailing
-the success or failure of the call and containing additional information
-to help diagnose issues.</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiApiResponse.html" class="more">« More »</a>
-</div>
-<div id="MiiCard" class="element ajax clickable class">
-<h1>MiiCard<a href="../classes/MiiCard.html">¶</a>
-</h1>
-<p class="short_description">Wrapper around the miiCard OAuth authorisation process.</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiCard.html" class="more">« More »</a>
-</div>
-<div id="MiiCardException" class="element ajax clickable class">
-<h1>MiiCardException<a href="../classes/MiiCardException.html">¶</a>
-</h1>
-<p class="short_description">Base class for exceptions raised by the library</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiCardException.html" class="more">« More »</a>
-</div>
-<div id="MiiCardOAuthClaimsService" class="element ajax clickable class">
-<h1>MiiCardOAuthClaimsService<a href="../classes/MiiCardOAuthClaimsService.html">¶</a>
-</h1>
-<p class="short_description">Wrapper around the miiCard Claims API v1.</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiCardOAuthClaimsService.html" class="more">« More »</a>
-</div>
-<div id="MiiCardOAuthServiceBase" class="element ajax clickable class">
-<h1>MiiCardOAuthServiceBase<a href="../classes/MiiCardOAuthServiceBase.html">¶</a>
-</h1>
-<p class="short_description">Base class for wrappers around an OAuth-protected API</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiCardOAuthServiceBase.html" class="more">« More »</a>
-</div>
-<div id="MiiCardServiceUrls" class="element ajax clickable class">
-<h1>MiiCardServiceUrls<a href="../classes/MiiCardServiceUrls.html">¶</a>
-</h1>
-<p class="short_description">Houses the URLs of the OAuth endpoint and Claims API endpoint.</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiCardServiceUrls.html" class="more">« More »</a>
-</div>
-<div id="MiiUserProfile" class="element ajax clickable class">
-<h1>MiiUserProfile<a href="../classes/MiiUserProfile.html">¶</a>
-</h1>
-<p class="short_description">Represents the subset of the miiCard member's identity that they have agreed
-to share with your application.</p>
-<div class="details collapse"></div>
-<a href="../classes/MiiUserProfile.html" class="more">« More »</a>
 </div>
 <div id="MiiUserProfileTest" class="element ajax clickable class">
 <h1>MiiUserProfileTest<a href="../classes/MiiUserProfileTest.html">¶</a>
@@ -381,13 +304,6 @@ EMSA-PKCS1-v1_5.</p>
 <div class="details collapse"></div>
 <a href="../classes/OAuthSignatureMethod_RSA_SHA1.html" class="more">« More »</a>
 </div>
-<div id="OAuthSignedRequestMaker" class="element ajax clickable class">
-<h1>OAuthSignedRequestMaker<a href="../classes/OAuthSignedRequestMaker.html">¶</a>
-</h1>
-<p class="short_description">Base class for classes that make OAuth 1.0a-signed HTTP requests</p>
-<div class="details collapse"></div>
-<a href="../classes/OAuthSignedRequestMaker.html" class="more">« More »</a>
-</div>
 <div id="OAuthToken" class="element ajax clickable class">
 <h1>OAuthToken<a href="../classes/OAuthToken.html">¶</a>
 </h1>
@@ -401,42 +317,6 @@ EMSA-PKCS1-v1_5.</p>
 <p class="short_description"></p>
 <div class="details collapse"></div>
 <a href="../classes/OAuthUtil.html" class="more">« More »</a>
-</div>
-<div id="PhoneNumber" class="element ajax clickable class">
-<h1>PhoneNumber<a href="../classes/PhoneNumber.html">¶</a>
-</h1>
-<p class="short_description">Represents a phone number that the user has linked to their miiCard profile.</p>
-<div class="details collapse"></div>
-<a href="../classes/PhoneNumber.html" class="more">« More »</a>
-</div>
-<div id="PostalAddress" class="element ajax clickable class">
-<h1>PostalAddress<a href="../classes/PostalAddress.html">¶</a>
-</h1>
-<p class="short_description">Represents a postal address that the user has linked to their miiCard profile.</p>
-<div class="details collapse"></div>
-<a href="../classes/PostalAddress.html" class="more">« More »</a>
-</div>
-<div id="Util" class="element ajax clickable class">
-<h1>Util<a href="../classes/Util.html">¶</a>
-</h1>
-<p class="short_description">General utilities class</p>
-<div class="details collapse"></div>
-<a href="../classes/Util.html" class="more">« More »</a>
-</div>
-<div id="WebProperty" class="element ajax clickable class">
-<h1>WebProperty<a href="../classes/WebProperty.html">¶</a>
-</h1>
-<p class="short_description">Represents a web property that the member has linked to their miiCard profile,
-for example a domain name or web page.</p>
-<div class="details collapse"></div>
-<a href="../classes/WebProperty.html" class="more">« More »</a>
-</div>
-<div id="WebPropertyType" class="element ajax clickable class">
-<h1>WebPropertyType<a href="../classes/WebPropertyType.html">¶</a>
-</h1>
-<p class="short_description">Details the kind of web property a user has linked to their miiCard profile.</p>
-<div class="details collapse"></div>
-<a href="../classes/WebPropertyType.html" class="more">« More »</a>
 </div>
 <h3>
 <i class="icon-custom icon-constant"></i> Constants</h3>
@@ -464,7 +344,7 @@ for example a domain name or web page.</p>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a10</a> and<br>
-            generated on 2012-12-10T16:23:18Z.<br></footer></div>
+            generated on 2013-06-12T12:50:38+01:00.<br></footer></div>
 </div>
 </body>
 </html>

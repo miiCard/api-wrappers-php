@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>phpDocumentor » \OAuthUtil</title>
+<title>phpDocumentor » \miiCard\Consumers\Model\Claim</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -56,101 +56,99 @@
 <span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
 <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
 </div>
-<ul class="side-nav nav nav-list"><li class="nav-header">
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
                     <ul>
-<li class="method public "><a href="#method_build_http_query" title="build_http_query :: "><span class="description">build_http_query()
-        </span><pre>build_http_query()</pre></a></li>
-<li class="method public "><a href="#method_get_headers" title="get_headers :: "><span class="description">get_headers()
-        </span><pre>get_headers()</pre></a></li>
-<li class="method public "><a href="#method_parse_parameters" title="parse_parameters :: "><span class="description">parse_parameters()
-        </span><pre>parse_parameters()</pre></a></li>
-<li class="method public "><a href="#method_split_header" title="split_header :: "><span class="description">split_header()
-        </span><pre>split_header()</pre></a></li>
-<li class="method public "><a href="#method_urldecode_rfc3986" title="urldecode_rfc3986 :: "><span class="description">urldecode_rfc3986()
-        </span><pre>urldecode_rfc3986()</pre></a></li>
-<li class="method public "><a href="#method_urlencode_rfc3986" title="urlencode_rfc3986 :: "><span class="description">urlencode_rfc3986()
-        </span><pre>urlencode_rfc3986()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Initialises a new Claim."><span class="description">Initialises a new Claim.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_getVerified" title="getVerified :: Gets whether the piece of information has been verified by miiCard."><span class="description">Gets whether the piece of information has been verified by miiCard.</span><pre>getVerified()</pre></a></li>
 </ul>
-</li></ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul><li class="property protected "><a href="#property_verified" title="$verified :: "><span class="description">$verified</span><pre>$verified</pre></a></li></ul>
+</li>
+</ul>
 </div>
 <div class="span8">
-<a id="\OAuthUtil"></a><ul class="breadcrumb">
+<a id="\miiCard\Consumers\Model\Claim"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
-<li><a href="../namespaces/global.html">global</a></li>
+<li><a href="../namespaces/miiCard.html">miiCard</a></li>
+<li>
+<span class="divider">\</span><a href="../namespaces/miiCard.Consumers.html">Consumers</a>
+</li>
+<li>
+<span class="divider">\</span><a href="../namespaces/miiCard.Consumers.Model.html">Model</a>
+</li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/OAuthUtil.html">OAuthUtil</a>
+<span class="divider">\</span><a href="../classes/miiCard.Consumers.Model.Claim.html">Claim</a>
 </li>
 </ul>
-<div class="element class"><div class="details">
+<div class="element class">
+<p class="short_description">Base class of all verifiable information supplied by the miiCard API.</p>
+<div class="details">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>abstract</th>
+<td></td>
+</tr>
+<tr>
+<th>package</th>
+<td><a href="../packages/MiiCardConsumers.html">MiiCardConsumers</a></td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method_build_http_query"></a><div class="element clickable method public method_build_http_query" data-toggle="collapse" data-target=".method_build_http_query .collapse">
-<h2>build_http_query()
-        </h2>
-<pre>build_http_query($params) </pre>
-<div class="labels"><span class="label">Static</span></div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Initialises a new Claim.</h2>
+<pre>__construct(bool $verified) </pre>
+<div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www-test.miicard.com/developers/claims-api#GetClaims%0D%0A">GetClaims API documentation.</a></td>
+</tr></table>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$params</h4></div>
+<div class="subelement argument">
+<h4>$verified</h4>
+<code>bool</code><p>Indicates whether the piece of information has been verified by miiCard or not. A fuller discussion of verified vs unverified information can be found at the miiCard.com API documentation entry for the GetClaims method.</p></div>
 </div></div>
 </div>
-<a id="method_get_headers"></a><div class="element clickable method public method_get_headers" data-toggle="collapse" data-target=".method_get_headers .collapse">
-<h2>get_headers()
-        </h2>
-<pre>get_headers() </pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="method_parse_parameters"></a><div class="element clickable method public method_parse_parameters" data-toggle="collapse" data-target=".method_parse_parameters .collapse">
-<h2>parse_parameters()
-        </h2>
-<pre>parse_parameters($input) </pre>
-<div class="labels"><span class="label">Static</span></div>
+<a id="method_getVerified"></a><div class="element clickable method public method_getVerified" data-toggle="collapse" data-target=".method_getVerified .collapse">
+<h2>Gets whether the piece of information has been verified by miiCard.</h2>
+<pre>getVerified() </pre>
+<div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$input</h4></div>
+<table class="table table-bordered"><tr>
+<th>link</th>
+<td><a href="http://www-test.miicard.com/developers/claims-api#GetClaims%0D%0A">GetClaims API documentation.</a></td>
+</tr></table>
 </div></div>
 </div>
-<a id="method_split_header"></a><div class="element clickable method public method_split_header" data-toggle="collapse" data-target=".method_split_header .collapse">
-<h2>split_header()
-        </h2>
-<pre>split_header($header, $only_allow_oauth_parameters) </pre>
-<div class="labels"><span class="label">Static</span></div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_verified"> </a><div class="element clickable property protected property_verified" data-toggle="collapse" data-target=".property_verified .collapse">
+<h2>$verified</h2>
+<pre>$verified </pre>
+<div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$header</h4></div>
-<div class="subelement argument"><h4>$only_allow_oauth_parameters</h4></div>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>protected</td>
+</tr></table>
 </div></div>
 </div>
-<a id="method_urldecode_rfc3986"></a><div class="element clickable method public method_urldecode_rfc3986" data-toggle="collapse" data-target=".method_urldecode_rfc3986 .collapse">
-<h2>urldecode_rfc3986()
-        </h2>
-<pre>urldecode_rfc3986($string) </pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$string</h4></div>
-</div></div>
 </div>
-<a id="method_urlencode_rfc3986"></a><div class="element clickable method public method_urlencode_rfc3986" data-toggle="collapse" data-target=".method_urlencode_rfc3986 .collapse">
-<h2>urlencode_rfc3986()
-        </h2>
-<pre>urlencode_rfc3986($input) </pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument"><h4>$input</h4></div>
-</div></div>
 </div>
-</div></div>
 </div>
 </div>
 <div class="row"><footer class="span12">
