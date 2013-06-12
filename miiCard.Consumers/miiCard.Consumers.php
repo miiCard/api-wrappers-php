@@ -640,7 +640,7 @@ class MiiCard extends OAuthSignedRequestMaker {
       $api = new MiiCardOAuthClaimsService($this->getConsumerKey(), $this->getConsumerSecret(), $this->getAccessToken(), $this->getAccessTokenSecret());
       $response = $api->getClaims();
 
-      if ($response->getStatus() == MiiApiCallStatus::SUCCESS) {
+      if ($response->getStatus() == Model\MiiApiCallStatus::SUCCESS) {
         return $response->getData();
       }
       else {
