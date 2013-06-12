@@ -1,12 +1,25 @@
 Release notes
--------------
+==============================================================================
+
+1.2	2013-06-12
+______________________________________________________________________________
+!! BREAKING CHANGE: Namespaced all classes and updated test harness - existing
+   integrations will need to be modified to include appropriate namespace
+   qualifications
+++ Added support for GetIdentitySnapshotPdf method and included in test 
+   harness
+
 
 1.1 	2013-02-12
-+ Added support for DateOfBirth from API
-+ Fixed redirect to OAuth endpoint not working in IE
-+ Added more extensive documentation in README.md re: mapping of API data types to the wrapper library equivalents
-+ Added extra enumeration members to MiiApiErrorCode
-+ Fixed rendering of nullable dates in the test harness
+______________________________________________________________________________
+++ Added support for DateOfBirth from API
+++ Fixed redirect to OAuth endpoint not working in IE
+++ Added more extensive documentation in README.md re: mapping of API data 
+   types to the wrapper library equivalents
+++ Added extra enumeration members to MiiApiErrorCode
+++ Fixed rendering of nullable dates in the test harness
+
 
 1.0 
+_______________________________________________________________________________
 Initial release
