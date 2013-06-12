@@ -5,6 +5,8 @@
  * Tests JSON deserialisation of miiCard API artefacts into PHP objects.
  */
 
+use miiCard\Consumers\Model;
+
 require_once '../miiCard.Model.php';
 
 class IdentitySnapshotDetailsTest extends PHPUnit_Framework_TestCase {
@@ -14,7 +16,7 @@ class IdentitySnapshotDetailsTest extends PHPUnit_Framework_TestCase {
    * Ensures identity snapshot metadata can be deserialised.
    */
   public function testCanDeserialiseIdentitySnapshotDetailsResponse() {
-    $o = IdentitySnapshotDetails::FromHash(json_decode($this->jsonBody, TRUE));
+    $o = Model\IdentitySnapshotDetails::FromHash(json_decode($this->jsonBody, TRUE));
 
     $this->assertEquals("0fc60a0e-a058-4cae-bae1-460db73f2947", $o->getSnapshotId());
     $this->assertEquals(1351594328.296, $o->getTimestampUtc());
@@ -31,7 +33,7 @@ class MiiUserProfileTest extends PHPUnit_Framework_TestCase {
    * Ensures that a full user profile can be deserialised.
    */
   public function testCanDeserialiseUserProfile() {
-    $o = MiiUserProfile::FromHash(json_decode($this->jsonBody, TRUE));
+    $o = Model\MiiUserProfile::FromHash(json_decode($this->jsonBody, TRUE));
 
     $this->assertBasics($o);
 
@@ -121,7 +123,7 @@ class MiiUserProfileTest extends PHPUnit_Framework_TestCase {
    * Ensures a MiiApiResponse of type bool can be deserialised.
    */
   public function testCanDeserialiseBoolean() {
-    $o = MiiApiResponse::FromHash(json_decode($this->jsonResponseBody, TRUE), NULL);
+    $o = Model\MiiApiResponse::FromHash(json_decode($this->jsonResponseBody, TRUE), NULL);
 
     $this->assertEquals(MiiApiCallStatus::SUCCESS, $o->getStatus());
     $this->assertEquals(MiiApiErrorCode::SUCCESS, $o->getErrorCode());
