@@ -1,4 +1,7 @@
 <?php
+    use miiCard\Consumers\Consumers;
+    use miiCard\Consumers\Model;
+
     require_once('../miiCard.Consumers/miiCard.Consumers.php');
     require_once('prettify.php');
     
@@ -57,7 +60,7 @@
     $miiCardObj = null;
     if (!$incompleteConsumerDetails) 
     {
-        $miiCardObj = new MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode, $forceClaimsPicker);
+        $miiCardObj = new Consumers\MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode, $forceClaimsPicker);
     }
 
     if ($isLoginRequest && !$incompleteConsumerDetails && $miiCardObj !== null)
@@ -90,7 +93,7 @@
     {
         $fn = $_REQUEST['btn-invoke'];
         
-        $miiCardObj = new MiiCardOAuthClaimsService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+        $miiCardObj = new Consumers\MiiCardOAuthClaimsService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
         switch ($fn)
         {
             case 'get-claims':

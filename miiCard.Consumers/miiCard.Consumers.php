@@ -5,10 +5,19 @@
  * Classes for making OAuth signed requests to the miiCard API.
  */
 
+namespace miiCard\Consumers\Consumers;
+
+use miiCard\Consumers\Model;
+
 /**
- * @package miiCard.Consumers
+ * @package MiiCardConsumers
  */
-require_once 'oauth/OAuth.php';
+
+// Include OAuth library only if it hasn't already been defined (as for some
+// packages like Drupal this'll be a modular dependency)
+if (!class_exists('OAuthRequest')) {
+  require_once 'oauth/OAuth.php';
+}
 require_once 'miiCard.Model.php';
 
 /**
@@ -18,10 +27,10 @@ require_once 'miiCard.Model.php';
  */
 class MiiCardServiceUrls {
   /** URL of the OAuth authorisation endpoint. */
-  const OAUTH_ENDPOINT = "https://127.0.0.1:444/auth/oauth.ashx";
+  const OAUTH_ENDPOINT = "https://sts.miicard.com/auth/oauth.ashx";
 
   /** URL of the Claims API v1 JSON endpoint. */
-  const CLAIMS_SVC = "https://127.0.0.1:444/api/v1/Claims.svc/json";
+  const CLAIMS_SVC = "https://sts.miicard.com/api/v1/Claims.svc/json";
 
   /**
    * Calculates the URL of a Claims API method.
@@ -78,10 +87,10 @@ abstract class OAuthSignedRequestMaker {
    */
   public function __construct($consumer_key, $consumer_secret, $access_token = NULL, $access_token_secret = NULL) {
     if (!isset($consumer_key)) {
-      throw new InvalidArgumentException("consumerKey cannot be NULL");
+      throw new \InvalidArgumentException("consumerKey cannot be NULL");
     }
     elseif (!isset($consumer_secret)) {
-      throw new InvalidArgumentException("consumerSecret cannot be NULL");
+      throw new \InvalidArgumentException("consumerSecret cannot be NULL");
     }
 
     $this->consumerKey = $consumer_key;
@@ -151,21 +160,21 @@ abstract class OAuthSignedRequestMaker {
    *   the body of the request.
    */
   protected function makeSignedRequest($url, $params, $headers = array(), $raw_post_body = FALSE) {
-    $consumer_token = new OAuthToken($this->consumerKey, $this->consumerSecret);
+    $consumer_token = new \OAuthToken($this->consumerKey, $this->consumerSecret);
     $access_token = NULL;
 
     if ($this->getAccessToken() != NULL && $this->getAccessTokenSecret() != NULL) {
-      $access_token = new OAuthToken($this->getAccessToken(), $this->getAccessTokenSecret());
+      $access_token = new \OAuthToken($this->getAccessToken(), $this->getAccessTokenSecret());
     }
 
     if ($raw_post_body) {
-      $request = OAuthRequest::from_consumer_and_token($consumer_token, $access_token, 'POST', $url, NULL);
+      $request = \OAuthRequest::from_consumer_and_token($consumer_token, $access_token, 'POST', $url, NULL);
     }
     else {
-      $request = OAuthRequest::from_consumer_and_token($consumer_token, $access_token, 'POST', $url, $params);
+      $request = \OAuthRequest::from_consumer_and_token($consumer_token, $access_token, 'POST', $url, $params);
     }
 
-    $request->sign_request(new OAuthSignatureMethod_HMAC_SHA1(), $consumer_token, $access_token);
+    $request->sign_request(new \OAuthSignatureMethod_HMAC_SHA1(), $consumer_token, $access_token);
 
     if ($raw_post_body) {
       array_push($headers, $request->to_header());
@@ -226,8 +235,8 @@ abstract class OAuthSignedRequestMaker {
       CURLOPT_TIMEOUT => 90,
       CURLOPT_FOLLOWLOCATION => TRUE,
       CURLOPT_RETURNTRANSFER => TRUE,
-      CURLOPT_SSL_VERIFYHOST => FALSE,
-      CURLOPT_SSL_VERIFYPEER => FALSE,
+      CURLOPT_SSL_VERIFYHOST => TRUE,
+      CURLOPT_SSL_VERIFYPEER => TRUE,
       CURLOPT_CAINFO => dirname(__FILE__) . "/certs/sts.miicard.com.pem",
       CURLOPT_HTTPHEADER => $headers,
       CURLOPT_FORBID_REUSE => TRUE,
@@ -257,7 +266,7 @@ abstract class OAuthSignedRequestMaker {
  *
  * @package MiiCardConsumers
  */
-class MiiCardException extends Exception {}
+class MiiCardException extends \Exception {}
 
 /**
  * Base class for wrappers around an OAuth-protected API.
@@ -280,10 +289,10 @@ abstract class MiiCardOAuthServiceBase extends OAuthSignedRequestMaker {
    */
   public function __construct($consumer_key, $consumer_secret, $access_token, $access_token_secret) {
     if (!isset($access_token)) {
-      throw new InvalidArgumentException("accessToken cannot be NULL");
+      throw new \InvalidArgumentException("accessToken cannot be NULL");
     }
     elseif (!isset($access_token_secret)) {
-      throw new InvalidArgumentException("accessTokenSecret cannot be NULL");
+      throw new \InvalidArgumentException("accessTokenSecret cannot be NULL");
     }
 
     parent::__construct($consumer_key, $consumer_secret, $access_token, $access_token_secret);
@@ -322,7 +331,7 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
    * Gets the claims that the miiCard member has shared with your application.
    */
   public function getClaims() {
-    return $this->makeRequest('GetClaims', NULL, 'MiiUserProfile::FromHash', TRUE);
+    return $this->makeRequest('GetClaims', NULL, 'miiCard\Consumers\Model\MiiUserProfile::FromHash', TRUE);
   }
 
   /**
@@ -385,7 +394,7 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
       $request_array['snapshotId'] = $snapshot_id;
     }
 
-    return $this->makeRequest('GetIdentitySnapshotDetails', json_encode($request_array), 'IdentitySnapshotDetails::FromHash', TRUE, TRUE);
+    return $this->makeRequest('GetIdentitySnapshotDetails', json_encode($request_array), 'miiCard\Consumers\Model\IdentitySnapshotDetails::FromHash', TRUE, TRUE);
   }
 
   /**
@@ -402,7 +411,7 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
     $request_array = array();
     $request_array['snapshotId'] = $snapshot_id;
 
-    return $this->makeRequest('GetIdentitySnapshot', json_encode($request_array), 'IdentitySnapshot::FromHash', TRUE);
+    return $this->makeRequest('GetIdentitySnapshot', json_encode($request_array), 'miiCard\Consumers\Model\IdentitySnapshot::FromHash', TRUE);
   }
 
   /**
@@ -441,7 +450,7 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
     if ($response != NULL) {
       if ($wrapped_response) {
         $response = json_decode($response, TRUE);
-        return MiiApiResponse::FromHash($response, $payload_processor, $array_type_payload);
+        return Model\MiiApiResponse::FromHash($response, $payload_processor, $array_type_payload);
       }
       elseif ($payload_processor != NULL) {
         return call_user_func($payload_processor, $response);
@@ -666,7 +675,7 @@ class MiiCard extends OAuthSignedRequestMaker {
       throw new MiiCardException("No token received from OAuth service - check credentials");
     }
 
-    return new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
+    return new \OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
   }
 
   /**
@@ -692,7 +701,7 @@ class MiiCard extends OAuthSignedRequestMaker {
     $this->accessTokenSecret = $token['oauth_token_secret'];
     $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET] = $token['oauth_token_secret'];
 
-    return new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
+    return new \OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);
   }
 
   /**

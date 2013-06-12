@@ -1,4 +1,6 @@
 <?php
+    use miiCard\Consumers\Consumers;
+
     require_once('../miiCard.Consumers/miiCard.Consumers.php');
     
    /* ATTENTION
@@ -22,7 +24,7 @@
         && $accessTokenSecret != null
         && $type != null)
     {
-        $miiCardObj = new MiiCardOAuthClaimsService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+        $miiCardObj = new Consumers\MiiCardOAuthClaimsService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
         header("Content-type: image/png");
         echo $miiCardObj->assuranceImage($type);
     }

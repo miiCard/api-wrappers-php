@@ -1,5 +1,7 @@
 <?php
 
+namespace miiCard\Consumers\Model;
+
 /**
  * @file
  * Wrapper classes around objects returned from the miiCard API.
