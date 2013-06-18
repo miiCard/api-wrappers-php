@@ -23,6 +23,10 @@
     $identitySnapshotDetailsSnapshotId = isset($_REQUEST['identitySnapshotDetailsSnapshotId']) ? $_REQUEST['identitySnapshotDetailsSnapshotId'] : NULL;
     $identitySnapshotPdfId = isset($_REQUEST['identitySnapshotPdfId']) ? $_REQUEST['identitySnapshotPdfId'] : NULL;
 
+    $cardImageSnapshotId = isset($_REQUEST['cardImageSnapshotId']) ? $_REQUEST['cardImageSnapshotId'] : NULL;
+    $cardImageHideEmailAddress = isset($_REQUEST['cardImageHideEmailAddress']) ? ($_REQUEST['cardImageHideEmailAddress'] == 'on') : FALSE;
+    $cardImageHidePhoneNumber = isset($_REQUEST['cardImageHidePhoneNumber']) ? ($_REQUEST['cardImageHidePhoneNumber'] == 'on') : FALSE;
+
     $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
     $forceClaimsPicker = isset($_REQUEST['forceClaimsPicker']) ? $_REQUEST['forceClaimsPicker'] == 'on' : false;
         
@@ -111,8 +115,11 @@
             case 'assurance-image':
                 if (isset($_REQUEST['assuranceImageType']))
                 {
-                    $showAssuranceImage = true;
+                    $showAssuranceImage = TRUE;
                 }
+                break;
+            case 'card-image':
+                $showCardImage = TRUE;
                 break;
             case 'get-identity-snapshot-details':
                 $lastGetIdentitySnapshotDetailsResult = $miiCardObj->getIdentitySnapshotDetails($_REQUEST['identitySnapshotDetailsSnapshotId']);
@@ -282,6 +289,37 @@
                 <p><img src="assuranceimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&type=<?php echo rawurlencode($assuranceImageType); ?>" /></p>
                 <?php } ?>
                 <button type="submit" name="btn-invoke" value="assurance-image" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2>CardImage
+            <small>Renders a card-image representation of LOA</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h3>Parameters</h3>
+                <label for="cardImageSnapshotId">Snapshot ID (optional)</label>
+                <input type="text" name="cardImageSnapshotId" value="<?php echo $cardImageSnapshotId; ?>" />
+
+                <?php if ($cardImageHideEmailAddress == 'on') { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageHideEmailAddress" checked="checked" value="on" /> Hide email address</label>
+                <?php } else { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageHideEmailAddress" /> Hide email address</label>
+                <?php } ?>
+
+                <?php if ($cardImageHidePhoneNumber == 'on') { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageHidePhoneNumber" checked="checked" value="on" /> Hide phone number</label>
+                <?php } else { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageHidePhoneNumber" /> Hide phone number</label>
+                <?php } ?>
+
+                <h4>Result</h4>
+                <?php if (isset($showCardImage)) { ?>
+                <p><img src="cardimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&snapshot-id=<?php echo rawurlencode($cardImageSnapshotId) ?>&hide-email-address=<?php echo $cardImageHideEmailAddress ? 'true' : 'false'; ?>&hide-phone-number=<?php echo $cardImageHidePhoneNumber ? 'true' : 'false' ?>" /></p>
+                <?php } ?>
+                <button type="submit" name="btn-invoke" value="card-image" class="btn btn-large">Invoke method &raquo;</button>
             </div>
         </div>
 
