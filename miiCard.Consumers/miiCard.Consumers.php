@@ -384,17 +384,17 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
    * @param string $snapshot_id
    *   If using the transactional model, generates an image using data stored
    *   in the snapshot specified by this ID.
-   * @param boolean $hide_email_address
-   *   If true, the miiCard member's email address is not shown on the card.
-   * @param boolean $hide_phone_number
-   *   If true, the miiCard member's phone number is not shown on the card. This
-   *   defaults to true to protect member privacy.
+   * @param boolean $show_email_address
+   *   If true, the miiCard member's email address is shown on the card.
+   * @param boolean $show_phone_number
+   *   If true, the miiCard member's phone number is shown on the card. This
+   *   defaults to false to protect member privacy.
    */
-  public function getCardImage($snapshot_id = NULL, $hide_email_address = FALSE, $hide_phone_number = TRUE) {
+  public function getCardImage($snapshot_id = NULL, $show_email_address = FALSE, $show_phone_number = FALSE) {
     $request_array = array();
     $request_array['SnapshotId'] = $snapshot_id;
-    $request_array['HideEmailAddress'] = $hide_email_address;
-    $request_array['HidePhoneNumber'] = $hide_phone_number;
+    $request_array['ShowEmailAddress'] = $show_email_address;
+    $request_array['ShowPhoneNumber'] = $show_phone_number;
 
     return $this->makeRequest('GetCardImage', json_encode($request_array), NULL, FALSE);
   }

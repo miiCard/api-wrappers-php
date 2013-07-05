@@ -24,8 +24,8 @@
     $identitySnapshotPdfId = isset($_REQUEST['identitySnapshotPdfId']) ? $_REQUEST['identitySnapshotPdfId'] : NULL;
 
     $cardImageSnapshotId = isset($_REQUEST['cardImageSnapshotId']) ? $_REQUEST['cardImageSnapshotId'] : NULL;
-    $cardImageHideEmailAddress = isset($_REQUEST['cardImageHideEmailAddress']) ? ($_REQUEST['cardImageHideEmailAddress'] == 'on') : FALSE;
-    $cardImageHidePhoneNumber = isset($_REQUEST['cardImageHidePhoneNumber']) ? ($_REQUEST['cardImageHidePhoneNumber'] == 'on') : FALSE;
+    $cardImageShowEmailAddress = isset($_REQUEST['cardImageShowEmailAddress']) ? ($_REQUEST['cardImageShowEmailAddress'] == 'on') : FALSE;
+    $cardImageShowPhoneNumber = isset($_REQUEST['cardImageShowPhoneNumber']) ? ($_REQUEST['cardImageShowPhoneNumber'] == 'on') : FALSE;
 
     $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
     $forceClaimsPicker = isset($_REQUEST['forceClaimsPicker']) ? $_REQUEST['forceClaimsPicker'] == 'on' : false;
@@ -303,21 +303,21 @@
                 <label for="cardImageSnapshotId">Snapshot ID (optional)</label>
                 <input type="text" name="cardImageSnapshotId" value="<?php echo $cardImageSnapshotId; ?>" />
 
-                <?php if ($cardImageHideEmailAddress == 'on') { ?>
-                  <label class="checkbox"><input type="checkbox" name="cardImageHideEmailAddress" checked="checked" value="on" /> Hide email address</label>
+                <?php if ($cardImageShowEmailAddress == 'on') { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageShowEmailAddress" checked="checked" value="on" /> Show email address</label>
                 <?php } else { ?>
-                  <label class="checkbox"><input type="checkbox" name="cardImageHideEmailAddress" /> Hide email address</label>
+                  <label class="checkbox"><input type="checkbox" name="cardImageShowEmailAddress" /> Show email address</label>
                 <?php } ?>
 
-                <?php if ($cardImageHidePhoneNumber == 'on') { ?>
-                  <label class="checkbox"><input type="checkbox" name="cardImageHidePhoneNumber" checked="checked" value="on" /> Hide phone number</label>
+                <?php if ($cardImageShowPhoneNumber == 'on') { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageShowPhoneNumber" checked="checked" value="on" /> Show phone number</label>
                 <?php } else { ?>
-                  <label class="checkbox"><input type="checkbox" name="cardImageHidePhoneNumber" /> Hide phone number</label>
+                  <label class="checkbox"><input type="checkbox" name="cardImageShowPhoneNumber" /> Show phone number</label>
                 <?php } ?>
 
                 <h4>Result</h4>
                 <?php if (isset($showCardImage)) { ?>
-                <p><img src="cardimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&snapshot-id=<?php echo rawurlencode($cardImageSnapshotId) ?>&hide-email-address=<?php echo $cardImageHideEmailAddress ? 'true' : 'false'; ?>&hide-phone-number=<?php echo $cardImageHidePhoneNumber ? 'true' : 'false' ?>" /></p>
+                <p><img src="cardimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&snapshot-id=<?php echo rawurlencode($cardImageSnapshotId) ?>&show-email-address=<?php echo $cardImageShowEmailAddress ? 'true' : 'false'; ?>&show-phone-number=<?php echo $cardImageShowPhoneNumber ? 'true' : 'false' ?>" /></p>
                 <?php } ?>
                 <button type="submit" name="btn-invoke" value="card-image" class="btn btn-large">Invoke method &raquo;</button>
             </div>
