@@ -379,6 +379,31 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
   }
 
   /**
+   * Gets an card-image representation of the miiCard member's identity status.
+   *
+   * @param string $snapshot_id
+   *   If using the transactional model, generates an image using data stored
+   *   in the snapshot specified by this ID.
+   * @param boolean $show_email_address
+   *   If true, the miiCard member's email address is shown on the card.
+   * @param boolean $show_phone_number
+   *   If true, the miiCard member's phone number is shown on the card. This
+   *   defaults to false to protect member privacy.
+   * @param string $format
+   *   The (optional) format of the image. If not specified, defaults to 'card'.
+   *   Can be in the set {card, signature}.
+   */
+  public function getCardImage($snapshot_id = NULL, $show_email_address = FALSE, $show_phone_number = FALSE, $format = NULL) {
+    $request_array = array();
+    $request_array['SnapshotId'] = $snapshot_id;
+    $request_array['ShowEmailAddress'] = $show_email_address;
+    $request_array['ShowPhoneNumber'] = $show_phone_number;
+    $request_array['Format'] = $format;
+
+    return $this->makeRequest('GetCardImage', json_encode($request_array), NULL, FALSE);
+  }
+
+  /**
    * Gets details of snapshots matching an ID.
    *
    * If no snapshot ID is supplied, details about all snapshots taken by your

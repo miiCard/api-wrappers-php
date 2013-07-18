@@ -23,6 +23,11 @@
     $identitySnapshotDetailsSnapshotId = isset($_REQUEST['identitySnapshotDetailsSnapshotId']) ? $_REQUEST['identitySnapshotDetailsSnapshotId'] : NULL;
     $identitySnapshotPdfId = isset($_REQUEST['identitySnapshotPdfId']) ? $_REQUEST['identitySnapshotPdfId'] : NULL;
 
+    $cardImageSnapshotId = isset($_REQUEST['cardImageSnapshotId']) ? $_REQUEST['cardImageSnapshotId'] : NULL;
+    $cardImageShowEmailAddress = isset($_REQUEST['cardImageShowEmailAddress']) ? ($_REQUEST['cardImageShowEmailAddress'] == 'on') : FALSE;
+    $cardImageShowPhoneNumber = isset($_REQUEST['cardImageShowPhoneNumber']) ? ($_REQUEST['cardImageShowPhoneNumber'] == 'on') : FALSE;
+    $cardImageFormat = isset($_REQUEST['cardImageFormat']) ? $_REQUEST['cardImageFormat'] : NULL;
+
     $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
     $forceClaimsPicker = isset($_REQUEST['forceClaimsPicker']) ? $_REQUEST['forceClaimsPicker'] == 'on' : false;
         
@@ -113,6 +118,9 @@
                 {
                     $showAssuranceImage = true;
                 }
+                break;
+            case 'card-image':
+                $showCardImage = true;
                 break;
             case 'get-identity-snapshot-details':
                 $lastGetIdentitySnapshotDetailsResult = $miiCardObj->getIdentitySnapshotDetails($_REQUEST['identitySnapshotDetailsSnapshotId']);
@@ -282,6 +290,40 @@
                 <p><img src="assuranceimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&type=<?php echo rawurlencode($assuranceImageType); ?>" /></p>
                 <?php } ?>
                 <button type="submit" name="btn-invoke" value="assurance-image" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2>CardImage
+            <small>Renders a card-image representation of LOA</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h3>Parameters</h3>
+                <label for="cardImageSnapshotId">Snapshot ID (optional)</label>
+                <input type="text" name="cardImageSnapshotId" value="<?php echo $cardImageSnapshotId; ?>" />
+
+                <label for="cardImageFormat">Format (card, signature)</label>
+                <input type="text" name="cardImageFormat" value="<?php echo $cardImageFormat; ?>" />
+
+                <?php if ($cardImageShowEmailAddress == 'on') { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageShowEmailAddress" checked="checked" value="on" /> Show email address</label>
+                <?php } else { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageShowEmailAddress" /> Show email address</label>
+                <?php } ?>
+
+                <?php if ($cardImageShowPhoneNumber == 'on') { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageShowPhoneNumber" checked="checked" value="on" /> Show phone number</label>
+                <?php } else { ?>
+                  <label class="checkbox"><input type="checkbox" name="cardImageShowPhoneNumber" /> Show phone number</label>
+                <?php } ?>
+
+                <h4>Result</h4>
+                <?php if (isset($showCardImage)) { ?>
+                <p><img src="cardimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&snapshot-id=<?php echo rawurlencode($cardImageSnapshotId) ?>&show-email-address=<?php echo $cardImageShowEmailAddress ? 'true' : 'false'; ?>&show-phone-number=<?php echo $cardImageShowPhoneNumber ? 'true' : 'false' ?>&format=<?php echo $cardImageFormat ?>" /></p>
+                <?php } ?>
+                <button type="submit" name="btn-invoke" value="card-image" class="btn btn-large">Invoke method &raquo;</button>
             </div>
         </div>
 
