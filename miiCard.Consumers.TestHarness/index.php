@@ -26,6 +26,7 @@
     $cardImageSnapshotId = isset($_REQUEST['cardImageSnapshotId']) ? $_REQUEST['cardImageSnapshotId'] : NULL;
     $cardImageShowEmailAddress = isset($_REQUEST['cardImageShowEmailAddress']) ? ($_REQUEST['cardImageShowEmailAddress'] == 'on') : FALSE;
     $cardImageShowPhoneNumber = isset($_REQUEST['cardImageShowPhoneNumber']) ? ($_REQUEST['cardImageShowPhoneNumber'] == 'on') : FALSE;
+    $cardImageFormat = isset($_REQUEST['cardImageFormat']) ? $_REQUEST['cardImageFormat'] : NULL;
 
     $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
     $forceClaimsPicker = isset($_REQUEST['forceClaimsPicker']) ? $_REQUEST['forceClaimsPicker'] == 'on' : false;
@@ -303,6 +304,9 @@
                 <label for="cardImageSnapshotId">Snapshot ID (optional)</label>
                 <input type="text" name="cardImageSnapshotId" value="<?php echo $cardImageSnapshotId; ?>" />
 
+                <label for="cardImageFormat">Format (card, signature)</label>
+                <input type="text" name="cardImageFormat" value="<?php echo $cardImageFormat; ?>" />
+
                 <?php if ($cardImageShowEmailAddress == 'on') { ?>
                   <label class="checkbox"><input type="checkbox" name="cardImageShowEmailAddress" checked="checked" value="on" /> Show email address</label>
                 <?php } else { ?>
@@ -317,7 +321,7 @@
 
                 <h4>Result</h4>
                 <?php if (isset($showCardImage)) { ?>
-                <p><img src="cardimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&snapshot-id=<?php echo rawurlencode($cardImageSnapshotId) ?>&show-email-address=<?php echo $cardImageShowEmailAddress ? 'true' : 'false'; ?>&show-phone-number=<?php echo $cardImageShowPhoneNumber ? 'true' : 'false' ?>" /></p>
+                <p><img src="cardimage.php?oauth-consumer-key=<?php echo rawurlencode($consumerKey); ?>&oauth-consumer-secret=<?php echo rawurlencode($consumerSecret); ?>&oauth-access-token=<?php echo rawurlencode($accessToken); ?>&oauth-access-token-secret=<?php echo rawurlencode($accessTokenSecret); ?>&snapshot-id=<?php echo rawurlencode($cardImageSnapshotId) ?>&show-email-address=<?php echo $cardImageShowEmailAddress ? 'true' : 'false'; ?>&show-phone-number=<?php echo $cardImageShowPhoneNumber ? 'true' : 'false' ?>&format=<?php echo $cardImageFormat ?>" /></p>
                 <?php } ?>
                 <button type="submit" name="btn-invoke" value="card-image" class="btn btn-large">Invoke method &raquo;</button>
             </div>

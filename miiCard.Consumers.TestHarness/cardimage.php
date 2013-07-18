@@ -19,7 +19,8 @@
     $snapshotId = isset($_REQUEST['snapshot-id']) ? $_REQUEST['snapshot-id'] : NULL;
     $showPhoneNumber = isset($_REQUEST['show-phone-number']) ? $_REQUEST['show-phone-number'] : NULL;
     $showEmailAddress = isset($_REQUEST['show-email-address']) ? $_REQUEST['show-email-address'] : NULL;
-    
+    $format = isset($_REQUEST['format']) ? $_REQUEST['format'] : NULL;
+
     if ($consumerKey != null 
         && $consumerSecret != null 
         && $accessToken != null 
@@ -27,6 +28,7 @@
     {
         $miiCardObj = new Consumers\MiiCardOAuthClaimsService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
         header("Content-type: image/png");
-        echo $miiCardObj->getCardImage($snapshotId, $showEmailAddress == 'true', $showPhoneNumber == 'true');
+
+        echo $miiCardObj->getCardImage($snapshotId, $showEmailAddress == 'true', $showPhoneNumber == 'true', $format);
     }
 ?>
