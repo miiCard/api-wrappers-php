@@ -1,6 +1,10 @@
 Release notes
 ==============================================================================
 
+1.3	2013-07-18
+______________________________________________________________________________
+++ Added support for GetCardImage method and included in test harness
+
 1.2	2013-06-12
 ______________________________________________________________________________
 !! BREAKING CHANGE: Namespaced all classes and updated test harness - existing
