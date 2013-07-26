@@ -660,8 +660,6 @@ class MiiCard extends OAuthSignedRequestMaker {
       throw new MiiCardException("You must set the access token and access token secret to make calls into the miiCard API");
     }
     else {
-      echo $this->getConsumerKey() . " secret" .  $this->getConsumerSecret() . " token " . $this->getAccessToken() . " secret " . $this->getAccessTokenSecret();
-
       $api = new MiiCardOAuthClaimsService($this->getConsumerKey(), $this->getConsumerSecret(), $this->getAccessToken(), $this->getAccessTokenSecret());
       $response = $api->getClaims();
 
