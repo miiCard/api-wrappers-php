@@ -33,6 +33,25 @@ class MiiApiCallStatus {
 class MiiApiErrorCode {
   /** Signifies that there was no error. */
   const SUCCESS = 0;
+
+  /**
+   * Signifies that a Directory API search field wasn't recognised.
+   *
+   * When the Directory API receives a query on a field that it doesn't
+   * recognise the search is cancelled, this error code returned
+   * with an error message that includes the set of valid query fields.
+   */
+  const UNKNOWN_SEARCH_CRITERION = 10;
+
+  /**
+   * Signifies that a Directory API search returned no results.
+   *
+   * No results can happen for a number of reasons, but most frequently because
+   * there isn't a miiCard member who has published the details searched for,
+   * or there is but that member has disabled their public profile page for
+   * some reason.
+   */
+  const NO_MATCHES = 11;
   /**
    * Signifies that the miiCard member has revoked access to your app.
    *
@@ -49,6 +68,9 @@ class MiiApiErrorCode {
 
   /** Signifies that your account is not on the transactional model. */
   const TRANSACTIONAL_SUPPORT_DISABLED = 1000;
+
+  /** Signifies that your account has not been enabled for the Financial API. */
+  const FINANCIAL_DATA_SUPPORT_DISABLED = 1001;
 
   /**
    * Signifies that your account's transactional status is development-only.
@@ -111,6 +133,49 @@ class WebPropertyType {
   const DOMAIN = 0;
   /** The WebProperty object describes a website. */
   const WEBSITE = 1;
+}
+
+/**
+ * Details the kind of qualification a user has linked to their miiCard profile.
+ *
+ * @package MiiCardConsumers
+ */
+class QualificationType {
+  /** The Qualification object describes an academic qualification. */
+  const ACADEMIC = 0;
+
+  /** The Qualification object describes a professional membership. */
+  const PROFESSIONAL = 1;
+}
+
+/**
+ * Details the kind of second factor used during a two-step verification.
+ *
+ * @package MiiCardConsumers
+ */
+class AuthenticationType {
+  /** No second factor was employed. */
+  const NONE = 0;
+
+  /** A software token, such as an SMS or software OAUTH provider was used. */
+  const SOFT = 1;
+
+  /** A hardware token, such as a YubiKey was used. */
+  const HARD = 2;
+}
+
+/**
+ * Details the state of a request to refresh financial data.
+ */
+class RefreshState {
+  /** The status of the refresh cannot be determined. */
+  const UNKNOWN = 0;
+
+  /** The refresh is complete and up-to-date data is now available. */
+  const DATA_AVAILABLE = 1;
+
+  /** The refresh is currently in-progress and may take some minutes. */
+  const IN_PROGRESS = 2;
 }
 
 /**
@@ -666,6 +731,8 @@ class MiiUserProfile {
   /** @access protected */
   protected $webProperties;
   /** @access protected */
+  protected $qualifications;
+  /** @access protected */
   protected $identityAssured;
   /** @access protected */
   protected $hasPublicProfile;
@@ -673,6 +740,8 @@ class MiiUserProfile {
   protected $publicProfile;
   /** @access protected */
   protected $dateOfBirth;
+  /** @access protected */
+  protected $age;
 
   /**
    * Initialises a new MiiUserProfile object.
@@ -725,8 +794,12 @@ class MiiUserProfile {
    *   that they have made publicly available on their profile page.
    * @param int $date_of_birth
    *   The miiCard user's date of birth
+   * @param array $qualifications
+   *   The miiCard member's academic and professional qualifications.
+   * @param int $age
+   *   The miiCard member's age in whole years, if shared and known.
    */
-  public function __construct($username, $salutation, $first_name, $middle_name, $last_name, $previous_first_name, $previous_middle_name, $previous_last_name, $last_verified, $profile_url, $profile_short_url, $card_image_url, $email_addresses, $identities, $phone_numbers, $postal_addresses, $web_properties, $identity_assured, $has_public_profile, $public_profile, $date_of_birth) {
+  public function __construct($username, $salutation, $first_name, $middle_name, $last_name, $previous_first_name, $previous_middle_name, $previous_last_name, $last_verified, $profile_url, $profile_short_url, $card_image_url, $email_addresses, $identities, $phone_numbers, $postal_addresses, $web_properties, $identity_assured, $has_public_profile, $public_profile, $date_of_birth, $qualifications, $age) {
     $this->username = $username;
     $this->salutation = $salutation;
 
@@ -754,6 +827,8 @@ class MiiUserProfile {
     $this->publicProfile = $public_profile;
 
     $this->dateOfBirth = $date_of_birth;
+    $this->qualifications = $qualifications;
+    $this->age = $age;
   }
 
   /**
@@ -796,6 +871,13 @@ class MiiUserProfile {
    */
   public function getDateOfBirth() {
     return $this->dateOfBirth;
+  }
+
+  /**
+   * Gets the miiCard member's age in whole years, if known and shared.
+   */
+  public function getAge() {
+    return $this->age;
   }
 
   /**
@@ -873,6 +955,13 @@ class MiiUserProfile {
    */
   public function getPostalAddresses() {
     return $this->postalAddresses;
+  }
+
+  /**
+   * Gets the array of Qualification objects associated with the member.
+   */
+  public function getQualifications() {
+    return $this->qualifications;
   }
 
   /**
@@ -956,6 +1045,14 @@ class MiiUserProfile {
       }
     }
 
+    $qualifications = Util::TryGet($hash, 'Qualifications');
+    $qualifications_parsed = array();
+    if (isset($qualifications) && is_array($qualifications)) {
+      foreach ($qualifications as $qualification) {
+        array_push($qualifications_parsed, Qualification::FromHash($qualification));
+      }
+    }
+
     $public_profile = Util::TryGet($hash, 'PublicProfile');
     $public_profile_parsed = NULL;
     if (isset($public_profile) && is_array($public_profile)) {
@@ -997,7 +1094,9 @@ class MiiUserProfile {
       Util::TryGet($hash, 'IdentityAssured'),
       Util::TryGet($hash, 'HasPublicProfile'),
       $public_profile_parsed,
-      $date_of_birth_parsed
+      $date_of_birth_parsed,
+      $qualifications_parsed,
+      Util::TryGet($hash, 'Age')
     );
   }
 }
@@ -1143,6 +1242,719 @@ class IdentitySnapshot {
     return new IdentitySnapshot(
       IdentitySnapshotDetails::FromHash(Util::TryGet($hash, 'Details')),
       MiiUserProfile::FromHash(Util::TryGet($hash, 'Snapshot'))
+    );
+  }
+}
+
+/**
+ * Represents an academic qualification or professional membership.
+ *
+ * @package MiiCardConsumers
+ */
+class Qualification {
+  protected $type;
+  protected $title;
+  protected $dataProvider;
+  protected $dataProviderUrl;
+
+  /**
+   * Initialises a new Qualification object.
+   *
+   * @param int $type
+   *   The kind of qualification described; see QualificationType class.
+   * @param string $title
+   *   The title or level of qualification.
+   * @param string $data_provider
+   *   The name of the provider of the data.
+   * @param string $data_provider_url
+   *   A URL to a publicly-accessible verification of the qualification, or to
+   *   the data provider's site if no such public verification exists.
+   */
+  public function __construct($type, $title, $data_provider, $data_provider_url) {
+    $this->type = $type;
+    $this->title = $title;
+    $this->dataProvider = $data_provider;
+    $this->dataProviderUrl = $data_provider_url;
+  }
+
+  /**
+   * Gets the type of qualification; see the QualificationType class.
+   */
+  public function getType() {
+    return $this->type;
+  }
+
+  /**
+   * Gets the title or level of the qualification.
+   */
+  public function getTitle() {
+    return $this->title;
+  }
+
+  /**
+   * Gets the name of the provider of the data.
+   */
+  public function getDataProvider() {
+    return $this->dataProvider;
+  }
+
+  /**
+   * Gets the URL to a publicly-accessible verification of the qualification,
+   * or to the data provider's site if no such public verification exists.
+   */
+  public function getDataProviderUrl() {
+    return $this->dataProviderUrl;
+  }
+
+  /**
+   * Builds a new Qualification from a hash obtained from the Claims API.
+   *
+   * @param array $hash
+   *   The hash containing details about the qualification.
+   */
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new Qualification(
+      Util::TryGet($hash, 'Type'),
+      Util::TryGet($hash, 'Title'),
+      Util::TryGet($hash, 'DataProvider'),
+      Util::TryGet($hash, 'DataProviderUrl')
+    );
+  }
+}
+
+/**
+ * Records the manner of authentication that took place for a given sharing of a
+ * miiCard member's identity data.
+ *
+ * @package MiiCardConsumers
+ */
+class AuthenticationDetails {
+  protected $authenticationTimeUtc;
+  protected $secondFactorTokenType;
+  protected $secondFactorProvider;
+  protected $locations;
+
+  /**
+   * Initialises a new AuthenticationDetails object.
+   *
+   * @param int $authentication_time_utc
+   *   The time and date at which the user authenticated.
+   * @param int $second_factor_token_type
+   *   The kind of second-factor employed - see the AuthenticationTokenType
+   *   class.
+   * @param string $second_factor_provider
+   *   The name of the provider of the second authentication factor, if any.
+   * @param array $locations
+   *   The collection of GeographicLocation objects that represent the location
+   *   of the miiCard member at the point of authentication as reported by zero
+   *   or more different sources.
+   */
+  public function __construct($authentication_time_utc, $second_factor_token_type, $second_factor_provider, $locations) {
+    $this->authenticationTimeUtc = $authentication_time_utc;
+    $this->secondFactorTokenType = $second_factor_token_type;
+    $this->secondFactorProvider = $second_factor_provider;
+    $this->locations = $locations;
+  }
+
+  /**
+   * Gets the time and date at which the user authenticated.
+   */
+  public function getAuthenticationTimeUtc() {
+    return $this->authenticationTimeUtc;
+  }
+
+  /**
+   * Gets the kind of second-factor employed.
+   */
+  public function getSecondFactorTokenType() {
+    return $this->secondFactorTokenType;
+  }
+
+  /**
+   * Gets the name of the provider of the second authentication factor, if any.
+   */
+  public function getSecondFactorProvider() {
+    return $this->secondFactorProvider;
+  }
+
+  /**
+   * Gets the collection of GeographicLocation objects that represent the
+   * location of the miiCard member at the point of authentication as reported
+   * by zero or more different sources.
+   */
+  public function getLocations() {
+    return $this->locations;
+  }
+
+  /**
+   * Builds a new AuthenticationDetails from a hash obtained from the Claims API
+   *
+   * @param array $hash
+   *   The hash from the Claims API.
+   */
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    $locations = Util::TryGet($hash, 'Locations');
+    $locations_parsed = array();
+    if (isset($locations) && is_array($locations)) {
+      foreach ($locations as $location) {
+        array_push($locations_parsed, GeographicLocation::FromHash($location));
+      }
+    }
+
+    // Try parsing the authentication time as a timestamp.
+    preg_match('/\/Date\((\d+)\)/', Util::TryGet($hash, 'AuthenticationTimeUtc'), $matches);
+
+    $authentication_time_utc_parsed = NULL;
+    if (isset($matches) && count($matches) > 1) {
+      $authentication_time_utc_parsed = ($matches[1] / 1000);
+    }
+
+    return new AuthenticationDetails(
+      $authentication_time_utc_parsed,
+      Util::TryGet($hash, 'SecondFactorTokenType'),
+      Util::TryGet($hash, 'SecondFactorProvider'),
+      $locations_parsed
+    );
+  }
+}
+
+/**
+ * Represents a miiCard member's geographic location as reported by a single
+ * data provider.
+ *
+ * @package MiiCardConsumers
+ */
+class GeographicLocation {
+  /** @access protected */
+  protected $locationProvider;
+  /** @access protected */
+  protected $latitude;
+  /** @access protected */
+  protected $longitude;
+  /** @access protected */
+  protected $latLongAccuracyMetres;
+  /** @access protected */
+  protected $approximateAddress;
+
+  /**
+   * Initialises a new GeographicLocation.
+   *
+   * @param string $location_provider
+   *   The name of the location provider by whom the location data
+   *   was supplied.
+   * @param double $latitude
+   *   The latitude of the location, if known, or null.
+   * @param double $longitude
+   *   The longitude of the location, if known, or null.
+   * @param int $lat_long_accuracy_metres
+   *   The approximate accuracy with which the location specified by
+   *   latitude and longitude has been pinpointed, if they were specified and an
+   *   accuracy figure is available.
+   * @param PostalAddress $approximate_address
+   *   The approximate postal address of the location as reported by
+   *   the provider, if known. Fields of the postal address may not be populated
+   *   depending on the level of accuracy reached.
+   */
+  public function __construct($location_provider, $latitude, $longitude, $lat_long_accuracy_metres, $approximate_address) {
+    $this->locationProvider = $location_provider;
+    $this->latitude = $latitude;
+    $this->longitude = $longitude;
+    $this->latLongAccuracyMetres = $lat_long_accuracy_metres;
+    $this->approximateAddress = $approximate_address;
+  }
+
+  /**
+   * Gets the name of the location provider by whom the location data
+   * was supplied.
+   */
+  public function getLocationProvider() {
+    return $this->locationProvider;
+  }
+
+  /**
+   * Gets the latitude of the location, if known, or null.
+   */
+  public function getLatitude() {
+    return $this->latitude;
+  }
+
+  /**
+   * Gets the longitude of the location, if known, or null.
+   */
+  public function getLongitude() {
+    return $this->longitude;
+  }
+
+  /**
+   * Gets the approximate accuracy with which the location specified by
+   * latitude and longitude has been pinpointed, if they were specified and an
+   * accuracy figure is available.
+   */
+  public function getLatLongAccuracyMetres() {
+    return $this->latLongAccuracyMetres;
+  }
+
+  /**
+   * Gets the approximate postal address of the location as reported by
+   * the provider, if known. Fields of the postal address may not be populated
+   * depending on the level of accuracy reached.
+   */
+  public function getApproximateAddress() {
+    return $this->approximateAddress;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new GeographicLocation(
+      Util::TryGet($hash, 'LocationProvider'),
+      Util::TryGet($hash, 'Latitude'),
+      Util::TryGet($hash, 'Longitude'),
+      Util::TryGet($hash, 'LatLongAccuracyMetres'),
+      PostalAddress::FromHash(Util::TryGet($hash, 'ApproximateAddress'))
+    );
+  }
+}
+
+/**
+ * A single transaction reported against a financial account whose details
+ * have been shared by a miiCard member.
+ *
+ * @package MiiCardConsumers
+ */
+class FinancialTransaction {
+  /** @access protected */
+  protected $date;
+  /** @access protected */
+  protected $amountCredited;
+  /** @access protected */
+  protected $amountDebited;
+  /** @access protected */
+  protected $description;
+  /** @access protected */
+  protected $id;
+
+  /**
+   * Initialises a new FinancialTransaction.
+   *
+   * @param int $date
+   *   The date (and possibly time, depending on the provider) at which
+   *   the transaction took place.
+   * @param double $amount_credited
+   *   The amount credited to the account in this transaction measured in the
+   *   parent account's currency, or null if the transaction represents a debit.
+   * @param double $amount_debited
+   *   The amount debited from the account in this transaction measured in the
+   *   parent account's currency, or null if the transaction represents a credit.
+   * @param string $description
+   *   A description of the transaction.
+   * @param string $id
+   *   An identifier for the transaction, if the data provider reported one.
+   */
+  public function __construct($date, $amount_credited, $amount_debited, $description, $id) {
+    $this->date = $date;
+    $this->amountCredited = $amount_credited;
+    $this->amountDebited = $amount_debited;
+    $this->description = $description;
+    $this->id = $id;
+  }
+
+  /**
+   * Gets the date (and possibly time, depending on the provider) at which
+   * the transaction took place.
+   */
+  public function getDate() {
+    return $this->date;
+  }
+
+  /**
+   * Gets the amount credited to the account in this transaction measured in the
+   * parent account's currency, or null if the transaction represents a debit.
+   */
+  public function getAmountCredited() {
+    return $this->amountCredited;
+  }
+
+  /**
+   * Gets the amount debited from the account in this transaction measured in the
+   * parent account's currency, or null if the transaction represents a credit.
+   */
+  public function getAmountDebited() {
+    return $this->amountDebited;
+  }
+
+  /**
+   * Gets a description of the transaction.
+   */
+  public function getDescription() {
+    return $this->description;
+  }
+
+  /**
+   * Gets an identifier for the transaction, if the data provider reported one.
+   */
+  public function getID() {
+    return $this->id;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new FinancialTransaction(
+      Util::TryGetDate($hash, 'Date'),
+      Util::TryGet($hash, 'AmountCredited'),
+      Util::TryGet($hash, 'AmountDebited'),
+      Util::TryGet($hash, 'Description'),
+      Util::TryGet($hash, 'ID')
+    );
+  }
+}
+
+/**
+ * Details of a single financial account that a miiCard member has elected to share
+ * with a relying party application.
+ *
+ * @package MiiCardConsumers
+ */
+class FinancialAccount {
+  /** @access protected */
+  protected $accountName;
+  /** @access protected */
+  protected $holder;
+  /** @access protected */
+  protected $sortCode;
+  /** @access protected */
+  protected $accountNumber;
+  /** @access protected */
+  protected $type;
+  /** @access protected */
+  protected $fromDate;
+  /** @access protected */
+  protected $lastUpdatedUtc;
+  /** @access protected */
+  protected $closingBalance;
+  /** @access protected */
+  protected $debitsSum;
+  /** @access protected */
+  protected $debitsCount;
+  /** @access protected */
+  protected $creditsSum;
+  /** @access protected */
+  protected $creditsCount;
+  /** @access protected */
+  protected $currencyIso;
+  /** @access protected */
+  protected $transactions;
+
+  /**
+   * Initialises a new FinancialAccount.
+   *
+   * @param string $account_name
+   *   The name of the account as reported by the provider.
+   * @param string $holder
+   *   The name of the account holder as reported by the financial provider.
+   * @param string $sort_code
+   *   The partial sort code of the account.
+   * @param string $account_number
+   *   The partial account number of the account.
+   * @param string $type
+   *   The type of account.
+   * @param int $from_date
+   *   The date (and possibly time, depending on the provider) from which this set
+   *   of account details applies.
+   * @param int $last_updated_utc
+   *   The date (and possibly time, depending on the provider) at which the details
+   *   of this account were last updated.
+   * @param double $closing_balance
+   *   The closing balance, measured in the account currency.
+   * @param double $debits_sum
+   *   The total value of debits, measured in the account currency.
+   * @param int $debits_count
+   *   The total number of debits made in the period.
+   * @param double $credits_sum
+   *   The total value of credits, measured in the account currency.
+   * @param int $credits_count
+   *   The total number of credits made in the period.
+   * @param string $currency_iso
+   *   The ISO 4217 code for the currency in which transactions are made
+   *   for this account.
+   * @param array $transactions
+   *   The transactions that took place on this account between the
+   *   dates detailed. If no transactions are available, or if no transaction-level
+   *   data was agreed to be shared, this shall be an empty IEnumerable.
+   */
+  public function __construct($account_name, $holder, $sort_code, $account_number, $type, $from_date, $last_updated_utc, $closing_balance, $debits_sum, $debits_count, $credits_sum, $credits_count, $currency_iso, $transactions) {
+    $this->accountName = $account_name;
+    $this->holder = $holder;
+    $this->sortCode = $sort_code;
+    $this->accountNumber = $account_number;
+    $this->type = $type;
+    $this->fromDate = $from_date;
+    $this->lastUpdatedUtc = $last_updated_utc;
+    $this->closingBalance = $closing_balance;
+    $this->debitsSum = $debits_sum;
+    $this->debitsCount = $debits_count;
+    $this->creditsSum = $credits_sum;
+    $this->creditsCount = $credits_count;
+    $this->currencyIso = $currency_iso;
+    $this->transactions = $transactions;
+  }
+
+  /**
+   * Gets the name of the account as reported by the provider.
+   */
+  public function getAccountName() {
+    return $this->accountName;
+  }
+
+  /**
+   * Gets the name of the account holder as reported by the financial provider.
+   */
+  public function getHolder() {
+    return $this->holder;
+  }
+
+  /**
+   * Gets the partial sort code of the account.
+   */
+  public function getSortCode() {
+    return $this->sortCode;
+  }
+
+  /**
+   * Gets the partial account number of the account.
+   */
+  public function getAccountNumber() {
+    return $this->accountNumber;
+  }
+
+  /**
+   * Gets the type of account.
+   */
+  public function getType() {
+    return $this->type;
+  }
+
+  /**
+   * Gets the date (and possibly time, depending on the provider) from which this set
+   * of account details applies.
+   */
+  public function getFromDate() {
+    return $this->fromDate;
+  }
+
+  /**
+   * Gets the date (and possibly time, depending on the provider) at which the details
+   * of this account were last updated.
+   */
+  public function getLastUpdatedUtc() {
+    return $this->lastUpdatedUtc;
+  }
+
+  /**
+   * Gets the closing balance, measured in the account currency.
+   */
+  public function getClosingBalance() {
+    return $this->closingBalance;
+  }
+
+  /**
+   * Gets the total value of debits, measured in the account currency.
+   */
+  public function getDebitsSum() {
+    return $this->debitsSum;
+  }
+
+  /**
+   * Gets the total number of debits made in the period.
+   */
+  public function getDebitsCount() {
+    return $this->debitsCount;
+  }
+
+  /**
+   * Gets the total value of credits, measured in the account currency.
+   */
+  public function getCreditsSum() {
+    return $this->creditsSum;
+  }
+
+  /**
+   * Gets the total number of credits made in the period.
+   */
+  public function getCreditsCount() {
+    return $this->creditsCount;
+  }
+
+  /**
+   * Gets the ISO 4217 code for the currency in which transactions are made
+   * for this account.
+   */
+  public function getCurrencyIso() {
+    return $this->currencyIso;
+  }
+
+  /**
+   * Gets the transactions that took place on this account between the
+   * dates detailed. If no transactions are available, or if no transaction-level
+   * data was agreed to be shared, this shall be an empty IEnumerable.
+   */
+  public function getTransactions() {
+    return $this->transactions;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new FinancialAccount(
+      Util::TryGet($hash, 'AccountName'),
+      Util::TryGet($hash, 'Holder'),
+      Util::TryGet($hash, 'SortCode'),
+      Util::TryGet($hash, 'AccountNumber'),
+      Util::TryGet($hash, 'Type'),
+      Util::TryGetDate($hash, 'FromDate'),
+      Util::TryGetDate($hash, 'LastUpdatedUtc'),
+      Util::TryGet($hash, 'ClosingBalance'),
+      Util::TryGet($hash, 'DebitsSum'),
+      Util::TryGet($hash, 'DebitsCount'),
+      Util::TryGet($hash, 'CreditsSum'),
+      Util::TryGet($hash, 'CreditsCount'),
+      Util::TryGet($hash, 'CurrencyIso'),
+      Util::TryGetArray($hash, 'Transactions', 'miiCard\Consumers\Model\FinancialTransaction::FromHash')
+    );
+  }
+}
+
+/**
+ * A single financial provider containing summary or transaction-level data.
+ *
+ * @package MiiCardConsumers
+ */
+class FinancialProvider {
+  /** @access protected */
+  protected $providerName;
+  /** @access protected */
+  protected $financialAccounts;
+
+  /**
+   * Initialises a new FinancialProvider.
+   *
+   * @param string $provider_name
+   *   The name of the financial provider.
+   * @param array $financial_accounts
+   *   The set of financial accounts at this provider which the miiCard member
+   *   has elected to share information about.
+   */
+  public function __construct($provider_name, $financial_accounts) {
+    $this->providerName = $provider_name;
+    $this->financialAccounts = $financial_accounts;
+  }
+
+  /**
+   * Gets the name of the financial provider.
+   */
+  public function getProviderName() {
+    return $this->providerName;
+  }
+
+  /**
+   * Gets the set of financial accounts at this provider which the miiCard member
+   * has elected to share information about.
+   */
+  public function getFinancialAccounts() {
+    return $this->financialAccounts;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new FinancialProvider(
+      Util::TryGet($hash, 'ProviderName'),
+      Util::TryGetArray($hash, 'FinancialAccounts', 'miiCard\Consumers\Model\FinancialAccount::FromHash')
+    );
+  }
+}
+
+/**
+ * Represents a collection of financial data that a miiCard member has elected to share with a
+ * relying party.
+ *
+ * @package MiiCardConsumers
+ */
+class MiiFinancialData {
+  /** @access protected */
+  protected $financialProviders;
+
+  /**
+   * Initialises a new MiiFinancialData.
+   *
+   * @param array $financial_providers
+   *   The collection of FinancialProvider objects representing the providers
+   *   whose accounts the member has chosen to share.
+   */
+  public function __construct($financial_providers) {
+    $this->financialProviders = $financial_providers;
+  }
+
+  /**
+   * Gets the collection of FinancialProvider objects representing the providers
+   * whose accounts the member has chosen to share.
+   */
+  public function getFinancialProviders() {
+    return $this->financialProviders;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new MiiFinancialData(
+      Util::TryGetArray($hash, 'FinancialProviders', 'miiCard\Consumers\Model\FinancialProvider::FromHash')
+    );
+  }
+}
+
+class FinancialRefreshStatus {
+  /** @access protected */
+  protected $state;
+
+  /**
+   * Initialises a new FinancialRefreshStatus.
+   *
+   * @param int $state
+   */
+  public function __construct($state) {
+    $this->state = $state;
+  }
+
+  public function getState() {
+    return $this->state;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new FinancialRefreshStatus(
+      Util::TryGet($hash, 'State')
     );
   }
 }
@@ -1304,5 +2116,51 @@ class Util {
     }
 
     return $hash[$key];
+  }
+
+  /**
+   * Gets a value from an associative array as a date, or NULL if it doesn't
+   * exist or cannot be parsed as such.
+   *
+   * @param array $hash
+   *   The associative array.
+   * @param string $key
+   *   The key whose value is to be returned if available.
+   */
+  public static function TryGetDate($hash, $key) {
+    // Try parsing the last updated date as a timestamp.
+    preg_match('/\/Date\((\d+)\)/', Util::TryGet($hash, $key), $matches);
+
+    $parsed = NULL;
+    if (isset($matches) && count($matches) > 1) {
+      $parsed = ($matches[1] / 1000);
+    }
+
+    return $parsed;
+  }
+
+  /**
+   * Gets a value from an associative array as an array by calling a converter
+   * function on each element, or an empty array if the element doesn't exist
+   * in the hash or isn't itself an array.
+   *
+   * @param array $hash
+   *   The associative array.
+   * @param string $key
+   *   The key whose value is to be returned if available.
+   * @param Callable $converter_callable
+   *   The Callable that will take an element from the input array and turn
+   *   it into a PHP object type.
+   */
+  public static function TryGetArray($hash, $key, $converter_callable) {
+    $raw = Util::TryGet($hash, $key);
+    $parsed = array();
+    if (isset($raw) && is_array($raw)) {
+      foreach ($raw as $item) {
+        array_push($parsed, call_user_func($converter_callable, $item));
+      }
+    }
+
+    return $parsed;
   }
 }

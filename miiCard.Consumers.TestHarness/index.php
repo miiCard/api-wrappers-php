@@ -23,13 +23,23 @@
     $identitySnapshotDetailsSnapshotId = isset($_REQUEST['identitySnapshotDetailsSnapshotId']) ? $_REQUEST['identitySnapshotDetailsSnapshotId'] : NULL;
     $identitySnapshotPdfId = isset($_REQUEST['identitySnapshotPdfId']) ? $_REQUEST['identitySnapshotPdfId'] : NULL;
 
+    $financialDataModestyLimit = isset($_REQUEST['financialDataModestyLimit']) ? $_REQUEST['financialDataModestyLimit'] : NULL;
+    $getAuthenticationDetailsSnapshotId = isset($_REQUEST['getAuthenticationDetailsSnapshotId']) ? $_REQUEST['getAuthenticationDetailsSnapshotId'] : NULL;
+
     $cardImageSnapshotId = isset($_REQUEST['cardImageSnapshotId']) ? $_REQUEST['cardImageSnapshotId'] : NULL;
     $cardImageShowEmailAddress = isset($_REQUEST['cardImageShowEmailAddress']) ? ($_REQUEST['cardImageShowEmailAddress'] == 'on') : FALSE;
     $cardImageShowPhoneNumber = isset($_REQUEST['cardImageShowPhoneNumber']) ? ($_REQUEST['cardImageShowPhoneNumber'] == 'on') : FALSE;
     $cardImageFormat = isset($_REQUEST['cardImageFormat']) ? $_REQUEST['cardImageFormat'] : NULL;
 
+    $directoryCriterion = isset($_REQUEST['directoryCriterion']) ? $_REQUEST['directoryCriterion'] : NULL;
+    $directoryCriterionValue = isset($_REQUEST['directoryCriterionValue']) ? $_REQUEST['directoryCriterionValue'] : NULL;
+    $directoryCriterionValueHashed = isset($_REQUEST['directoryCriterionValueHashed']) ? $_REQUEST['directoryCriterionValueHashed'] : NULL;
+
     $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
     $forceClaimsPicker = isset($_REQUEST['forceClaimsPicker']) ? $_REQUEST['forceClaimsPicker'] == 'on' : false;
+    $signupMode = isset($_REQUEST['signupMode']) ? $_REQUEST['signupMode'] == 'on' : false;
+
+    $lastDirectorySearchResult = NULL;
         
     const SESSION_KEY_CONSUMER_KEY = 'miiCard.PHP.TestHarness.ConsumerKey';
     const SESSION_KEY_CONSUMER_SECRET = 'miiCard.PHP.TestHarness.ConsumerSecret';
@@ -49,7 +59,7 @@
         }
         if ($consumerSecret == null && isset($_SESSION[SESSION_KEY_CONSUMER_SECRET])) 
         {
-        	$consumerSecret = $_SESSION[SESSION_KEY_CONSUMER_SECRET];    
+        	  $consumerSecret = $_SESSION[SESSION_KEY_CONSUMER_SECRET];
         }
     }
     
@@ -65,7 +75,7 @@
     $miiCardObj = null;
     if (!$incompleteConsumerDetails) 
     {
-        $miiCardObj = new Consumers\MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode, $forceClaimsPicker);
+        $miiCardObj = new Consumers\MiiCard($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret, $referrerCode, $forceClaimsPicker, $signupMode);
     }
 
     if ($isLoginRequest && !$incompleteConsumerDetails && $miiCardObj !== null)
@@ -94,11 +104,16 @@
             $showOAuthError = true;
         }
     }
+    else if (isset($_REQUEST['btn-invoke']) && $_REQUEST['btn-invoke'] == 'directory-search' && $directoryCriterionValue != NULL) {
+        $directoryApi = new Consumers\MiiCardDirectoryService();
+        $lastDirectorySearchResult = $directoryApi->findBy($directoryCriterion, $directoryCriterionValue, $directoryCriterionValueHashed);
+    }
     else if ($miiCardObj !== null && !$incompleteOAuthDetails && isset($_REQUEST['btn-invoke']))
     {
         $fn = $_REQUEST['btn-invoke'];
         
         $miiCardObj = new Consumers\MiiCardOAuthClaimsService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+        $miiCardFinancialObj = new Consumers\MiiCardOAuthFinancialService($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
         switch ($fn)
         {
             case 'get-claims':
@@ -140,6 +155,18 @@
                     exit;
                 }
                 break;
+            case 'get-authentication-details':
+                $lastGetAuthenticationDetailsResult = $miiCardObj->getAuthenticationDetails($_REQUEST['getAuthenticationDetailsSnapshotId']);
+                break;
+            case 'is-refresh-in-progress':
+                $lastIsRefreshInProgressResult = $miiCardFinancialObj->isRefreshInProgress();
+                break;
+            case 'refresh-financial-data':
+                $lastRefreshFinancialDataResult = $miiCardFinancialObj->refreshFinancialData();
+                break;
+            case 'get-financial-transactions':
+                $lastGetFinancialTransactionsResult = $miiCardFinancialObj->getFinancialTransactions();
+                break;
         }
     }
 ?>
@@ -148,8 +175,8 @@
   <head>
       <link rel="Stylesheet" type="text/css" href="styles/bootstrap.min.css" />
       <link rel="Stylesheet" type="text/css" href="styles/Site.css" />
-      <script href="js/jquery-1.8.2.min.js"></script>
-      <script href="js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+      <script type="text/javascript" src="js/bootstrap.min.js"></script>
       <title>miiCard PHP API Wrappers Test Harness</title>
       <style type="text/css">
       .page-header { margin-top: 50px; margin-bottom: 10px; }
@@ -163,7 +190,7 @@
             <h1>PHP miiCard API test harness</h1>
         </div>
     </div>
-    <form method="POST" action="index.php">
+    <form method="POST" id="theForm">
         <input type="hidden" name="<?php echo POSTBACK_FLAG ?>" value="true" />
         <div class="page-header">
             <h1>OAuth token settings
@@ -212,15 +239,17 @@
                 <input type="text" name="referrerCode" value="<?php echo $referrerCode; ?>" />
                 <br />
                 <input type="checkbox" name="forceClaimsPicker" value="on" <?php echo isset($referrerCode) && $referrerCode ? "checked=checked" : "" ?>" />&nbsp;Force claims picker
+                <br />
+                <input type="checkbox" name="signupMode" value="on" <?php echo isset($signupMode) && $signupMode ? "checked=checked" : "" ?>" />&nbsp;Signup mode (initially redirect to a signup, rather than login page)
             </div>
         </div>
         <div class="page-header">
-            <h1>API methods
+            <h1>Claims API methods
             <small>Find the method you want to invoke</small>
             </h1>
         </div>
         <div class="page-header">
-            <h2>GetClaims
+            <h2><a name="get-claims"></a>GetClaims
             <small>Gets the set of data a user has shared with the application</small>
             </h2>
         </div>
@@ -237,7 +266,7 @@
         </div>
 
         <div class="page-header">
-            <h2>IsUserAssured
+            <h2><a name="is-user-assured"></a>IsUserAssured
             <small>Determines if the user has a current financial validation</small>
             </h2>
         </div>
@@ -254,7 +283,7 @@
         </div>
 
         <div class="page-header">
-            <h2>IsSocialAccountAssured
+            <h2><a name="is-social-account-assured"></a>IsSocialAccountAssured
             <small>Determines if a given social account belongs to the user</small>
             </h2>
         </div>
@@ -275,7 +304,7 @@
         </div>
 
         <div class="page-header">
-            <h2>AssuranceImage
+            <h2><a name="assurance-image"></a>AssuranceImage
             <small>Renders a graphical representation of LOA</small>
             </h2>
         </div>
@@ -294,7 +323,7 @@
         </div>
 
         <div class="page-header">
-            <h2>CardImage
+            <h2><a name="card-image"></a>CardImage
             <small>Renders a card-image representation of LOA</small>
             </h2>
         </div>
@@ -328,7 +357,7 @@
         </div>
 
         <div class="page-header">
-            <h2>GetIdentitySnapshotDetails
+            <h2><a name="get-identity-snapshot-details"></a>GetIdentitySnapshotDetails
             <small>Retrieve metadata about an identity snapshot</small>
             </h2>
         </div>
@@ -347,7 +376,7 @@
         </div>
 
         <div class="page-header">
-            <h2>GetIdentitySnapshot
+            <h2><a name="get-identity-snapshot"></a>GetIdentitySnapshot
             <small>Retrieve a previously created snapshot of a miiCard member's identity</small>
             </h2>
         </div>
@@ -366,7 +395,7 @@
         </div>
 
         <div class="page-header">
-            <h2>GetIdentitySnapshotPdf
+            <h2><a name="get-identity-snapshot-pdf"></a>GetIdentitySnapshotPdf
             <small>Retrieve a PDF of a created snapshot of a miiCard member's identity</small>
             </h2>
         </div>
@@ -375,11 +404,199 @@
                 <h3>Parameters</h3>
                 <label for="identitySnapshotId">Snapshot ID</label>
                 <input type="text" name="identitySnapshotPdfId" value="<?php echo $identitySnapshotPdfId; ?>" />
-
+                <br />
                 <button type="submit" name="btn-invoke" value="get-identity-snapshot-pdf" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2><a name="get-authentication-details"></a>GetAuthenticationDetails
+            <small>Retrieve details of how a miiCard member authenticated</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h3>Parameters</h3>
+                <label for="getAuthenticationDetailsSnapshotId">Snapshot ID</label>
+                <input type="text" name="getAuthenticationDetailsSnapshotId" value="<?php echo $getAuthenticationDetailsSnapshotId; ?>" />
+
+                <h4>Result</h4>
+                <?php if (isset($lastGetAuthenticationDetailsResult)) { ?>
+                <p><?php echo renderResponse($lastGetAuthenticationDetailsResult); ?></p>
+                <?php } ?>
+                <button type="submit" name="btn-invoke" value="get-authentication-details" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="financials">
+            <div class="page-header">
+                <h1>Financial API methods
+                <small>Find the method you want to invoke</small>
+                </h1>
+            </div>
+
+            <div class="page-header">
+                <h2><a name="is-refresh-in-progress"></a>IsRefreshInProgress
+                <small>Checks if a financial data refresh is ongoing</small>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <h4>Result</h4>
+                    <?php if (isset($lastIsRefreshInProgressResult)) { ?>
+                        <p><?php echo renderResponse($lastIsRefreshInProgressResult); ?></p>
+                    <?php } ?>
+
+                    <button type="submit" name="btn-invoke" value="is-refresh-in-progress" class="btn btn-large">Invoke method &raquo;</button>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <h2><a name="refresh-financial-data"></a>RefreshFinancialData
+                <small>Requests financial data be updated</small>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <h4>Result</h4>
+                    <?php if (isset($lastRefreshFinancialDataResult)) { ?>
+                        <p><?php echo renderResponse($lastRefreshFinancialDataResult); ?></p>
+                    <?php } ?>
+
+                    <button type="submit" name="btn-invoke" value="refresh-financial-data" class="btn btn-large">Invoke method &raquo;</button>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <h2><a name="get-financial-transactions"></a>GetFinancialTransactions
+                <small>Retrieve financial transactions that the member has shared</small>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <h4>Result</h4>
+
+                    <label for="financialDataModestyLimit">Hide values absolutely greater than this for modesty (blank to disable)</label>
+                    <input type="text" name="financialDataModestyLimit" value="<?php echo $financialDataModestyLimit; ?>" /> <br />
+
+                    <?php if (isset($lastGetFinancialTransactionsResult)) {
+                        $configuration = new PrettifyConfiguration($financialDataModestyLimit); ?>
+                        <p><?php echo renderResponse($lastGetFinancialTransactionsResult, $configuration); ?></p>
+                    <?php } ?>
+
+                    <button type="submit" name="btn-invoke" value="get-financial-transactions" class="btn btn-large">Invoke method &raquo;</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="directory">
+            <div class="page-header">
+                <h1><a name="directory-search"></a>Directory API
+                <small>Lookup miiCard members by data they've published</small>
+                </h1>
+                <div class="alert alert-info">
+                <strong>Notes</strong>
+                <ul>
+                  <li>The Directory API doesn't require OAuth tokens - just call at will</li>
+                  <li>Only data that's been published by a miiCard member who's elected to be searchable can be used as a search criterion</li>
+                </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <h3>Hash identifier <small><a href="#" data-toggle="sha1-hash" class="toggle">More/less</a></small></h3>
+                    <div id="sha1-hash" style="display: none">
+                        <p>The Directory API can searched by supplying either plaintext or hashed query values for enhanced privacy</p>
+                        <label for="directoryPlaintextIdentifier">Plain text identifier</label>
+                        <div class="input-prepend" style="display: block;">
+                            <span class="add-on"><i class="icon-random"></i></span>
+                            <input class="span6" type="text" placeholder="Identifier value" name="directoryPlaintextIdentifier" id="directoryPlaintextIdentifier" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span12">
+                  <h3>Search</h3>
+                  <div class="input-prepend" style="display: block;">
+                    <span class="add-on"><i class="icon-search"></i></span>
+                    <input class="span2" name="directoryCriterionValue" id="directoryCriterionValue" type="text" placeholder="Search" value="<?php echo $directoryCriterionValue; ?>" />
+                    <select name="directoryCriterion">
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_EMAIL ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_EMAIL) ? " selected" : "" ?>>Email address</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_PHONE ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_PHONE) ? " selected" : "" ?>>Phone number</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_TWITTER ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_TWITTER) ? " selected" : "" ?>>Twitter</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_FACEBOOK ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_FACEBOOK) ? " selected" : "" ?>>Facebook</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_LINKEDIN ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_LINKEDIN) ? " selected" : "" ?>>LinkedIn</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_GOOGLE ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_GOOGLE) ? " selected" : "" ?>>Google+</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_MICROSOFT_ID ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_MICROSOFT_ID) ? " selected" : "" ?>>Microsoft ID</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_EBAY ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_EBAY) ? " selected" : "" ?>>eBay</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_VERITAS_VITAE ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_VERITAS_VITAE) ? " selected" : "" ?>>Veritas Vitae</option>
+                        <option value="<?php echo Consumers\MiiCardDirectoryService::CRITERION_USERNAME ?>"<?php echo ($directoryCriterion == Consumers\MiiCardDirectoryService::CRITERION_USERNAME) ? " selected" : "" ?>>Username</option>
+                    </select>
+                    <button type="submit" name="btn-invoke" value="directory-search" class="btn" style="margin-left: 0.7em;">Search &raquo;</button>
+                  </div>
+                  <label for="directoryCriterionValueHashed" class="checkbox"><input type="checkbox" id="directoryCriterionValueHashed" name="directoryCriterionValueHashed"<?php echo ($directoryCriterionValueHashed ? " checked='checked'" : "") ?> /> Identifier is a hex SHA-1 hash</label>
+                  <h4>Result</h4>
+                  <?php
+                  if ($lastDirectorySearchResult != NULL) {
+                  ?><p><?php echo renderUserProfile($lastDirectorySearchResult); ?></p><?php
+                  }
+                  else {
+                    echo "No results";
+                  }
+                  ?>
+                </div>
             </div>
         </div>
     </form>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var sha1timer = null;
+
+        $('button[name="btn-invoke"]').click(function () {
+            $('#theForm').attr('action', '#' + $(this).attr('value'));
+        });
+
+        $('input, select').keydown(function (e) {
+            if (e.which == 10 || e.which == 13) {
+                $(this).closest('.row').find('button[type="submit"]').click();
+                return false;
+            }
+        });
+
+        $('a.toggle').click(function (e) {
+            $('#' + $(this).attr('data-toggle')).toggle();
+            e.preventDefault();
+        });
+
+        $('#directoryCriterionValue').keyup(function () {
+            $('#directory_plaintext_identifier').val('');
+        });
+
+        $('#directoryPlaintextIdentifier').keyup(function () {
+            if (sha1timer) {
+                window.clearTimeout(sha1timer);
+                sha1timer = null;
+            }
+
+            if ($(this).val().length) {
+                elem = $(this);
+
+                sha1timer =
+                    window.setTimeout(function () {
+                        $.ajax('sha1.php?identifier=' + encodeURIComponent(elem.val()), {
+                            async: false,
+                            success: function (data) {
+                                $('#directoryCriterionValue').val(data);
+                                $('#directoryCriterionValueHashed').prop('checked', 'checked');
+                            },
+                            error: function (xhr, status, error) { alert(error); }
+                        });
+                    }, 200);
+            }
+        });
+    });
+</script>
 </body>
 </html>

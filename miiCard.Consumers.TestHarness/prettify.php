@@ -5,7 +5,19 @@
     /* A couple of functions render date-times and these come in as UTC (equiv. GMT) */
     date_default_timezone_set("GMT");
 
-    function renderResponse($obj)
+    class PrettifyConfiguration {
+        protected $modestyLimit;
+
+        public function __construct($modesty_limit) {
+            $this->modestyLimit = $modesty_limit;
+        }
+
+        public function getModestyLimit() {
+            return $this->modestyLimit;
+        }
+    }
+
+    function renderResponse($obj, $configuration = NULL)
     {
         $toReturn = "<div class='response'>";
         
@@ -27,6 +39,18 @@
         else if ($data instanceof Model\IdentitySnapshotDetails)
         {
             $toReturn .= renderIdentitySnapshotDetails($data);
+        }
+        else if ($data instanceof Model\MiiFinancialData)
+        {
+            $toReturn .= renderFinancialData($data, $configuration);
+        }
+        else if ($data instanceof Model\FinancialRefreshStatus)
+        {
+            $toReturn .= renderFinancialRefreshStatus($data);
+        }
+        else if ($data instanceof Model\AuthenticationDetails)
+        {
+            $toReturn .= renderAuthenticationDetails($data);
         }
         else if (is_array($data) && count($data) > 0)
         {
@@ -190,6 +214,199 @@
         
         return $toReturn;
     }
+
+    function renderAuthenticationDetails($authenticationDetails)
+    {
+        $toReturn = "<div class='fact'>";
+        $toReturn .= renderFactHeading("Authentication details");
+
+        $toReturn .= renderFact("Timestamp UTC", renderAsDateTime($authenticationDetails->getAuthenticationTimeUtc()));
+        $toReturn .= renderFact("2FA type", $authenticationDetails->getSecondFactorTokenType());
+        $toReturn .= renderFact("2FA provider", $authenticationDetails->getSecondFactorProvider());
+
+        $toReturn .= "<div class='fact'>";
+        $toReturn .= renderFactHeading("Locations");
+
+        $ct = 0;
+        if ($authenticationDetails->getLocations() != NULL)
+        {
+            foreach ($authenticationDetails->getLocations() as $location)
+            {
+                $toReturn .= "<div class='fact'><h4>[" . $ct++ . "]</h4>";
+                $toReturn .= renderGeographicLocation($location);
+                $toReturn .= "</div>";
+            }
+        }
+        else
+        {
+            $toReturn .= "<p><i>No locations</i></p>";
+        }
+
+        $toReturn .= "</div></div>";
+
+        return $toReturn;
+    }
+
+    function renderGeographicLocation($location)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("Provider", $location->getLocationProvider());
+        $toReturn .= renderFact("Latitude", $location->getLatitude());
+        $toReturn .= renderFact("Longitude", $location->getLongitude());
+        $toReturn .= renderFact("Accuracy (metres, est.)", $location->getLatLongAccuracyMetres());
+
+        if ($location->getApproximateAddress() != NULL)
+        {
+            $toReturn .= renderFactHeading("Approximate postal address");
+
+            $toReturn .= renderAddress($location->getApproximateAddress());
+        }
+        else
+        {
+            $toReturn .= renderFact("Approximate postal address", NULL);
+        }
+
+        $toReturn .= "</div>";
+        return $toReturn;
+    }
+
+    function renderFinancialRefreshStatus($status)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("State", $status->getState());
+
+        $toReturn .= "</div>";
+
+        return $toReturn;
+    }
+
+    function renderFinancialData($miiFinancialData, $configuration)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= "<h2>Financial Data</h2>";
+        $toReturn .= renderFactHeading("Financial Providers");
+
+        $ct = 0;
+        if ($miiFinancialData->getFinancialProviders() != NULL)
+        {
+            foreach ($miiFinancialData->getFinancialProviders() as $provider)
+            {
+                $toReturn .= "<div class='fact'><h4>[" . $ct++ . "]</h4>";
+                $toReturn .= renderFinancialProvider($provider, $configuration);
+                $toReturn .= "</div>";
+            }
+        }
+
+        $toReturn .= "</div>";
+
+        return $toReturn;
+    }
+
+    function renderFinancialProvider($financialProvider, $configuration)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("Name", $financialProvider->getProviderName());
+
+        $toReturn .= renderFactHeading("Financial Accounts");
+
+        $ct = 0;
+        if ($financialProvider->getFinancialAccounts() != NULL)
+        {
+            foreach ($financialProvider->getFinancialAccounts() as $account)
+            {
+                $toReturn .= "<div class='fact'><h4>[" . $ct++ . "]</h4>";
+                $toReturn .= renderFinancialAccount($account, $configuration);
+                $toReturn .= "</div>";
+            }
+        }
+
+        $toReturn .= "</div>";
+
+        return $toReturn;
+    }
+
+    function renderFinancialAccount($account, $configuration)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("Holder", $account->getHolder());
+        $toReturn .= renderFact("Account number", $account->getAccountNumber());
+        $toReturn .= renderFact("Sort code", $account->getSortCode());
+        $toReturn .= renderFact("Account name", $account->getAccountName());
+        $toReturn .= renderFact("Type", $account->getType());
+        $toReturn .= renderFact("Last updated", renderAsDateTime($account->getLastUpdatedUtc()));
+        $toReturn .= renderFact("Currency", $account->getCurrencyIso());
+        $toReturn .= renderFact("Closing balance", getModestyFilteredAmount($account->getClosingBalance(), $configuration));
+        $toReturn .= renderFact("Credits (count)", $account->getCreditsCount());
+        $toReturn .= renderFact("Credits (sum)", getModestyFilteredAmount($account->getCreditsSum(), $configuration));
+        $toReturn .= renderFact("Debits (count)", $account->getDebitsCount());
+        $toReturn .= renderFact("Debits (sum)", getModestyFilteredAmount($account->getDebitsSum(), $configuration));
+
+        $toReturn .= renderFactHeading("Transactions");
+
+        $toReturn .= "<table class='table table-striped table-condensed table-hover'><thead><tr><th>Date</th><th>Description</th><th class='r'>Credit</th><th class='r'>Debit</th></tr></thead><tbody>";
+
+        foreach ($account->getTransactions() as $transaction)
+        {
+            $toReturn .= sprintf("<tr><td>%s</td><td title='ID: %s'>%s</td><td class='r'>%s</td><td class='r d'>%s</td></tr>", renderAsDate($transaction->getDate()), $transaction->getID(), renderPossiblyNull($transaction->getDescription(), "[None]"), getModestyFilteredAmount($transaction->getAmountCredited(), $configuration), getModestyFilteredAmount($transaction->getAmountDebited(), $configuration));
+        }
+
+        $toReturn .= "</tbody></table>";
+
+        $toReturn .= "</div>";
+        return $toReturn;
+    }
+
+    function getModestyFilteredAmount($value, $configuration)
+    {
+        $toReturn = "";
+
+        if (isset($value))
+        {
+            $limit = NULL;
+            if ($configuration->getModestyLimit() != NULL) {
+                $limit = $configuration->getModestyLimit();
+            }
+
+            if ($limit == NULL || abs($value) <= $limit)
+            {
+                $toReturn = sprintf("%.2f", $value);
+            }
+            else
+            {
+                $toReturn = "?.??";
+            }
+        }
+
+        return $toReturn;
+    }
+
+    function renderPossiblyNull($possiblyNull, $alternative) {
+      if (!isset($possiblyNull)) {
+          return $alternative;
+      }
+      else {
+          return $possiblyNull;
+      }
+    }
+
+    function renderQualification($qualification)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("Type", $qualification->getType());
+        $toReturn .= renderFact("Title", $qualification->getTitle());
+        $toReturn .= renderFact("Provider", $qualification->getDataProvider());
+        $toReturn .= renderFact("Provider URL", $qualification->getDataProviderUrl());
+
+        $toReturn .= "</div>";
+
+        return toReturn;
+    }
     
     function renderFactHeading($heading)
     {
@@ -207,6 +424,7 @@
         $toReturn .= renderFact("Middle name", $profile->getMiddleName());
         $toReturn .= renderFact("Last name", $profile->getLastName());
         $toReturn .= renderFact("Date of birth", renderAsDate($profile->getDateOfBirth()));
+        $toReturn .= renderFact("Age", $profile->getAge());
         $toReturn .= renderFact("Identity verified?", $profile->getIdentityAssured());
         $toReturn .= renderFact("Identity last verified?", renderAsDateTime($profile->getLastVerified()));
         $toReturn .= renderFact("Has a public profile?", $profile->getHasPublicProfile());
@@ -273,6 +491,18 @@
             {
                 $toReturn .= "<div class='fact'><h4>[" . $ct++ . "]</h4>";
                 $toReturn .= renderWebProperty($property);
+                $toReturn .= "</div>";
+            }
+        }
+
+        $toReturn .= renderFactHeading("Qualifications");
+        $ct = 0;
+        if ($profile->getQualifications() != null)
+        {
+            foreach ($profile->getQualifications() as $qualification)
+            {
+                $toReturn .= "<div class='fact'><h4>[" . $ct++ . "]</h4>";
+                $toReturn .= renderQualification($qualification);
                 $toReturn .= "</div>";
             }
         }
