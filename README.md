@@ -94,7 +94,7 @@ Unlike the Claims and Financial APIs, the Directory API is a public lookup servi
 
 ##Test harness
 
-The [miiCard.Consumers.TestHarness folder](api-wrappers-php/blob/master/miiCard.Consumers.TestHarness) contains a quick test harness to allow some interactive testing of the library. It may serve as a guide for how to quickly get up and running with the library but hasn't been extensively checked for correctness or security and should be considered a local diagnostic tool only.
+The miiCard.Consumers.TestHarness folder contains a quick test harness to allow some interactive testing of the library. It may serve as a guide for how to quickly get up and running with the library but hasn't been extensively checked for correctness or security and should be considered a local diagnostic tool only.
 
 ##Documentation
 
