@@ -919,11 +919,13 @@ class MiiCard extends OAuthSignedRequestMaker {
    *   The OAuth access token secret.
    * @param string $referrer_code
    *   Your referrer code, if you have one.
+   * @param string $callback_url
+   *   Set a customer callback url.
    */
-  public function __construct($consumer_key, $consumer_secret, $access_token = NULL, $access_token_secret = NULL, $referrer_code = NULL, $force_claims_picker = FALSE, $signup_mode = FALSE) {
+  public function __construct($consumer_key, $consumer_secret, $access_token = NULL, $access_token_secret = NULL, $referrer_code = NULL, $force_claims_picker = FALSE, $callback_url = NULL,$signup_mode = FALSE,) {
     parent::__construct($consumer_key, $consumer_secret, $access_token, $access_token_secret);
 
-    $this->callbackUrl = $this->getDefaultCallbackUrl();
+    $this->callbackUrl = $this->getDefaultCallbackUrl($callback_url);
     $this->referrerCode = $referrer_code;
     $this->forceClaimsPicker = isset($force_claims_picker) ? $force_claims_picker : FALSE;
     $this->signupMode = isset($signup_mode) ? $signup_mode : FALSE;
@@ -956,11 +958,18 @@ class MiiCard extends OAuthSignedRequestMaker {
   /**
    * Gets the default callback URL to return to once the OAuth flow completes.
    */
-  public function getDefaultCallbackUrl() {
-    $is_https = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on';
-    $http_protocol = $is_https ? 'https' : 'http';
-
-    return $http_protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+  public function getDefaultCallbackUrl($callback_url = NULL) {
+  	if(!isset($callback_url))
+  	{
+	  	$is_https = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on';
+	  	$http_protocol = $is_https ? 'https' : 'http';
+	  	return $http_protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+  	}
+  	else
+  	{
+	  	return $callback_url;
+  	}
+    
   }
 
   /**
