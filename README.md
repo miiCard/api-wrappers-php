@@ -125,8 +125,11 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <table>
 <tr><th>API method</td><th>PHP equivalent (given `$api` instance of `MiiCardOAuthFinancialService`)</th></tr>
 <tr><td>IsRefreshInProgress</td><td>$api->isRefreshInProgress()</td></tr>
+<tr><td>IsRefreshInProgressCreditCards</td><td>$api->isRefreshInProgressCreditCards()</td></tr>
 <tr><td>RefreshFinancialData</td><td>$api->refreshFinancialData()</td></tr>
+<tr><td>RefreshFinancialDataCreditCards</td><td>$api->refreshFinancialDataCreditCards()</td></tr>
 <tr><td>GetFinancialTransactions</td><td>$api->getFinancialTransactions()</td></tr>
+<tr><td>GetFinancialTransactionsCreditCards</td><td>$api->getFinancialTransactionsCreditCards()</td></tr>
 </table>
 
 ####Directory API ([documentation link](http://www.miicard.com/developers/directory-api))
@@ -369,12 +372,33 @@ If you need to hash an identifier you can use the `Consumers\MiiCardDirectorySer
 <tr><td>Transactions</td><td>$account->getTransactions()</td></tr>
 </table>
 
+####Model\FinancialCreditCard ([documentation link](http://www.miicard.com/developers/financial-api#FinancialCreditCard))
+
+<table>
+<tr><th>API data-type property</td><th>PHP equivalent (given `$creditCard` instance of `FinancialCreditCard`)</th></tr>
+<tr><td>AccountName</td><td>$creditCard->getAccountName()</td></tr>
+<tr><td>Holder</td><td>$creditCard->getHolder()</td></tr>
+<tr><td>AccountNumber</td><td>$creditCard->getAccountNumber()</td></tr>
+<tr><td>Type</td><td>$creditCard->getType()</td></tr>
+<tr><td>FromDate</td><td>$creditCard->getFromDate()</td></tr>
+<tr><td>LastUpdatedUtc</td><td>$creditCard->getLastUpdatedUtc()</td></tr>
+<tr><td>CreditLimit</td><td>$creditCard->getCreditLimit()</td></tr>
+<tr><td>RunningBalance</td><td>$creditCard->getRunningBalance()</td></tr>
+<tr><td>DebitsSum</td><td>$creditCard->getDebitsSum()</td></tr>
+<tr><td>DebitsCount</td><td>$creditCard->getDebitsCount()</td></tr>
+<tr><td>CreditsSum</td><td>$creditCard->getCreditsSum()</td></tr>
+<tr><td>CreditsCount</td><td>$creditCard->getCreditsCount()</td></tr>
+<tr><td>CurrencyIso</td><td>$creditCard->getCurrencyIso()</td></tr>
+<tr><td>Transactions</td><td>$creditCard->getTransactions()</td></tr>
+</table>
+
 ####Model\FinancialProvider ([documentation link](http://www.miicard.com/developers/financial-api#FinancialProvider))
 
 <table>
 <tr><th>API data-type property</td><th>PHP equivalent (given `$provider` instance of `FinancialProvider`)</th></tr>
 <tr><td>ProviderName</td><td>$provider->getProviderName()</td></tr>
 <tr><td>FinancialAccounts</td><td>$provider->getFinancialAccounts()</td></tr>
+<tr><td>FinancialCreditCards</td><td>$provider->getFinancialCreditCards()</td></tr>
 </table>
 
 ####Model\FinancialRefreshStatus ([documentation link](http://www.miicard.com/developers/financial-api#FinancialRefreshStatus))

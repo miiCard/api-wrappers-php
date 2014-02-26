@@ -24,6 +24,7 @@
     $identitySnapshotPdfId = isset($_REQUEST['identitySnapshotPdfId']) ? $_REQUEST['identitySnapshotPdfId'] : NULL;
 
     $financialDataModestyLimit = isset($_REQUEST['financialDataModestyLimit']) ? $_REQUEST['financialDataModestyLimit'] : NULL;
+    $financialDataCreditCardsModestyLimit = isset($_REQUEST['financialDataCreditCardsModestyLimit']) ? $_REQUEST['financialDataCreditCardsModestyLimit'] : NULL;
     $getAuthenticationDetailsSnapshotId = isset($_REQUEST['getAuthenticationDetailsSnapshotId']) ? $_REQUEST['getAuthenticationDetailsSnapshotId'] : NULL;
 
     $cardImageSnapshotId = isset($_REQUEST['cardImageSnapshotId']) ? $_REQUEST['cardImageSnapshotId'] : NULL;
@@ -161,11 +162,20 @@
             case 'is-refresh-in-progress':
                 $lastIsRefreshInProgressResult = $miiCardFinancialObj->isRefreshInProgress();
                 break;
+            case 'is-refresh-in-progress-credit-cards':
+                $lastIsRefreshInProgressCreditCardsResult = $miiCardFinancialObj->isRefreshInProgressCreditCards();
+                break;
             case 'refresh-financial-data':
                 $lastRefreshFinancialDataResult = $miiCardFinancialObj->refreshFinancialData();
                 break;
+            case 'refresh-financial-data-credit-cards':
+                $lastRefreshFinancialDataCreditCardsResult = $miiCardFinancialObj->refreshFinancialDataCreditCards();
+                break;
             case 'get-financial-transactions':
                 $lastGetFinancialTransactionsResult = $miiCardFinancialObj->getFinancialTransactions();
+                break;
+            case 'get-financial-transactions-credit-cards':
+                $lastGetFinancialTransactionsCreditCardsResult = $miiCardFinancialObj->getFinancialTransactionsCreditCards();
                 break;
         }
     }
@@ -452,6 +462,22 @@
             </div>
 
             <div class="page-header">
+                <h2><a name="is-refresh-in-progress-credit-cards"></a>IsRefreshInProgressCreditCards
+                <small>Checks if a financial credit card data refresh is ongoing</small>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <h4>Result</h4>
+                    <?php if (isset($lastIsRefreshInProgressCreditCardsResult)) { ?>
+                        <p><?php echo renderResponse($lastIsRefreshInProgressCreditCardsResult); ?></p>
+                    <?php } ?>
+
+                    <button type="submit" name="btn-invoke" value="is-refresh-in-progress-credit-cards" class="btn btn-large">Invoke method &raquo;</button>
+                </div>
+            </div>
+
+            <div class="page-header">
                 <h2><a name="refresh-financial-data"></a>RefreshFinancialData
                 <small>Requests financial data be updated</small>
                 </h2>
@@ -464,6 +490,22 @@
                     <?php } ?>
 
                     <button type="submit" name="btn-invoke" value="refresh-financial-data" class="btn btn-large">Invoke method &raquo;</button>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <h2><a name="refresh-financial-data-credit-cards"></a>RefreshFinancialDataCreditCards
+                <small>Requests financial credit card data be updated</small>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <h4>Result</h4>
+                    <?php if (isset($lastRefreshFinancialDataCreditCardsResult)) { ?>
+                        <p><?php echo renderResponse($lastRefreshFinancialDataCreditCardsResult); ?></p>
+                    <?php } ?>
+
+                    <button type="submit" name="btn-invoke" value="refresh-financial-data-credit-cards" class="btn btn-large">Invoke method &raquo;</button>
                 </div>
             </div>
 
@@ -485,6 +527,27 @@
                     <?php } ?>
 
                     <button type="submit" name="btn-invoke" value="get-financial-transactions" class="btn btn-large">Invoke method &raquo;</button>
+                </div>
+            </div>
+
+            <div class="page-header">
+                <h2><a name="get-financial-transactions-credit-cards"></a>GetFinancialTransactionsCreditCards
+                <small>Retrieve financial credit card transactions that the member has shared</small>
+                </h2>
+            </div>
+            <div class="row">
+                <div class="span12">
+                    <h4>Result</h4>
+
+                    <label for="financialDataCreditCardsModestyLimit">Hide values absolutely greater than this for modesty (blank to disable)</label>
+                    <input type="text" name="financialDataCreditCardsModestyLimit" value="<?php echo $financialDataCreditCardsModestyLimit; ?>" /> <br />
+
+                    <?php if (isset($lastGetFinancialTransactionsCreditCardsResult)) {
+                        $configuration = new PrettifyConfiguration($financialDataCreditCardsModestyLimit); ?>
+                        <p><?php echo renderResponse($lastGetFinancialTransactionsCreditCardsResult, $configuration); ?></p>
+                    <?php } ?>
+
+                    <button type="submit" name="btn-invoke" value="get-financial-transactions-credit-cards" class="btn btn-large">Invoke method &raquo;</button>
                 </div>
             </div>
         </div>

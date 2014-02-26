@@ -1840,6 +1840,223 @@ class FinancialAccount {
 }
 
 /**
+ * Details of a single financial credit card account that a miiCard member has elected to share
+ * with a relying party application.
+ *
+ * @package MiiCardConsumers
+ */
+class FinancialCreditCard {
+  /** @access protected */
+  protected $accountName;
+  /** @access protected */
+  protected $holder;
+  /** @access protected */
+  protected $accountNumber;
+  /** @access protected */
+  protected $type;
+  /** @access protected */
+  protected $fromDate;
+  /** @access protected */
+  protected $lastUpdatedUtc;
+  /** @access protected */
+  protected $creditLimit;
+  /** @access protected */
+  protected $runningBalance;
+  /** @access protected */
+  protected $debitsSum;
+  /** @access protected */
+  protected $debitsCount;
+  /** @access protected */
+  protected $creditsSum;
+  /** @access protected */
+  protected $creditsCount;
+  /** @access protected */
+  protected $currencyIso;
+  /** @access protected */
+  protected $transactions;
+
+  /**
+   * Initialises a new FinancialCreditCard.
+   *
+   * @param string $account_name
+   *   The name of the account as reported by the provider.
+   * @param string $holder
+   *   The name of the account holder as reported by the financial provider.
+   * @param string $account_number
+   *   The partial account number of the account.
+   * @param string $type
+   *   The type of account.
+   * @param int $from_date
+   *   The date (and possibly time, depending on the provider) from which this set
+   *   of account details applies.
+   * @param int $last_updated_utc
+   *   The date (and possibly time, depending on the provider) at which the details
+   *   of this account were last updated.
+   * @param double $credit_limit
+   *   The credit limit of the account.
+   * @param double $running_balance
+   *   The running balance, measured in the account currency.
+   * @param double $debits_sum
+   *   The total value of debits, measured in the account currency.
+   * @param int $debits_count
+   *   The total number of debits made in the period.
+   * @param double $credits_sum
+   *   The total value of credits, measured in the account currency.
+   * @param int $credits_count
+   *   The total number of credits made in the period.
+   * @param string $currency_iso
+   *   The ISO 4217 code for the currency in which transactions are made
+   *   for this account.
+   * @param array $transactions
+   *   The transactions that took place on this account between the
+   *   dates detailed. If no transactions are available, or if no transaction-level
+   *   data was agreed to be shared, this shall be an empty IEnumerable.
+   */
+  public function __construct($account_name, $holder, $account_number, $type, $from_date, $last_updated_utc, $credit_limit, $running_balance, $debits_sum, $debits_count, $credits_sum, $credits_count, $currency_iso, $transactions) {
+    $this->accountName = $account_name;
+    $this->holder = $holder;
+    $this->accountNumber = $account_number;
+    $this->type = $type;
+    $this->fromDate = $from_date;
+    $this->lastUpdatedUtc = $last_updated_utc;
+    $this->creditLimit = $credit_limit;
+    $this->runningBalance = $running_balance;
+    $this->debitsSum = $debits_sum;
+    $this->debitsCount = $debits_count;
+    $this->creditsSum = $credits_sum;
+    $this->creditsCount = $credits_count;
+    $this->currencyIso = $currency_iso;
+    $this->transactions = $transactions;
+  }
+
+  /**
+   * Gets the name of the account as reported by the provider.
+   */
+  public function getAccountName() {
+    return $this->accountName;
+  }
+
+  /**
+   * Gets the name of the account holder as reported by the financial provider.
+   */
+  public function getHolder() {
+    return $this->holder;
+  }
+
+  /**
+   * Gets the partial account number of the account.
+   */
+  public function getAccountNumber() {
+    return $this->accountNumber;
+  }
+
+  /**
+   * Gets the type of account.
+   */
+  public function getType() {
+    return $this->type;
+  }
+
+  /**
+   * Gets the date (and possibly time, depending on the provider) from which this set
+   * of account details applies.
+   */
+  public function getFromDate() {
+    return $this->fromDate;
+  }
+
+  /**
+   * Gets the date (and possibly time, depending on the provider) at which the details
+   * of this account were last updated.
+   */
+  public function getLastUpdatedUtc() {
+    return $this->lastUpdatedUtc;
+  }
+
+  /**
+   * Gets the credit limit of the account.
+   */
+  public function getCreditLimit() {
+    return $this->creditLimit;
+  }
+
+  /**
+   * Gets the running balance, measured in the account currency.
+   */
+  public function getRunningBalance() {
+    return $this->runningBalance;
+  }
+
+  /**
+   * Gets the total value of debits, measured in the account currency.
+   */
+  public function getDebitsSum() {
+    return $this->debitsSum;
+  }
+
+  /**
+   * Gets the total number of debits made in the period.
+   */
+  public function getDebitsCount() {
+    return $this->debitsCount;
+  }
+
+  /**
+   * Gets the total value of credits, measured in the account currency.
+   */
+  public function getCreditsSum() {
+    return $this->creditsSum;
+  }
+
+  /**
+   * Gets the total number of credits made in the period.
+   */
+  public function getCreditsCount() {
+    return $this->creditsCount;
+  }
+
+  /**
+   * Gets the ISO 4217 code for the currency in which transactions are made
+   * for this account.
+   */
+  public function getCurrencyIso() {
+    return $this->currencyIso;
+  }
+
+  /**
+   * Gets the transactions that took place on this account between the
+   * dates detailed. If no transactions are available, or if no transaction-level
+   * data was agreed to be shared, this shall be an empty IEnumerable.
+   */
+  public function getTransactions() {
+    return $this->transactions;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new FinancialCreditCard(
+      Util::TryGet($hash, 'AccountName'),
+      Util::TryGet($hash, 'Holder'),
+      Util::TryGet($hash, 'AccountNumber'),
+      Util::TryGet($hash, 'Type'),
+      Util::TryGetDate($hash, 'FromDate'),
+      Util::TryGetDate($hash, 'LastUpdatedUtc'),
+      Util::TryGet($hash, 'CreditLimit'),
+      Util::TryGet($hash, 'RunningBalance'),
+      Util::TryGet($hash, 'DebitsSum'),
+      Util::TryGet($hash, 'DebitsCount'),
+      Util::TryGet($hash, 'CreditsSum'),
+      Util::TryGet($hash, 'CreditsCount'),
+      Util::TryGet($hash, 'CurrencyIso'),
+      Util::TryGetArray($hash, 'Transactions', 'miiCard\Consumers\Model\FinancialTransaction::FromHash')
+    );
+  }
+}
+
+/**
  * A single financial provider containing summary or transaction-level data.
  *
  * @package MiiCardConsumers
@@ -1849,6 +2066,8 @@ class FinancialProvider {
   protected $providerName;
   /** @access protected */
   protected $financialAccounts;
+  /** @access protected */
+  protected $financialCreditCards;
 
   /**
    * Initialises a new FinancialProvider.
@@ -1858,10 +2077,14 @@ class FinancialProvider {
    * @param array $financial_accounts
    *   The set of financial accounts at this provider which the miiCard member
    *   has elected to share information about.
+   * @param array $financial_credit_cards
+   *   The set of financial credit card accounts at this provider which the miiCard
+   *   member has elected to share information about.
    */
-  public function __construct($provider_name, $financial_accounts) {
+  public function __construct($provider_name, $financial_accounts, $financial_credit_cards) {
     $this->providerName = $provider_name;
     $this->financialAccounts = $financial_accounts;
+    $this->financialCreditCards = $financial_credit_cards;
   }
 
   /**
@@ -1879,6 +2102,14 @@ class FinancialProvider {
     return $this->financialAccounts;
   }
 
+  /**
+   * Gets the set of financial credit card accounts at this provider which the miiCard member
+   * has elected to share information about.
+   */
+  public function getFinancialCreditCards() {
+    return $this->financialCreditCards;
+  }
+
   public static function FromHash($hash) {
     if (!isset($hash)) {
       return NULL;
@@ -1886,7 +2117,8 @@ class FinancialProvider {
 
     return new FinancialProvider(
       Util::TryGet($hash, 'ProviderName'),
-      Util::TryGetArray($hash, 'FinancialAccounts', 'miiCard\Consumers\Model\FinancialAccount::FromHash')
+      Util::TryGetArray($hash, 'FinancialAccounts', 'miiCard\Consumers\Model\FinancialAccount::FromHash'),
+      Util::TryGetArray($hash, 'FinancialCreditCards', 'miiCard\Consumers\Model\FinancialCreditCard::FromHash')
     );
   }
 }

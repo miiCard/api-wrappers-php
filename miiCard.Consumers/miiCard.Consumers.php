@@ -625,6 +625,20 @@ class MiiCardOAuthFinancialService extends MiiCardOAuthServiceBase {
   }
 
   /**
+   * Determines if a financial credit card data refresh for this member is in progress.
+   *
+   * Financial credit card data refreshes are generally started by a call to the
+   * refreshFinancialDataCreditCards method, though can be system-initiated. Callers
+   * should poll this function's result until it returns false, at which point
+   * a call to getFinancialTransactionsCreditCards is guaranteed to return the most
+   * recently-available financial credit card data.
+   *
+   **/
+  public function isRefreshInProgressCreditCards() {
+    return $this->makeRequest('IsRefreshInProgressCreditCards', NULL, NULL, TRUE);
+  }
+
+  /**
    * Requests that financial data for this member be updated where possible.
    *
    * Whether or not fresh financial data is available depends on a number of
@@ -640,6 +654,21 @@ class MiiCardOAuthFinancialService extends MiiCardOAuthServiceBase {
   }
 
   /**
+   * Requests that financial credit card data for this member be updated where possible.
+   *
+   * Whether or not fresh financial credit card data is available depends on a number of
+   * factors detailed in the miiCard API documentation available online at
+   * www.miicard.com/developers/financial-api. We recommend callers first
+   * request financial credit card data from the getFinancialTransactions function and
+   * decide whether to request a refresh based upon the last-updated dates of
+   * each account within.
+   *
+   */
+  public function refreshFinancialDataCreditCards() {
+    return $this->makeRequest('RefreshFinancialDataCreditCards', NULL, 'miiCard\Consumers\Model\FinancialRefreshStatus::FromHash', TRUE);
+  }
+
+  /**
    * Obtains financial data for the miiCard member.
    *
    * The set of financial data returned depends on what the miiCard member
@@ -648,6 +677,17 @@ class MiiCardOAuthFinancialService extends MiiCardOAuthServiceBase {
    */
   public function getFinancialTransactions() {
     return $this->makeRequest('GetFinancialTransactions', NULL, 'miiCard\Consumers\Model\MiiFinancialData::FromHash', TRUE);
+  }
+
+  /**
+   * Obtains financial credit card data for the miiCard member.
+   *
+   * The set of financial credit card data returned depends on what the miiCard member
+   * agreed to share, if anything, and how your API key is configured.
+   *
+   */
+  public function getFinancialTransactionsCreditCards() {
+    return $this->makeRequest('GetFinancialTransactionsCreditCards', NULL, 'miiCard\Consumers\Model\MiiFinancialData::FromHash', TRUE);
   }
 }
 

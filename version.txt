@@ -1,6 +1,9 @@
 Release notes
 ==============================================================================
 
+1.5	2014-02-26
+++ Added support for the newest Financial API methods
+
 1.4     2013-10-24
 ++ Added support for Directory API
 ++ Added support for Financial API

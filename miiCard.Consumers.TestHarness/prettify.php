@@ -311,11 +311,11 @@
 
         $toReturn .= renderFact("Name", $financialProvider->getProviderName());
 
-        $toReturn .= renderFactHeading("Financial Accounts");
-
         $ct = 0;
         if ($financialProvider->getFinancialAccounts() != NULL)
         {
+			$toReturn .= renderFactHeading("Financial Accounts");
+			
             foreach ($financialProvider->getFinancialAccounts() as $account)
             {
                 $toReturn .= "<div class='fact'><h4>[" . $ct++ . "]</h4>";
@@ -323,6 +323,17 @@
                 $toReturn .= "</div>";
             }
         }
+		elseif ($financialProvider->getFinancialCreditCards() != NULL)
+		{
+            $toReturn .= renderFactHeading("Financial Credit Cards");
+			
+            foreach ($financialProvider->getFinancialCreditCards() as $creditCard)
+            {
+                $toReturn .= "<div class='fact'><h4>[" . $ct++ . "]</h4>";
+                $toReturn .= renderFinancialCreditCard($creditCard, $configuration);
+                $toReturn .= "</div>";
+            }
+		}
 
         $toReturn .= "</div>";
 
@@ -351,6 +362,38 @@
         $toReturn .= "<table class='table table-striped table-condensed table-hover'><thead><tr><th>Date</th><th>Description</th><th class='r'>Credit</th><th class='r'>Debit</th></tr></thead><tbody>";
 
         foreach ($account->getTransactions() as $transaction)
+        {
+            $toReturn .= sprintf("<tr><td>%s</td><td title='ID: %s'>%s</td><td class='r'>%s</td><td class='r d'>%s</td></tr>", renderAsDate($transaction->getDate()), $transaction->getID(), renderPossiblyNull($transaction->getDescription(), "[None]"), getModestyFilteredAmount($transaction->getAmountCredited(), $configuration), getModestyFilteredAmount($transaction->getAmountDebited(), $configuration));
+        }
+
+        $toReturn .= "</tbody></table>";
+
+        $toReturn .= "</div>";
+        return $toReturn;
+    }
+
+    function renderFinancialCreditCard($creditCard, $configuration)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("Holder", $creditCard->getHolder());
+        $toReturn .= renderFact("Account number", $creditCard->getAccountNumber());
+        $toReturn .= renderFact("Account name", $creditCard->getAccountName());
+        $toReturn .= renderFact("Type", $creditCard->getType());
+        $toReturn .= renderFact("Last updated", renderAsDateTime($creditCard->getLastUpdatedUtc()));
+        $toReturn .= renderFact("Currency", $creditCard->getCurrencyIso());
+        $toReturn .= renderFact("Credit limit", getModestyFilteredAmount($creditCard->getCreditLimit(), $configuration));
+        $toReturn .= renderFact("Running balance", getModestyFilteredAmount($creditCard->getRunningBalance(), $configuration));
+        $toReturn .= renderFact("Credits (count)", $creditCard->getCreditsCount());
+        $toReturn .= renderFact("Credits (sum)", getModestyFilteredAmount($creditCard->getCreditsSum(), $configuration));
+        $toReturn .= renderFact("Debits (count)", $creditCard->getDebitsCount());
+        $toReturn .= renderFact("Debits (sum)", getModestyFilteredAmount($creditCard->getDebitsSum(), $configuration));
+
+        $toReturn .= renderFactHeading("Transactions");
+
+        $toReturn .= "<table class='table table-striped table-condensed table-hover'><thead><tr><th>Date</th><th>Description</th><th class='r'>Credit</th><th class='r'>Debit</th></tr></thead><tbody>";
+
+        foreach ($creditCard->getTransactions() as $transaction)
         {
             $toReturn .= sprintf("<tr><td>%s</td><td title='ID: %s'>%s</td><td class='r'>%s</td><td class='r d'>%s</td></tr>", renderAsDate($transaction->getDate()), $transaction->getID(), renderPossiblyNull($transaction->getDescription(), "[None]"), getModestyFilteredAmount($transaction->getAmountCredited(), $configuration), getModestyFilteredAmount($transaction->getAmountDebited(), $configuration));
         }
