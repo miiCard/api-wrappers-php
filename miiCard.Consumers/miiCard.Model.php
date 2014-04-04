@@ -742,6 +742,8 @@ class MiiUserProfile {
   protected $dateOfBirth;
   /** @access protected */
   protected $age;
+  /** @access protected */
+  protected $creditBureauVerification;
 
   /**
    * Initialises a new MiiUserProfile object.
@@ -798,8 +800,10 @@ class MiiUserProfile {
    *   The miiCard member's academic and professional qualifications.
    * @param int $age
    *   The miiCard member's age in whole years, if shared and known.
+   * @param CreditBureauVerification $creditBureauVerification
+   *   The miiCard memeber's latest credit bureau data, if shared and known.
    */
-  public function __construct($username, $salutation, $first_name, $middle_name, $last_name, $previous_first_name, $previous_middle_name, $previous_last_name, $last_verified, $profile_url, $profile_short_url, $card_image_url, $email_addresses, $identities, $phone_numbers, $postal_addresses, $web_properties, $identity_assured, $has_public_profile, $public_profile, $date_of_birth, $qualifications, $age) {
+  public function __construct($username, $salutation, $first_name, $middle_name, $last_name, $previous_first_name, $previous_middle_name, $previous_last_name, $last_verified, $profile_url, $profile_short_url, $card_image_url, $email_addresses, $identities, $phone_numbers, $postal_addresses, $web_properties, $identity_assured, $has_public_profile, $public_profile, $date_of_birth, $qualifications, $age, $creditBureauVerification) {
     $this->username = $username;
     $this->salutation = $salutation;
 
@@ -829,6 +833,8 @@ class MiiUserProfile {
     $this->dateOfBirth = $date_of_birth;
     $this->qualifications = $qualifications;
     $this->age = $age;
+
+    $this->creditBureauVerification = $creditBureauVerification;
   }
 
   /**
@@ -995,6 +1001,13 @@ class MiiUserProfile {
   }
 
   /**
+   * Gets the user's credit bureau data
+   */
+  public function getCreditBureauVerification() {
+	return $this->creditBureauVerification;
+  }
+
+  /**
    * Builds a new MiiUserProfile from a hash obtained from the Claims API.
    *
    * @param array $hash
@@ -1073,6 +1086,12 @@ class MiiUserProfile {
       $date_of_birth_parsed = ($matches_dob[1] / 1000);
     }
 
+	$credit_bureau_verification = Util::TryGet($hash, 'CreditBureauVerification');
+	$credit_bureau_verification_parsed = NULL;
+	if (isset($credit_bureau_verification)) {
+		$credit_bureau_verification_parsed = CreditBureauVerification::FromHash($credit_bureau_verification);
+	}
+
     return new MiiUserProfile(
       Util::TryGet($hash, 'Username'),
       Util::TryGet($hash, 'Salutation'),
@@ -1096,7 +1115,8 @@ class MiiUserProfile {
       $public_profile_parsed,
       $date_of_birth_parsed,
       $qualifications_parsed,
-      Util::TryGet($hash, 'Age')
+      Util::TryGet($hash, 'Age'),
+      $credit_bureau_verification_parsed
     );
   }
 }
@@ -1618,6 +1638,72 @@ class FinancialTransaction {
       Util::TryGet($hash, 'AmountDebited'),
       Util::TryGet($hash, 'Description'),
       Util::TryGet($hash, 'ID')
+    );
+  }
+}
+
+/**
+ * Represents credit bureau verification data from a 3rd party.
+ * miiCard forwards this data from the 3rd party without
+ * modification and takes no responsibility for its accuracy.
+ *
+ * @package MiiCardConsumers
+*/
+class CreditBureauVerification {
+  /** @access protected */
+  protected $data;
+  /** @access protected */
+  protected $lastVerified;
+
+  public function __construct($data, $lastVerified) {
+    $this->data = $data;
+    $this->lastVerified = $lastVerified;
+  }
+
+  public function getData() {
+    return $this->data;
+  }
+
+  public function getLastVerified() {
+    return $this->lastVerified;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new CreditBureauVerification(
+      Util::TryGet($hash, 'Data'),
+      Util::TryGetDate($hash, 'LastVerified')
+    );
+  }
+}
+
+/**
+ * Represents the result of Claims API request
+ *
+ * @package MiiCardConsumers
+*/
+class CreditBureauRefreshStatus {
+  /** @access protected */
+  protected $state;
+
+  public function __construct($state) {
+    $this->state = $state;
+  }
+
+  public function getState() {
+    return $this->state;
+  }
+
+  public static function FromHash($hash) {
+    if (!isset($hash)) {
+      return NULL;
+    }
+
+    return new CreditBureauRefreshStatus(
+      Util::TryGet($hash, 'State')
     );
   }
 }

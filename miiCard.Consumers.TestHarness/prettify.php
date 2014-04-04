@@ -44,6 +44,10 @@
         {
             $toReturn .= renderFinancialData($data, $configuration);
         }
+        else if ($data instanceof Model\CreditBureauRefreshStatus)
+        {
+            $toReturn .= renderCreditBureauRefreshStatus($data);
+        }
         else if ($data instanceof Model\FinancialRefreshStatus)
         {
             $toReturn .= renderFinancialRefreshStatus($data);
@@ -455,7 +459,30 @@
     {
         return "<h3>" . $heading . "</h3>";
     }
-    
+
+    function renderCreditBureauVerification($verification)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("Last verified", renderAsDateTime($verification->getLastVerified()));
+        $toReturn .= renderFact("Data", $verification->getData());
+
+        $toReturn .= "</div>";
+
+        return $toReturn;
+    }
+
+    function renderCreditBureauRefreshStatus($status)
+    {
+        $toReturn = "<div class='fact'>";
+
+        $toReturn .= renderFact("State", $status->getState());
+
+        $toReturn .= "</div>";
+
+        return $toReturn;
+    }
+
     function renderUserProfile($profile)
     {
         $toReturn = "<div class='fact'>";
@@ -476,8 +503,8 @@
         $toReturn .= renderFact("Previous last name", $profile->getPreviousLastName());
         $toReturn .= renderFact("Profile URL", $profile->getProfileUrl());
         $toReturn .= renderFact("Profile short URL", $profile->getProfileShortUrl());
-        $toReturn .= renderFact("Card image URL", $profile->getCardImageUrl());                  
-                
+        $toReturn .= renderFact("Card image URL", $profile->getCardImageUrl());
+
         $toReturn .= renderFactHeading("Postal addresses");
         $ct = 0;
         if ($profile->getPostalAddresses() != null)
@@ -548,6 +575,12 @@
                 $toReturn .= renderQualification($qualification);
                 $toReturn .= "</div>";
             }
+        }
+
+        $toReturn .= renderFactHeading("Credit Bureau Data");
+        if ($profile->getCreditBureauVerification() != null)
+        {
+            $toReturn .= renderCreditBureauVerification($profile->getCreditBureauVerification());
         }
         
         if ($profile->getPublicProfile() != null)

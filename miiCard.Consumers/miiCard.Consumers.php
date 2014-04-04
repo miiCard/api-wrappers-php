@@ -570,6 +570,20 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
 
     return $this->makeRequest('GetIdentitySnapshotPdf', json_encode($request_array), NULL, FALSE);
   }
+
+  /**
+   * Determines if a credit bureau data refresh for this member is in progress.
+   */
+  public function isCreditBureauRefreshInProgress() {
+    return $this->makeRequest('IsCreditBureauRefreshInProgress', NULL, NULL, TRUE);
+  }
+
+  /**
+   * Requests a credit bureau data refresh for this member.
+   */
+  public function refreshCreditBureauData() {
+    return $this->makeRequest('RefreshCreditBureauData', NULL, 'miiCard\Consumers\Model\CreditBureauRefreshStatus::FromHash', TRUE);
+  }
 }
 
 /**
@@ -936,8 +950,6 @@ class MiiCardDirectoryService {
 class MiiCard extends OAuthSignedRequestMaker {
   /** The callback URL that the OAuth process will return to once completed. */
   protected $callbackUrl;
-  /** The affiliate code to send with the request. */
-  protected $referrerCode;
   /** Sets whether to force the user to re-select information to share. */
   protected $forceClaimsPicker;
   /** Sets whether to initially direct the user to a signup page. */
@@ -957,14 +969,11 @@ class MiiCard extends OAuthSignedRequestMaker {
    *   The OAuth access token.
    * @param string $access_token_secret
    *   The OAuth access token secret.
-   * @param string $referrer_code
-   *   Your referrer code, if you have one.
    */
   public function __construct($consumer_key, $consumer_secret, $access_token = NULL, $access_token_secret = NULL, $referrer_code = NULL, $force_claims_picker = FALSE, $signup_mode = FALSE) {
     parent::__construct($consumer_key, $consumer_secret, $access_token, $access_token_secret);
 
     $this->callbackUrl = $this->getDefaultCallbackUrl();
-    $this->referrerCode = $referrer_code;
     $this->forceClaimsPicker = isset($force_claims_picker) ? $force_claims_picker : FALSE;
     $this->signupMode = isset($signup_mode) ? $signup_mode : FALSE;
   }
@@ -1031,9 +1040,6 @@ class MiiCard extends OAuthSignedRequestMaker {
     $_SESSION[MiiCard::SESSION_KEY_ACCESS_TOKEN_SECRET] = $this->getAccessTokenSecret();
 
     $redirect_url = MiiCardServiceUrls::OAUTH_ENDPOINT . "?oauth_token=" . rawurlencode($request_token->key);
-    if (isset($this->referrerCode) && $this->referrerCode != NULL) {
-      $redirect_url .= "&referrer=" . $this->referrerCode;
-    }
 
     if (isset($this->forceClaimsPicker) && $this->forceClaimsPicker == TRUE) {
       $redirect_url .= "&force_claims=true";

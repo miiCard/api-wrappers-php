@@ -118,6 +118,8 @@ The following list is provided as a convenient cheat-sheet, and maps the API's m
 <tr><td>GetIdentitySnapshotPdf</td><td>$api->getIdentitySnapshotPdf($snapshotId)</td></tr>
 <tr><td>IsSocialAccountAssured</td><td>$api->isSocialAccountAssured($socialAccountId, $socialAccountType)</td></tr>
 <tr><td>IsUserAssured</td><td>$api->isUserAssured()</td></tr>
+<tr><td>IsCreditBureauRefreshInProgress</td><td>$api->isCreditBureauRefreshInProgress()</td></tr>
+<tr><td>RefreshCreditBureauData</td><td>$api->refreshCreditBureauData()</td></tr>
 </table>
 
 #### Financial API ([documentation link](http://www.miicard.com/developers/financial-api))
@@ -285,6 +287,7 @@ If you need to hash an identifier you can use the `Consumers\MiiCardDirectorySer
 <tr><td>IdentityAssured</td><td>$profile->getIdentityAssured()</td></tr>
 <tr><td>HasPublicProfile</td><td>$profile->getHasPublicProfile()</td></tr>
 <tr><td>PublicProfile</td><td>$profile->getPublicProfile()</td></tr>
+<tr><td>CreditBureauVerification</td><td>$profile->getCreditBureauVerification()</td></tr>
 </table>
 
 ####Model\PhoneNumber ([documentation link](http://www.miicard.com/developers/claims-api#PhoneNumber))
@@ -348,6 +351,21 @@ If you need to hash an identifier you can use the `Consumers\MiiCardDirectorySer
 <tr><th>API data-type property</td><th>PHP equivalent</th></tr>
 <tr><td>Domain</td><td>WebPropertyType::DOMAIN</td></tr>
 <tr><td>Website</td><td>WebPropertyType::WEBSITE</td></tr>
+</table>
+
+####Model\CreditBureauVerification ([documentation link](http://www.miicard.com/developers/claims-api#CreditBureauVerification))
+
+<table>
+<tr><th>API data-type property</td><th>PHP equivalent (given `$verification` instance of `CreditBureauVerification`)</th></tr>
+<tr><td>Data</td><td>$verification->getData()</td></tr>
+<tr><td>LastVerified</td><td>$verification->getLastVerified()</td></tr>
+</table>
+
+####Model\CreditBureauRefreshStatus ([documentation link](http://www.miicard.com/developers/claims-api#CreditBureauRefreshStatus))
+
+<table>
+<tr><th>API data-type property</td><th>PHP equivalent (given `$status` instance of `CreditBureauRefreshStatus`)</th></tr>
+<tr><td>State</td><td>$state->getState()</td></tr>
 </table>
 
 ###Data types - Financial API

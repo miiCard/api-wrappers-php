@@ -565,14 +565,6 @@ function.</p>]]></long-description>
           <long-description><![CDATA[]]></long-description>
         </docblock>
       </property>
-      <property final="false" static="false" visibility="protected" line="477" namespace="miiCard\Consumers\Consumers" package="Default">
-        <name>$referrerCode</name>
-        <default><![CDATA[]]></default>
-        <docblock line="476">
-          <description><![CDATA[The affiliate code to send with the request.]]></description>
-          <long-description><![CDATA[]]></long-description>
-        </docblock>
-      </property>
       <property final="false" static="false" visibility="protected" line="479" namespace="miiCard\Consumers\Consumers" package="Default">
         <name>$forceClaimsPicker</name>
         <default><![CDATA[]]></default>
@@ -599,9 +591,6 @@ function.</p>]]></long-description>
           <tag line="484" name="param" description="The OAuth access token secret." type="string" variable="$access_token_secret">
             <type by_reference="false">string</type>
           </tag>
-          <tag line="484" name="param" description="Your referrer code, if you have one." type="string" variable="$referrer_code">
-            <type by_reference="false">string</type>
-          </tag>
         </docblock>
         <argument line="498">
           <name>$consumer_key</name>
@@ -620,11 +609,6 @@ function.</p>]]></long-description>
         </argument>
         <argument line="498">
           <name>$access_token_secret</name>
-          <default><![CDATA[NULL]]></default>
-          <type/>
-        </argument>
-        <argument line="498">
-          <name>$referrer_code</name>
           <default><![CDATA[NULL]]></default>
           <type/>
         </argument>

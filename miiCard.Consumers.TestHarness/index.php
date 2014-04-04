@@ -36,7 +36,6 @@
     $directoryCriterionValue = isset($_REQUEST['directoryCriterionValue']) ? $_REQUEST['directoryCriterionValue'] : NULL;
     $directoryCriterionValueHashed = isset($_REQUEST['directoryCriterionValueHashed']) ? $_REQUEST['directoryCriterionValueHashed'] : NULL;
 
-    $referrerCode = isset($_REQUEST['referrerCode']) ? $_REQUEST['referrerCode'] : NULL;
     $forceClaimsPicker = isset($_REQUEST['forceClaimsPicker']) ? $_REQUEST['forceClaimsPicker'] == 'on' : false;
     $signupMode = isset($_REQUEST['signupMode']) ? $_REQUEST['signupMode'] == 'on' : false;
 
@@ -159,6 +158,12 @@
             case 'get-authentication-details':
                 $lastGetAuthenticationDetailsResult = $miiCardObj->getAuthenticationDetails($_REQUEST['getAuthenticationDetailsSnapshotId']);
                 break;
+            case 'is-credit-bureau-refresh-in-progress':
+                $lastIsCreditBureauRefreshInProgressResult = $miiCardObj->isCreditBureauRefreshInProgress($_REQUEST['lastIsCreditBureauRefreshInProgress']);
+                break;
+            case 'refresh-credit-bureau-data':
+                $lastRefreshCreditBureauDataResult = $miiCardObj->refreshCreditBureauData($_REQUEST['lastRefreshCreditBureauData']);
+                break;
             case 'is-refresh-in-progress':
                 $lastIsRefreshInProgressResult = $miiCardFinancialObj->isRefreshInProgress();
                 break;
@@ -245,10 +250,8 @@
                 <input type="text" name="accessToken" value="<?php echo $accessToken; ?>" />
                 <label for="accessTokenSecret">OAuth Access Token Secret</label>
                 <input type="text" name="accessTokenSecret" value="<?php echo $accessTokenSecret; ?>" />
-                <label for="accessTokenSecret">Referrer Code (if any)</label>
-                <input type="text" name="referrerCode" value="<?php echo $referrerCode; ?>" />
                 <br />
-                <input type="checkbox" name="forceClaimsPicker" value="on" <?php echo isset($referrerCode) && $referrerCode ? "checked=checked" : "" ?>" />&nbsp;Force claims picker
+                <input type="checkbox" name="forceClaimsPicker" value="on" <?php echo isset($forceClaimsPicker) && $forceClaimsPicker ? "checked=checked" : "" ?>" />&nbsp;Force claims picker
                 <br />
                 <input type="checkbox" name="signupMode" value="on" <?php echo isset($signupMode) && $signupMode ? "checked=checked" : "" ?>" />&nbsp;Signup mode (initially redirect to a signup, rather than login page)
             </div>
@@ -435,6 +438,36 @@
                 <p><?php echo renderResponse($lastGetAuthenticationDetailsResult); ?></p>
                 <?php } ?>
                 <button type="submit" name="btn-invoke" value="get-authentication-details" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2><a name="is-credit-bureau-refresh-in-progress"></a>IsCreditBureauRefreshInProgress
+            <small>Checks if a credit bureau data refresh is ongoing</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h4>Result</h4>
+                <?php if (isset($lastIsCreditBureauRefreshInProgressResult)) { ?>
+                <p><?php echo renderResponse($lastIsCreditBureauRefreshInProgressResult); ?></p>
+                <?php } ?>
+                <button type="submit" name="btn-invoke" value="is-credit-bureau-refresh-in-progress" class="btn btn-large">Invoke method &raquo;</button>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2><a name="refresh-credit-bureau-data"></a>RefreshCreditBureauData
+            <small>Requests credit bureau data be updated</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <h4>Result</h4>
+                <?php if (isset($lastRefreshCreditBureauDataResult)) { ?>
+                <p><?php echo renderResponse($lastRefreshCreditBureauDataResult); ?></p>
+                <?php } ?>
+                <button type="submit" name="btn-invoke" value="refresh-credit-bureau-data" class="btn btn-large">Invoke method &raquo;</button>
             </div>
         </div>
 
