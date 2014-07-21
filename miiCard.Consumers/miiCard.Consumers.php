@@ -518,7 +518,7 @@ class MiiCardOAuthClaimsService extends MiiCardOAuthServiceBase {
    *   The unique identifier of the snapshot for which details should be
    *   retrieved, or NULL if details of all snapshots should be retrieved.
    */
-  public function getIdentitySnapshotDetails($snapshot_id) {
+  public function getIdentitySnapshotDetails($snapshot_id = NULL) {
     $request_array = array();
     $request_array['snapshotId'] = $snapshot_id;
 
